@@ -1,0 +1,5 @@
+INSERT INTO admin (Wang Poh Peng, wangpp1@gmail.com, pohpeng123)
+INSERT INTO admin (Qian Jun Yip, wangpp1@gmail.com, junyip234)
+INSERT INTO admin (Lee Cheryl, leecheryl993@gmail.com, chery345)
+INSERT INTO admin (Jia Le Kwang, kwangjiale@gmail.com, jiale456)
+INSERT INTO admin (Goh Xue Li, gohxueli.gxl@gmail.com, xueli567)

@@ -38,3 +38,9 @@ FOREIGN KEY (designator, flight_number) REFERENCES flight(designator, f_number),
 aircraft_number VARCHAR(16) REFERENCES plane(aircraft_no),
 PRIMARY KEY (designator, flight_number, depart_time)
 );
+
+CREATE TABLE admin {
+name VARCHAR(56) NOT NULL,
+email VARCHAR(100) PRIMARY KEY.
+password VARCHAR (100) NOT NULL.
+};
