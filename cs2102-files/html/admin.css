@@ -1,0 +1,35 @@
+body {
+	padding-top: 20px;
+	padding-bottom: 20px;
+}
+
+.navbar {
+	margin-bottom: 20px;
+	background-color: #c04d50;
+	font-weight: bold;
+}
+
+/* ABOVE ARE DEFAULT*/
+
+/* All the text in the nav bar are change to white */
+.navbar .nav > li > a {
+	color:  white;
+}
+
+.navbar-default .navbar-nav > .active{
+	color: #000;
+	background: #d48886;
+}
+
+/* The bottom ones affect everything but top of this comment code is also required*/
+.navbar-default .navbar-nav > .active > a, 
+.navbar-default .navbar-nav > .active > a:hover,
+.navbar-default .navbar-nav > .active > a:focus {
+	color: #FFF;
+	background: #d48886;
+}
+
+/* changes the first properties (color) of the navbar */
+.navbar-default .navbar-brand {
+	color: #FFF;
+}
