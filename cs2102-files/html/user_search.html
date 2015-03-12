@@ -3,11 +3,6 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="v<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
@@ -61,13 +56,18 @@
 
       <!-- Main component for a primary marketing message or call to action -->
       <div class="jumbotron">
-        <h1>Search</h1>
-        <p>Search stuffs</p>
-        <p>
-          <a class="btn btn-lg btn-primary" href="#" role="button">Click here for nothing to happen &raquo;</a>
-        </p>
+		  <form class="form" action="" method="post">
+			<h2 class="form-signin-heading">Search for your ideal flight</h2> <br/>
+			<label class="sr-only">Origin</label>
+			<input class="form-control input-lg" placeholder="Origin" required="" autofocus="">
+			<br/>
+			<label class="sr-only">Destination</label>
+			<input class="form-control  input-lg" placeholder="Destination" required="">
+			<br/>  
+			<button class="btn btn-lg btn-primary btn-block" type="submit">Search</button>
+			<br/>
+		  </form>
       </div>
-
     </div> <!-- /container -->
 
 
@@ -78,5 +78,6 @@
     <script src="../../dist/js/bootstrap.min.js"></script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
+	
   </body>
 </html>
