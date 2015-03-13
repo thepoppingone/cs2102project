@@ -1,16 +1,6 @@
 <?php
 
-// connect to database
-putenv('ORACLE_HOME=/oraclient');
-
-$dbh = oci_connect('a0125368', 'crse1420', ' (DESCRIPTION =
-(ADDRESS_LIST =
-(ADDRESS = (PROTOCOL = TCP)(HOST = sid3.comp.nus.edu.sg)(PORT = 1521))
-)
-(CONNECT_DATA =
-(SERVICE_NAME = sid3.comp.nus.edu.sg)
-)
-)');
+require("config.php");
 
 // carry out sql command
 $sql = "SELECT * FROM admin";
