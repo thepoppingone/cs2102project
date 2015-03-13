@@ -48,18 +48,17 @@ if(empty($_SESSION['admin'])) {
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">Admin Panel</a>
           </div>
           <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-              <li><a href="admin_panel.php">Home</a></li>
-              <li><a href="admin_add_panel.php">Add</a></li>
-              <li><a href="admin_delete_panel.php">Delete</a></li>
-              <li><a href="admin_edit_panel.php">Edit</a></li>
-              <li class="active"><a href="admin_search_panel.php">Search</a></li>
+              <li><a href="admin_panel.php"><span class="glyphicon glyphicon-home"></span> Home</a></li>
+              <li><a href="admin_add_panel.php"><span class="glyphicon glyphicon-plus"></span> Add</a></li>
+              <li><a href="admin_delete_panel.php"><span class="glyphicon glyphicon-remove"></span> Delete</a></li>
+              <li><a href="admin_edit_panel.php"><span class="glyphicon glyphicon-pencil"></span>  Edit</a></li>
+              <li class="active"><a href="#"><span class="glyphicon glyphicon-search"></span> Search</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-              <li><a href="user_logout.php">Log Out</a></li>
+              <li><a href="user_logout.php"><span class="glyphicon glyphicon-log-out"></span> Log Out</a></li>
             </ul>
           </div><!--/.nav-collapse -->
         </div><!--/.container-fluid -->

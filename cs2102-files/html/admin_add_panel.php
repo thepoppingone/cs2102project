@@ -22,6 +22,7 @@ if(empty($_SESSION['admin'])) {
 
     <!-- Custom styles for this template -->
     <link href="admin.css" rel="stylesheet">
+	<script src="admin.js"></script>
 
     <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
     <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
@@ -48,18 +49,17 @@ if(empty($_SESSION['admin'])) {
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">Admin Panel</a>
           </div>
           <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-              <li><a href="admin_panel.php">Home</a></li>
-              <li class="active"><a href="admin_add_panel.php">Add</a></li>
-              <li><a href="admin_delete_panel.php">Delete</a></li>
-              <li><a href="admin_edit_panel.php">Edit</a></li>
-              <li><a href="admin_search_panel.php">Search</a></li>
+              <li><a href="admin_panel.php"><span class="glyphicon glyphicon-home"></span> Home</a></li>
+              <li class="active"><a href="#"><span class="glyphicon glyphicon-plus"></span> Add</a></li>
+              <li><a href="admin_delete_panel.php"><span class="glyphicon glyphicon-remove"></span> Delete</a></li>
+              <li><a href="admin_edit_panel.php"><span class="glyphicon glyphicon-pencil"></span>  Edit</a></li>
+              <li><a href="admin_search_panel.php"><span class="glyphicon glyphicon-search"></span> Search</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-              <li><a href="user_logout.php">Log Out</a></li>
+              <li><a href="user_logout.php"><span class="glyphicon glyphicon-log-out"></span> Log Out</a></li>
             </ul>
           </div><!--/.nav-collapse -->
         </div><!--/.container-fluid -->
@@ -67,11 +67,29 @@ if(empty($_SESSION['admin'])) {
 
       <!-- Main component for a primary marketing message or call to action -->
       <div class="jumbotron">
-        <h1>Add - alot of things to do here</h1>
-        <p>Insert hell lot of options here</p>
-        <p>
-          <a class="btn btn-lg btn-primary" href="../../components/#navbar" role="button">View navbar docs &raquo;</a>
-        </p>
+		<div class="dropdown">
+		    <button id = "addCategoryBtn" class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
+			Choose category to add to
+			<span class="caret"></span>
+		  </button>
+		  <ul class="dropdown-menu addCategoryMenu" role="menu" aria-labelledby="dropdownMenu1">
+			<li role="presentation" class="dropdown-header">Account</li>
+			<li role="presentation"><a role="menuitem" tabindex="1" href="#">Administrator</a></li>
+			<li role="presentation"><a role="menuitem" tabindex="-1" href="#">Member</a></li>
+			<li role="presentation" class="divider"></li>
+			<li role="presentation" class="dropdown-header">Member</li>
+			<li role="presentation"><a role="menuitem" tabindex="4" href="#">Reservation</a></li>			
+			<li role="presentation" class="divider"></li>
+			<li role="presentation" class="dropdown-header">Aviation</li>
+			<li role="presentation"><a role="menuitem" tabindex="2" href="#">Airline</a></li>
+			<li role="presentation"><a role="menuitem" tabindex="-1" href="#">Aircraft</a></li>	
+			<li role="presentation"><a role="menuitem" tabindex="-1" href="#">Airport</a></li>			
+			<li role="presentation" class="divider"></li>
+			<li role="presentation" class="dropdown-header">Flight</li>
+			<li role="presentation"><a role="menuitem" tabindex="3" href="#">Flight</a></li>
+			<li role="presentation"><a role="menuitem" tabindex="-1" href="#">Flight Schedule</a></li>
+		  </ul>
+		</div>
       </div>
 
     </div> <!-- /container -->
