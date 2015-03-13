@@ -52,14 +52,14 @@ if(empty($_SESSION['admin'])) {
           </div>
           <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-              <li><a href="admin_panel.html">Home</a></li>
-              <li><a href="admin_add_panel.html">Add</a></li>
-              <li><a href="admin_delete_panel.html">Delete</a></li>
-              <li><a href="admin_edit_panel.html">Edit</a></li>
-              <li class="active"><a href="admin_search_panel.html">Search</a></li>
+              <li><a href="admin_panel.php">Home</a></li>
+              <li><a href="admin_add_panel.php">Add</a></li>
+              <li><a href="admin_delete_panel.php">Delete</a></li>
+              <li><a href="admin_edit_panel.php">Edit</a></li>
+              <li class="active"><a href="admin_search_panel.php">Search</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-              <li><a href="../navbar-fixed-top/">Log Out</a></li>
+              <li><a href="user_logout.php">Log Out</a></li>
             </ul>
           </div><!--/.nav-collapse -->
         </div><!--/.container-fluid -->

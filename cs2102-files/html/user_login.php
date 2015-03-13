@@ -43,11 +43,11 @@
             </button>
           </div>
           <div id="navbar" class="navbar-collapse collapse">
-            <ul class="nav navbar-nav">
+            <ul class="nav navbar-nav  navbar-blue">
               <li><a href="user_index.php">Home</a></li>
               <li><a href="user_search.php">Search</a></li>
             </ul>
-            <ul class="nav navbar-nav navbar-right">
+            <ul class="nav navbar-nav navbar-right navbar-blue">
 			  <li class="active"><a href="#">Login</a></li>
             </ul>
           </div><!--/.nav-collapse -->
@@ -57,9 +57,6 @@
       <!-- Main component for a primary marketing message or call to action -->
       <div class="jumbotron" id="login-box">
 		  <form class="form-signin" action="user_checklogin.php" method="post">
-		  <?php
-			if
-		  ?>
 			<h2 class="form-signin-heading">Welcome Back :)</h2> <br/>
 			<label for="inputEmail" class="sr-only">Email address</label>
 			<input name = "email" type="email" id="inputEmail" class="form-control input-lg" placeholder="Email address" required="" autofocus="">

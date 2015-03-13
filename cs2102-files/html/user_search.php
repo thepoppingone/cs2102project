@@ -43,11 +43,11 @@
             </button>
           </div>
           <div id="navbar" class="navbar-collapse collapse">
-            <ul class="nav navbar-nav">
+            <ul class="nav navbar-nav  navbar-blue">
               <li><a href="user_index.php">Home</a></li>
               <li class="active"><a href="#">Search</a></li>
             </ul>
-            <ul class="nav navbar-nav navbar-right">
+            <ul class="nav navbar-nav navbar-right navbar-blue">
 			  <li><a href="user_login.php">Login</a></li>
             </ul>
           </div><!--/.nav-collapse -->
