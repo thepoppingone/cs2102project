@@ -8,7 +8,7 @@
     <meta name="author" content="">
     <link rel="icon" href="../../favicon.ico">
 
-    <title>SB Airline Ticketing Agency Login</title>
+    <title>SB Airline Ticketing Agency Search</title>
 
     <!-- Bootstrap core CSS -->
     <link href="../../dist/css/bootstrap.min.css" rel="stylesheet">
@@ -43,33 +43,34 @@
             </button>
           </div>
           <div id="navbar" class="navbar-collapse collapse">
-            <ul class="nav navbar-nav">
-              <li><a href="user_index.html">Home</a></li>
-              <li><a href="user_search.html">Search</a></li>
+            <ul class="nav navbar-nav  navbar-blue">
+              <li><a href="user_index.php">Home</a></li>
+              <li class="active"><a href="#">Search</a></li>
             </ul>
-            <ul class="nav navbar-nav navbar-right">
-			  <li class="active"><a href="#">Login</a></li>
+            <ul class="nav navbar-nav navbar-right navbar-blue">
+			  <li><a href="user_login.php">Login</a></li>
             </ul>
           </div><!--/.nav-collapse -->
         </div><!--/.container-fluid -->
       </nav>
 
       <!-- Main component for a primary marketing message or call to action -->
-      <div class="jumbotron" id="login-box">
-		  <form class="form-signin" action="user_checklogin.php" method="post">
-			<h2 class="form-signin-heading">Welcome Back :)</h2> <br/>
-			<label for="inputEmail" class="sr-only">Email address</label>
-			<input name = "email" type="email" id="inputEmail" class="form-control input-lg" placeholder="Email address" required="" autofocus="">
+      <div class="jumbotron">
+		  <form class="form" action="user_searchFlightSchedule.php" method="post">
+			<h2 class="form">Search for your ideal flight</h2> <br/>
+			<label class="sr-only">Origin</label>
+			<input name = "origin" class="form-control input-lg" placeholder="Origin" required="" autofocus="">
 			<br/>
-			<label for="inputPassword" class="sr-only">Password</label>
-			<input name = "password" type="password" id="inputPassword" class="form-control input-lg" placeholder="Password" required="">
+			<label class="sr-only">Destination</label>
+			<input name = "destination" class="form-control  input-lg" placeholder="Destination">
+			<br/>  
+			<label class="sr-only">Departure Date</label>
+			<input name = "departure_date" class="form-control  input-lg" type = "Date">
+			<br/>  
+			<button class="btn btn-lg btn-primary btn-block" type="submit">Search</button>
 			<br/>
-			<button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
-			<br/>
-			<p> <a href="#">Create account</a> </p>
 		  </form>
       </div>
-
     </div> <!-- /container -->
 
 
@@ -80,5 +81,6 @@
     <script src="../../dist/js/bootstrap.min.js"></script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
+	
   </body>
 </html>

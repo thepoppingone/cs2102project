@@ -3,18 +3,23 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="v<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
     <link rel="icon" href="../../favicon.ico">
 
-    <title>Admin Panel Home Page</title>
+    <title>SB Airline Ticketing Agency Homepage</title>
 
     <!-- Bootstrap core CSS -->
     <link href="../../dist/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
-    <link href="admin.css" rel="stylesheet">
+    <link href="user.css" rel="stylesheet">
 
     <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
     <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
@@ -32,7 +37,7 @@
     <div class="container">
 
       <!-- Static navbar -->
-      <nav class="navbar navbar-default">
+      <nav class="navbar navbar-default navbar-blue ">
         <div class="container-fluid">
           <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -41,18 +46,14 @@
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">Admin Panel</a>
           </div>
           <div id="navbar" class="navbar-collapse collapse">
-            <ul class="nav navbar-nav">
-              <li class="active"><a href="admin_panel.html">Home</a></li>
-              <li><a href="admin_add_panel.html">Add</a></li>
-              <li><a href="admin_delete_panel.html">Delete</a></li>
-              <li><a href="admin_edit_panel.html">Edit</a></li>
-              <li><a href="admin_search_panel.html">Search</a></li>
+            <ul class="nav navbar-nav navbar-blue">
+              <li class="active"><a href="#">Home</a></li>
+              <li><a href="user_search.php">Search</a></li>
             </ul>
-            <ul class="nav navbar-nav navbar-right">
-              <li><a href="../navbar-fixed-top/">Log Out</a></li>
+            <ul class="nav navbar-nav navbar-right navbar-blue">
+			  <li><a href="user_login.php">Login</a></li>
             </ul>
           </div><!--/.nav-collapse -->
         </div><!--/.container-fluid -->
@@ -60,10 +61,10 @@
 
       <!-- Main component for a primary marketing message or call to action -->
       <div class="jumbotron">
-        <h1>Hello my friends</h1>
-        <p>I am not stephen bressan or zhao jin, i am just a normal human being trying to type a lot of text without using lorum lipsum</p>
+        <h1>Welcome</h1>
+        <p>We will probably just insert a fabulous image that makes you feel wanderlust once again.</p>
         <p>
-          <a class="btn btn-lg btn-primary" href="../../components/#navbar" role="button">View navbar docs &raquo;</a>
+          <a class="btn btn-lg btn-primary" href="#" role="button">Click here for nothing to happen &raquo;</a>
         </p>
       </div>
 

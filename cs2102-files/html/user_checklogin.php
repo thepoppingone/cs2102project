@@ -1,5 +1,5 @@
 <?php
-	
+session_start();
 if(!empty($_POST)){
 
 	require("config.php");
@@ -18,8 +18,8 @@ if(!empty($_POST)){
 
 	if ($row = oci_fetch_array($stid)) 
 	{
-		header("location:admin_panel.html");
-		
+		$_SESSION['admin'] = $row;
+		header("location:admin_panel.php");
 	} else {
 		header("location:user_login.php");
 	}
