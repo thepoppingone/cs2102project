@@ -1,3 +1,10 @@
+<?php
+session_start();
+if(empty($_SESSION['admin'])) {
+	header("location: user_login.php");
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -8,7 +15,7 @@
     <meta name="author" content="">
     <link rel="icon" href="../../favicon.ico">
 
-    <title>Admin Panel Home Page</title>
+    <title>Search - Home Page</title>
 
     <!-- Bootstrap core CSS -->
     <link href="../../dist/css/bootstrap.min.css" rel="stylesheet">
@@ -45,11 +52,11 @@
           </div>
           <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-              <li class="active"><a href="admin_panel.html">Home</a></li>
+              <li><a href="admin_panel.html">Home</a></li>
               <li><a href="admin_add_panel.html">Add</a></li>
               <li><a href="admin_delete_panel.html">Delete</a></li>
               <li><a href="admin_edit_panel.html">Edit</a></li>
-              <li><a href="admin_search_panel.html">Search</a></li>
+              <li class="active"><a href="admin_search_panel.html">Search</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
               <li><a href="../navbar-fixed-top/">Log Out</a></li>
@@ -60,8 +67,8 @@
 
       <!-- Main component for a primary marketing message or call to action -->
       <div class="jumbotron">
-        <h1>Hello my friends</h1>
-        <p>I am not stephen bressan or zhao jin, i am just a normal human being trying to type a lot of text without using lorum lipsum</p>
+        <h1>Search - alot of things to do here</h1>
+        <p>Insert hell lot of options here</p>
         <p>
           <a class="btn btn-lg btn-primary" href="../../components/#navbar" role="button">View navbar docs &raquo;</a>
         </p>

@@ -1,3 +1,10 @@
+<?php
+session_start();
+if(empty($_SESSION['admin'])) {
+	header("location: user_login.php");
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -8,13 +15,13 @@
     <meta name="author" content="">
     <link rel="icon" href="../../favicon.ico">
 
-    <title>SB Airline Ticketing Agency Search</title>
+    <title>Add - Home Page</title>
 
     <!-- Bootstrap core CSS -->
     <link href="../../dist/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
-    <link href="user.css" rel="stylesheet">
+    <link href="admin.css" rel="stylesheet">
 
     <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
     <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
@@ -32,7 +39,7 @@
     <div class="container">
 
       <!-- Static navbar -->
-      <nav class="navbar navbar-default navbar-blue ">
+      <nav class="navbar navbar-default">
         <div class="container-fluid">
           <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -41,14 +48,18 @@
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
             </button>
+            <a class="navbar-brand" href="#">Admin Panel</a>
           </div>
           <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-              <li><a href="user_index.html">Home</a></li>
-              <li class="active"><a href="#">Search</a></li>
+              <li><a href="admin_panel.html">Home</a></li>
+              <li class="active"><a href="admin_add_panel.html">Add</a></li>
+              <li><a href="admin_delete_panel.html">Delete</a></li>
+              <li><a href="admin_edit_panel.html">Edit</a></li>
+              <li><a href="admin_search_panel.html">Search</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-			  <li><a href="user_login.html">Login</a></li>
+              <li><a href="../navbar-fixed-top/">Log Out</a></li>
             </ul>
           </div><!--/.nav-collapse -->
         </div><!--/.container-fluid -->
@@ -56,18 +67,13 @@
 
       <!-- Main component for a primary marketing message or call to action -->
       <div class="jumbotron">
-		  <form class="form" action="" method="post">
-			<h2 class="form-signin-heading">Search for your ideal flight</h2> <br/>
-			<label class="sr-only">Origin</label>
-			<input class="form-control input-lg" placeholder="Origin" required="" autofocus="">
-			<br/>
-			<label class="sr-only">Destination</label>
-			<input class="form-control  input-lg" placeholder="Destination" required="">
-			<br/>  
-			<button class="btn btn-lg btn-primary btn-block" type="submit">Search</button>
-			<br/>
-		  </form>
+        <h1>Add - alot of things to do here</h1>
+        <p>Insert hell lot of options here</p>
+        <p>
+          <a class="btn btn-lg btn-primary" href="../../components/#navbar" role="button">View navbar docs &raquo;</a>
+        </p>
       </div>
+
     </div> <!-- /container -->
 
 
@@ -78,6 +84,5 @@
     <script src="../../dist/js/bootstrap.min.js"></script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
-	
   </body>
 </html>

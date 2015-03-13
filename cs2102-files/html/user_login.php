@@ -8,13 +8,13 @@
     <meta name="author" content="">
     <link rel="icon" href="../../favicon.ico">
 
-    <title>Search - Home Page</title>
+    <title>SB Airline Ticketing Agency Login</title>
 
     <!-- Bootstrap core CSS -->
     <link href="../../dist/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
-    <link href="admin.css" rel="stylesheet">
+    <link href="user.css" rel="stylesheet">
 
     <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
     <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
@@ -32,7 +32,7 @@
     <div class="container">
 
       <!-- Static navbar -->
-      <nav class="navbar navbar-default">
+      <nav class="navbar navbar-default navbar-blue ">
         <div class="container-fluid">
           <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -41,30 +41,36 @@
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">Admin Panel</a>
           </div>
           <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-              <li><a href="admin_panel.html">Home</a></li>
-              <li><a href="admin_add_panel.html">Add</a></li>
-              <li><a href="admin_delete_panel.html">Delete</a></li>
-              <li><a href="admin_edit_panel.html">Edit</a></li>
-              <li class="active"><a href="admin_search_panel.html">Search</a></li>
+              <li><a href="user_index.php">Home</a></li>
+              <li><a href="user_search.php">Search</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-              <li><a href="../navbar-fixed-top/">Log Out</a></li>
+			  <li class="active"><a href="#">Login</a></li>
             </ul>
           </div><!--/.nav-collapse -->
         </div><!--/.container-fluid -->
       </nav>
 
       <!-- Main component for a primary marketing message or call to action -->
-      <div class="jumbotron">
-        <h1>Search - alot of things to do here</h1>
-        <p>Insert hell lot of options here</p>
-        <p>
-          <a class="btn btn-lg btn-primary" href="../../components/#navbar" role="button">View navbar docs &raquo;</a>
-        </p>
+      <div class="jumbotron" id="login-box">
+		  <form class="form-signin" action="user_checklogin.php" method="post">
+		  <?php
+			if
+		  ?>
+			<h2 class="form-signin-heading">Welcome Back :)</h2> <br/>
+			<label for="inputEmail" class="sr-only">Email address</label>
+			<input name = "email" type="email" id="inputEmail" class="form-control input-lg" placeholder="Email address" required="" autofocus="">
+			<br/>
+			<label for="inputPassword" class="sr-only">Password</label>
+			<input name = "password" type="password" id="inputPassword" class="form-control input-lg" placeholder="Password" required="">
+			<br/>
+			<button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
+			<br/>
+			<p> <a href="#">Create account</a> </p>
+		  </form>
       </div>
 
     </div> <!-- /container -->
