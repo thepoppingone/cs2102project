@@ -15,6 +15,7 @@
 
     <!-- Custom styles for this template -->
     <link href="user.css" rel="stylesheet">
+	<script src="user.js"></script>
 
     <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
     <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
@@ -56,22 +57,42 @@
 
       <!-- Main component for a primary marketing message or call to action -->
       <div class="jumbotron">
-		  <form class="form" action="user_searchFlightSchedule.php" method="post">
-			<h2 class="form">Search for your ideal flight</h2> <br/>
-			<label class="sr-only">Origin</label>
-			<input name = "origin" class="form-control input-lg" placeholder="Origin" required="" autofocus="">
-			<br/>
-			<label class="sr-only">Destination</label>
-			<input name = "destination" class="form-control  input-lg" placeholder="Destination">
-			<br/>  
-			<label class="sr-only">Departure Date</label>
-			<input name = "departure_date" class="form-control  input-lg" type = "Date">
-			<br/>  
-			<button class="btn btn-lg btn-primary btn-block" type="submit">Search</button>
-			<br/>
-		  </form>
+		<form name = "userSearchForm" class="form form-inline"  onsubmit = "return validateUserSearchForm()">
+			<select name="Origin" class = "form-control input-sm"> <option value="">Select Origin</option>
+			<?php
+				require("config.php");
+				$sql = "SELECT DISTINCT language FROM book";
+				$stid = oci_parse($dbh, $sql);
+				oci_execute($stid, OCI_DEFAULT);
+				while($row = oci_fetch_array($stid)){
+					echo "<option value=\"".$row["LANGUAGE"]."\">".$row["LANGUAGE"]."</option><br>";
+				}
+				oci_free_statement($stid);
+			?>
+			</select>
+			<select  name="destination" class = "form-control input-sm"> <option value="">Select Destination</option>
+			<?php
+				require("config.php");
+				$sql = "SELECT DISTINCT language FROM book";
+				$stid = oci_parse($dbh, $sql);
+				oci_execute($stid, OCI_DEFAULT);
+				while($row = oci_fetch_array($stid)){
+					echo "<option value=\"".$row["LANGUAGE"]."\">".$row["LANGUAGE"]."</option><br>";
+				}
+				oci_free_statement($stid);
+			?>
+			</select>
+			<input id = "departure_date" type = "date" name = "departure_date" class="form-control  input-sm" placeholder = "DD/MM/YYYY">
+			<button class="btn btn-sm btn-primary" type="submit">Search</button>
+			<div id = "date-alert" class = "alert alert-info collapse" data-toggle="collapse"role="alert">
+			  <span>
+				<p>Oops! The planes have already departed for that date.</p>
+			  </span>
+			</div>
+		</form>
       </div>
     </div> <!-- /container -->
+
 
 
     <!-- Bootstrap core JavaScript

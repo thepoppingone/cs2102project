@@ -24,6 +24,7 @@ h1 {
 
 /* The bottom ones affect everything but top of this comment code is also required*/
 .navbar-default .navbar-nav > .active > a, 
+.navbar-default .navbar-nav > .active > a:focus,
 .navbar-default .navbar-nav > .active > a:hover {
 	color: #FFF;
 	background: #95b3d7;
