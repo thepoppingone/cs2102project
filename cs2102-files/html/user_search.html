@@ -56,13 +56,16 @@
 
       <!-- Main component for a primary marketing message or call to action -->
       <div class="jumbotron">
-		  <form class="form" action="" method="post">
-			<h2 class="form-signin-heading">Search for your ideal flight</h2> <br/>
+		  <form class="form" action="user_searchFlightSchedule.php" method="post">
+			<h2 class="form">Search for your ideal flight</h2> <br/>
 			<label class="sr-only">Origin</label>
-			<input class="form-control input-lg" placeholder="Origin" required="" autofocus="">
+			<input name = "origin" class="form-control input-lg" placeholder="Origin" required="" autofocus="">
 			<br/>
 			<label class="sr-only">Destination</label>
-			<input class="form-control  input-lg" placeholder="Destination" required="">
+			<input name = "destination" class="form-control  input-lg" placeholder="Destination">
+			<br/>  
+			<label class="sr-only">Departure Date</label>
+			<input name = "departure_date" class="form-control  input-lg" type = "Date">
 			<br/>  
 			<button class="btn btn-lg btn-primary btn-block" type="submit">Search</button>
 			<br/>
