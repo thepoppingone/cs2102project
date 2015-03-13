@@ -1,13 +1,13 @@
+CREATE TABLE airline (
+name VARCHAR(65),
+designator VARCHAR(10) PRIMARY KEY
+);
+
 CREATE TABLE plane (
 aircraft_no VARCHAR(16) PRIMARY KEY,
 model VARCHAR(256),
 seat_capacity INT,
 designator VARCHAR(10) REFERENCES airline(designator)
-);
-
-CREATE TABLE airline (
-name VARCHAR(65),
-designator VARCHAR(10) PRIMARY KEY
 );
 
 CREATE TABLE airport (
@@ -39,8 +39,8 @@ aircraft_number VARCHAR(16) REFERENCES plane(aircraft_no),
 PRIMARY KEY (designator, flight_number, depart_time)
 );
 
-CREATE TABLE admin {
+CREATE TABLE admin (
 name VARCHAR(56) NOT NULL,
-email VARCHAR(100) PRIMARY KEY.
-password VARCHAR (100) NOT NULL.
-};
+email VARCHAR(100) PRIMARY KEY,
+password VARCHAR (100) NOT NULL
+);
