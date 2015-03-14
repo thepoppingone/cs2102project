@@ -57,15 +57,15 @@
 
       <!-- Main component for a primary marketing message or call to action -->
       <div class="jumbotron">
-		<form name = "userSearchForm" class="form form-inline"  onsubmit = "return validateUserSearchForm()">
-			<select name="Origin" class = "form-control input-sm"> <option value="">Select Origin</option>
+		<form name = "userSearchForm" class="form form-inline" action="user_check_for_flights.php" method="post" onsubmit = "return validateUserSearchForm()">
+			<select name="origin" class = "form-control input-sm"> <option value="">Select Origin</option>
 			<?php
 				require("config.php");
-				$sql = "SELECT DISTINCT language FROM book";
+				$sql = "SELECT designator FROM airport";
 				$stid = oci_parse($dbh, $sql);
 				oci_execute($stid, OCI_DEFAULT);
 				while($row = oci_fetch_array($stid)){
-					echo "<option value=\"".$row["LANGUAGE"]."\">".$row["LANGUAGE"]."</option><br>";
+					echo "<option value=\"".$row["DESIGNATOR"]."\">".$row["DESIGNATOR"]."</option><br>";
 				}
 				oci_free_statement($stid);
 			?>
@@ -73,11 +73,11 @@
 			<select  name="destination" class = "form-control input-sm"> <option value="">Select Destination</option>
 			<?php
 				require("config.php");
-				$sql = "SELECT DISTINCT language FROM book";
+				$sql = "SELECT designator FROM airport";
 				$stid = oci_parse($dbh, $sql);
 				oci_execute($stid, OCI_DEFAULT);
 				while($row = oci_fetch_array($stid)){
-					echo "<option value=\"".$row["LANGUAGE"]."\">".$row["LANGUAGE"]."</option><br>";
+					echo "<option value=\"".$row["DESIGNATOR"]."\">".$row["DESIGNATOR"]."</option><br>";
 				}
 				oci_free_statement($stid);
 			?>
