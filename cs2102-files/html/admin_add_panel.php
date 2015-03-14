@@ -89,30 +89,31 @@ if(empty($_SESSION['admin'])) {
 				</div>
 			</div>
 		</form>
-		<!-- div box for adminstrator part of form -->
-		<div id = "administrator" class = "collapse" data-toggle="collapse" >
-			<form class="form-horizontal">
+		<!-- div box for adminstrator part of form action="admin_panel.php" method="post"  -->
+		<div id = "administrator" class = "collapse">
+			<form id = "add-admin-form" class="form-horizontal" action="admin_panel.php" method="post"> 
 				<div class="form-group">
 					<label class="control-label col-xs-3">Name</label>
 					<div class="col-xs-9">		
-						<input name = "admin_name" type="text" class="form-control" placeholder="Name" required="" autofocus="">
+						<input id = "admin_name" type="text" class="form-control" placeholder="Name" required="" autofocus="">
 					</div>
 				</div>			
 				<div class="form-group">
 					<label for="inputEmail" class="control-label col-xs-3">Email Address</label>
 					<div class="col-xs-9">		
-						<input name = "admin_email" type="email" id="inputEmail" class="form-control" placeholder="Email address" required="" autofocus="">
+						<input id = "admin_email" type="email" id="inputEmail" class="form-control" placeholder="Email address" required="" autofocus="">
+						<p id = "adminEmailError" class = "collapse" class='text-danger'>Oops! The owner of the email is already an administrator.</p>
 					</div>
 				</div>	
 				<div class="form-group">
 					<label class="control-label col-xs-3">Password</label>
-					<div class="col-xs-9">		
-						<input name = "admin_pwd" class="form-control" placeholder="Password" required="" autofocus="">
+					<div class="col-xs-9">
+						<input id = "admin_pwd" class="form-control" placeholder="Password" required="" autofocus="">
 					</div>
 				</div>
 				<div class="form-group">
 					<div class="col-xs-offset-2 col-xs-10">
-						<button name = "add_admin_submit" type="submit" class="btn btn-primary">Add Administrator</button>
+						<button id = "add_admin_submit" type="submit" class="btn btn-primary" onclick = "return handleAddAdmin()">Add Administrator</button>
 					</div>
 				</div>
 			</form>

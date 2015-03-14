@@ -11,3 +11,23 @@ function addCategoryChange() {
 		}
 	}
 }
+
+function handleAddAdmin() {
+	var emailStr = String(document.getElementById('admin_email').value);
+	var nameStr = String(document.getElementById('admin_name').value);
+	var pwdStr = String(document.getElementById('admin_pwd').value);
+
+	if(emailStr && nameStr && pwdStr) {		
+		$.post('admin_addAdmin.php', {email:emailStr, name:nameStr, pwd:pwdStr}, function(data) {
+			if(data == 'inserted') {
+				$('#add-admin-form').submit();
+			}
+			else {
+				$('#adminEmailError').collapse('show'); 
+				return false;
+			}
+		});
+	}
+	 
+    return false;
+}
