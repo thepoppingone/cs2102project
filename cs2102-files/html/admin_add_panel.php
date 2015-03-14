@@ -67,29 +67,26 @@ if(empty($_SESSION['admin'])) {
 
       <!-- Main component for a primary marketing message or call to action -->
       <div class="jumbotron">
-		<div class="dropdown">
-		    <button id = "addCategoryBtn" class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
-			Choose category to add to
-			<span class="caret"></span>
-		  </button>
-		  <ul class="dropdown-menu addCategoryMenu" role="menu" aria-labelledby="dropdownMenu1">
-			<li role="presentation" class="dropdown-header">Account</li>
-			<li role="presentation"><a role="menuitem" tabindex="1" href="#">Administrator</a></li>
-			<li role="presentation"><a role="menuitem" tabindex="-1" href="#">Member</a></li>
-			<li role="presentation" class="divider"></li>
-			<li role="presentation" class="dropdown-header">Member</li>
-			<li role="presentation"><a role="menuitem" tabindex="4" href="#">Reservation</a></li>			
-			<li role="presentation" class="divider"></li>
-			<li role="presentation" class="dropdown-header">Aviation</li>
-			<li role="presentation"><a role="menuitem" tabindex="2" href="#">Airline</a></li>
-			<li role="presentation"><a role="menuitem" tabindex="-1" href="#">Aircraft</a></li>	
-			<li role="presentation"><a role="menuitem" tabindex="-1" href="#">Airport</a></li>			
-			<li role="presentation" class="divider"></li>
-			<li role="presentation" class="dropdown-header">Flight</li>
-			<li role="presentation"><a role="menuitem" tabindex="3" href="#">Flight</a></li>
-			<li role="presentation"><a role="menuitem" tabindex="-1" href="#">Flight Schedule</a></li>
-		  </ul>
-		</div>
+		<form name = "adminAdd" class="form">
+			<div class="control-group">
+				<label class="control-label" >Category </label>
+				<div class="controls">
+					<select name="Category" class = "form-control input-sm">
+						<option value="">Administrator</option>
+						<option class="select-dash" disabled="disabled">----</option>
+						<option value="">Member</option>
+						<option value="">Reservation</option>
+						<option class="select-dash" disabled="disabled">----</option>
+						<option value="">Airline</option>
+						<option value="">Aircraft</option>
+						<option value="">Airport</option>
+						<option class="select-dash" disabled="disabled">----</option>
+						<option value="">Flight</option>
+						<option value="">Flight Schedule</option>
+					</select>
+				</div>
+			</div>
+		</form>
       </div>
 
     </div> <!-- /container -->
