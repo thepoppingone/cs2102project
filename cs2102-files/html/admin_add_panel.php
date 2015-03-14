@@ -66,30 +66,59 @@ if(empty($_SESSION['admin'])) {
       </nav>
 
       <!-- Main component for a primary marketing message or call to action -->
-      <div class="jumbotron">
-		<form name = "adminAdd" class="form">
-			<div class="control-group">
-				<label class="control-label" >Category </label>
-				<div class="controls">
-					<select name="Category" class = "form-control input-sm">
-						<option value="">Administrator</option>
+      <div class="jumbotron">		
+		<form name = "admin_add_panel_form" class="form-horizontal">
+			<div class="form-group">
+				<label class="control-label col-xs-3">Category </label>
+				<div class="col-xs-9">
+					<select id="add-category" class = "form-control input-sm"  onchange = "addCategoryChange()">
+						<option selected = "true" disabled>Select category</option>
 						<option class="select-dash" disabled="disabled">----</option>
-						<option value="">Member</option>
-						<option value="">Reservation</option>
+						<option value="administrator">Administrator</option>
 						<option class="select-dash" disabled="disabled">----</option>
-						<option value="">Airline</option>
-						<option value="">Aircraft</option>
-						<option value="">Airport</option>
+						<option value="member">Member</option>
+						<option value="reservation">Reservation</option>
 						<option class="select-dash" disabled="disabled">----</option>
-						<option value="">Flight</option>
-						<option value="">Flight Schedule</option>
+						<option value="airline">Airline</option>
+						<option value="aircraft">Aircraft</option>
+						<option value="airport">Airport</option>
+						<option class="select-dash" disabled="disabled">----</option>
+						<option value="flight">Flight</option>
+						<option value="schedule">Flight Schedule</option>
 					</select>
 				</div>
 			</div>
 		</form>
-      </div>
-
-    </div> <!-- /container -->
+		<!-- div box for adminstrator part of form -->
+		<div id = "administrator" class = "collapse" data-toggle="collapse" >
+			<form class="form-horizontal">
+				<div class="form-group">
+					<label class="control-label col-xs-3">Name</label>
+					<div class="col-xs-9">		
+						<input name = "admin_name" type="text" class="form-control" placeholder="Name" required="" autofocus="">
+					</div>
+				</div>			
+				<div class="form-group">
+					<label for="inputEmail" class="control-label col-xs-3">Email Address</label>
+					<div class="col-xs-9">		
+						<input name = "admin_email" type="email" id="inputEmail" class="form-control" placeholder="Email address" required="" autofocus="">
+					</div>
+				</div>	
+				<div class="form-group">
+					<label class="control-label col-xs-3">Password</label>
+					<div class="col-xs-9">		
+						<input name = "admin_pwd" class="form-control" placeholder="Password" required="" autofocus="">
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-xs-offset-2 col-xs-10">
+						<button name = "add_admin_submit" type="submit" class="btn btn-primary">Add Administrator</button>
+					</div>
+				</div>
+			</form>
+		</div>
+    </div> 
+	<!-- /container -->
 
 
     <!-- Bootstrap core JavaScript
