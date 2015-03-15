@@ -55,82 +55,26 @@
           </div><!--/.nav-collapse -->
         </div><!--/.container-fluid -->
       </nav>
-<?php
 
-/*  
-if(!empty($_GET)){
-  
-  // check login credentials for admin
-  $origin = $_GET['origin'];
-  $destination = $_GET['destination'];
-  
-  date_default_timezone_set('Asia/Singapore'); 
-  
-  $departure_date = date("Y-m-d", strtotime ($_GET['departure_date'])); // format: yyyy-mm-dd
-  $today_date = date('Y-m-d');
-  
-  if($departure_date < $today_date) {
-    echo "departure_date is no longer valid";
-  } else {
-  
-    require("config.php");
-    
-    // carry out sql command
-    $sql = "SELECT * FROM schedule s, flight f 
-        WHERE s.depart_time >= TO_TIMESTAMP('".$departure_date."', 'YYYY-MM-DD')
-        AND f.origin LIKE '%".$origin."%'
-        AND f.destination LIKE '%".$destination."%' 
-        AND f.f_number = s.flight_number 
-        AND f.designator = s.designator";
-
-    $stid = oci_parse($dbh, $sql);
-
-    // without OCI_DEFAULT any changes to the database will be instantly viewable by all other connecgtions
-    oci_execute($stid, OCI_DEFAULT); 
-
-     if(empty($rows)) {
-    echo "<tr>";
-      echo "<td colspan='4'>There were not records</td>";
-    echo "</tr>";
-  }
-  else {
-    foreach ($rows as $row) {
-      echo "<tr>";
-        echo "<td>".$row['employee_id']."</td>";
-        echo "<td>".$row['name']."</td>";
-        echo "<td>".$row['email']."</td>";
-        echo "<td>".$row['telephone']."</td>";
-      echo "</tr>";
-    }
-  }
-
-    while ($row = oci_fetch_array($stid)) 
-    {
-      echo $row[0];
-    }
-    
-    echo "end of file";
-    
-
-    // to free up the resources
-    oci_free_statement($stid);
-  }
-  
-}*/
-?>
 
       <!-- Main component for a primary marketing message or call to action -->
-      <div class="jumbotron">
+      <div class="jumbotron"><h3>
         <?php 
-        echo 'Search Results for: <b id="origin">' . $_GET['origin'] . '</b> to <b id="destination">' . $_GET['destination'] . '</b> on <b id="departure_date">' . $_GET['departure_date'] . '</b>';
+        echo 'Displaying Search Results for: <b>' . $_GET['origin'] . '</b> to <b>' . $_GET['destination'] . '</b> on <b>' . $_GET['departure_date'] . '</b>';
         ?>
+      </h3>
+       
+    </div>
   <table id="resultTable" class="table table-striped table-hover">
              <thead>
                             <th>Designator</th>
                             <th>Flight Number</th>
                             <th>Departure Time</th>
+                            <th>From</th>
+                            <th>Arrival Time</th>
+                            <th>To</th>
                             <th>Price</th>
-                            
+                            <th>Duration</th>
                         </thead>
                         <tbody></tbody>
                     </table>
@@ -150,23 +94,11 @@ function getUrlVars()
     }
     return vars;
 }
-
-
-
+// the above function is to make it easy to retrieve values from GET
 
     window.onload = function() {
  makeAjaxRequest();
 };
- /*   
-$("#test").click(function(){
-          alert("fuck you");
-        });
-
-$('#btnSearch').click(function(){
-           alert("The paragraph was clicked.");
-          makeAjaxRequest();
-          });
-*/
   function makeAjaxRequest() {
 
   var originStr = getUrlVars()["origin"];

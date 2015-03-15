@@ -57,7 +57,11 @@
 
       <!-- Main component for a primary marketing message or call to action -->
       <div class="jumbotron">
+        <h2>Flight Search</h2>
+        <br/>
+        <h3>Please select your origiin, destination and the date of flight below!</h3>
     <form name = "userSearchForm" action="user_search_results.php" class="form form-inline" method="get" onsubmit = "return validateUserSearchForm()">
+      <br/>
       <select id="origin" name="origin" class = "form-control input-sm"> <option value="">Select Origin</option>
       <?php
         require("config.php");

@@ -32,6 +32,8 @@ if(!empty($_GET)){
 		// without OCI_DEFAULT any changes to the database will be instantly viewable by all other connecgtions
 		oci_execute($stid, OCI_DEFAULT); 
 		
+		//counter for cheat if else outcome
+		$i = 0;
 		//FETCH AN ASSOICATIVE ARRAY FOR DATA EXTRACTION
 		while ($row = oci_fetch_assoc($stid)) 
 		{
@@ -40,14 +42,23 @@ if(!empty($_GET)){
 				echo "<td>".$row['DESIGNATOR']."</td>";
 				echo "<td>".$row['FLIGHT_NUMBER']."</td>";
 				echo "<td>".$row['DEPART_TIME']."</td>";
+				echo "<td>".$row['ORIGIN']."</td>";
+				echo "<td>".$row['ARRIVAL_TIME']."</td>";
+				echo "<td>".$row['DESTINATION']."</td>";
 				echo "<td>".$row['PRICE']."</td>";
+				echo "<td>".$row['DURATION']."</td>";
 			echo "</tr>";
+			$i++;
 		}
 	
 	
-		
-		echo "end of file";
-		
+		//no records found
+		//used cheat method simple $i counter to keep check whether there are entries found or not
+		if($i == 0)
+		{echo "<tr>";
+			echo "<td colspan='4'>There are no available flights on this date</td>";
+		echo "</tr>";
+		}
 
 		// to free up the resources
 		oci_free_statement($stid);
