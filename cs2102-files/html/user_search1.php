@@ -83,43 +83,45 @@
 			?>
 			</select>
 			<input id = "departure_date" type = "date" name = "departure_date" class="form-control  input-sm" placeholder = "DD/MM/YYYY">
-			<button name="formSubmit" class="btn btn-sm btn-primary" type="submit">Search</button>
-			<div id = "date-alert" class = "alert alert-info collapse" data-toggle="collapse"role="alert">
+			<button id="btnSearch" name="formSubmit" class="btn btn-sm btn-primary" type="submit">Search</button>
+		
+      <div id = "date-alert" class = "alert alert-info collapse" data-toggle="collapse"role="alert">
 			  <span>
 				<p>Oops! The planes have already departed for that date.</p>
 			  </span>
 			</div>
 		</form>
-<?php
+      <button onclick="return testFunction()" id="test" class="btn btn-sm btn-primary">TEST ONLY</button>
+    <script type="text/javascript">
+ /*   
+$("#test").click(function(){
+          alert("fuck you");
+        });
 
-if(isset($_GET['formSubmit'])){
-
-  require("config.php");
-  
-  // values origin and destination taken from the search page to pass in SQL
-  $origin = $_GET['origin'];
-  $destination = $_GET['destination'];
-  
-  // carry out sql command
-  $sql = "SELECT * FROM flight f WHERE f.origin = '".$origin."' AND f.destination = '".$destination."'";
-
-  $stid = oci_parse($dbh, $sql);
-
-  // without OCI_DEFAULT any changes to the database will be instantly viewable by all other connecgtions
-  oci_execute($stid, OCI_DEFAULT); 
-
-  if ($row = oci_fetch_array($stid)) 
-  { 
-    echo "$row[0]"."__"."$row[1]"."__"."$row[2]"."__"."$row[3]"."__"."$row[4]";
-  } else {
-    echo 'nothing la';
-  }
-
-  // to free up the resources
-  oci_free_statement($stid);
+$('#btnSearch').click(function(){
+           alert("The paragraph was clicked.");
+          makeAjaxRequest();
+          });
+*/
+function testFunction() {
+  alert("PLEASE LAH!");
+  return true;
 }
-?>
+/*
+  function makeAjaxRequest() {
+  
+    $.ajax({
+        url: 'user_searchFlightSchedule.php',
+        type: 'get',
+        data: {origin: $('select.origin').val(),destination: $('select.destination').val(),date: $('input#departure_date').val()},
+        success: function(response) {
+            $('table#resultTable tbody').html(response);
+        }
+    });
+  }
+*/
 
+    </script>
 
       </div>
     </div> <!-- /container -->

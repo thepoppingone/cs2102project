@@ -3,12 +3,12 @@
 if(!empty($_POST)){
 	
 	// check login credentials for admin
-	$origin = $_POST['origin'];
-	$destination = $_POST['destination'];
+	$origin = $_GET['origin'];
+	$destination = $_GET['destination'];
 	
 	date_default_timezone_set('Asia/Singapore'); 
 	
-	$departure_date = date("Y-m-d", strtotime ($_POST['departure_date'])); // format: yyyy-mm-dd
+	$departure_date = date("Y-m-d", strtotime ($_GET['departure_date'])); // format: yyyy-mm-dd
 	$today_date = date('Y-m-d');
 	
 	if($departure_date < $today_date) {
