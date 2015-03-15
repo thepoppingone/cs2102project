@@ -22,6 +22,7 @@ if(empty($_SESSION['admin'])) {
 
     <!-- Custom styles for this template -->
     <link href="admin.css" rel="stylesheet">
+	<script src="admin.js"></script>
 
     <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
     <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
@@ -48,33 +49,77 @@ if(empty($_SESSION['admin'])) {
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">Admin Panel</a>
           </div>
           <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-              <li><a href="admin_panel.php">Home</a></li>
-              <li class="active"><a href="admin_add_panel.php">Add</a></li>
-              <li><a href="admin_delete_panel.php">Delete</a></li>
-              <li><a href="admin_edit_panel.php">Edit</a></li>
-              <li><a href="admin_search_panel.php">Search</a></li>
+              <li><a href="admin_panel.php"><span class="glyphicon glyphicon-home"></span> Home</a></li>
+              <li class="active"><a href="#"><span class="glyphicon glyphicon-plus"></span> Add</a></li>
+              <li><a href="admin_delete_panel.php"><span class="glyphicon glyphicon-remove"></span> Delete</a></li>
+              <li><a href="admin_edit_panel.php"><span class="glyphicon glyphicon-pencil"></span>  Edit</a></li>
+              <li><a href="admin_search_panel.php"><span class="glyphicon glyphicon-search"></span> Search</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-              <li><a href="user_logout.php">Log Out</a></li>
+              <li><a href="user_logout.php"><span class="glyphicon glyphicon-log-out"></span> Log Out</a></li>
             </ul>
           </div><!--/.nav-collapse -->
         </div><!--/.container-fluid -->
       </nav>
 
       <!-- Main component for a primary marketing message or call to action -->
-      <div class="jumbotron">
-        <h1>Add - alot of things to do here</h1>
-        <p>Insert hell lot of options here</p>
-        <p>
-          <a class="btn btn-lg btn-primary" href="../../components/#navbar" role="button">View navbar docs &raquo;</a>
-        </p>
-      </div>
-
-    </div> <!-- /container -->
+      <div class="jumbotron">		
+		<form name = "admin_add_panel_form" class="form-horizontal">
+			<div class="form-group">
+				<label class="control-label col-xs-3">Category </label>
+				<div class="col-xs-9">
+					<select id="add-category" class = "form-control input-sm"  onchange = "addCategoryChange()">
+						<option selected = "true" disabled>Select category</option>
+						<option class="select-dash" disabled="disabled">----</option>
+						<option value="administrator">Administrator</option>
+						<option class="select-dash" disabled="disabled">----</option>
+						<option value="member">Member</option>
+						<option value="reservation">Reservation</option>
+						<option class="select-dash" disabled="disabled">----</option>
+						<option value="airline">Airline</option>
+						<option value="aircraft">Aircraft</option>
+						<option value="airport">Airport</option>
+						<option class="select-dash" disabled="disabled">----</option>
+						<option value="flight">Flight</option>
+						<option value="schedule">Flight Schedule</option>
+					</select>
+				</div>
+			</div>
+		</form>
+		<!-- div box for adminstrator part of form action="admin_panel.php" method="post"  -->
+		<div id = "administrator" class = "collapse">
+			<form id = "add-admin-form" class="form-horizontal" action="admin_panel.php" method="post"> 
+				<div class="form-group">
+					<label class="control-label col-xs-3">Name</label>
+					<div class="col-xs-9">		
+						<input id = "admin_name" type="text" class="form-control" placeholder="Name" required="" autofocus="">
+					</div>
+				</div>			
+				<div class="form-group">
+					<label for="inputEmail" class="control-label col-xs-3">Email Address</label>
+					<div class="col-xs-9">		
+						<input id = "admin_email" type="email" id="inputEmail" class="form-control" placeholder="Email address" required="" autofocus="">
+						<p id = "adminEmailError" class = "collapse" class='text-danger'>Oops! The owner of the email is already an administrator.</p>
+					</div>
+				</div>	
+				<div class="form-group">
+					<label class="control-label col-xs-3">Password</label>
+					<div class="col-xs-9">
+						<input id = "admin_pwd" class="form-control" placeholder="Password" required="" autofocus="">
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-xs-offset-2 col-xs-10">
+						<button id = "add_admin_submit" type="submit" class="btn btn-primary" onclick = "return handleAddAdmin()">Add Administrator</button>
+					</div>
+				</div>
+			</form>
+		</div>
+    </div> 
+	<!-- /container -->
 
 
     <!-- Bootstrap core JavaScript
