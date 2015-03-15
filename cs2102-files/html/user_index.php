@@ -64,7 +64,8 @@
         <h1>Welcome</h1>
         <p>We will probably just insert a fabulous image that makes you feel wanderlust once again.</p>
         <p>
-          <a class="btn btn-lg btn-primary" href="#" role="button">Click here for nothing to happen &raquo;</a>
+          <img class="img-rounded img-responsive" src="../../assets/img/pulau-ubin.jpg"></img>
+                  <a class="btn btn-lg btn-primary" href="#" role="button">Click here for nothing to happen &raquo;</a>
         </p>
       </div>
 
