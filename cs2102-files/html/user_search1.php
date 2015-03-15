@@ -57,8 +57,8 @@
 
       <!-- Main component for a primary marketing message or call to action -->
       <div class="jumbotron">
-		<form name = "userSearchForm" class="form form-inline" method="get" onsubmit = "return validateUserSearchForm()">
-			<select name="origin" class = "form-control input-sm"> <option value="">Select Origin</option>
+		<form name = "userSearchForm" action="user_search_results.php" class="form form-inline" method="get" onsubmit = "return validateUserSearchForm()">
+			<select id="origin" name="origin" class = "form-control input-sm"> <option value="">Select Origin</option>
 			<?php
 				require("config.php");
 				$sql = "SELECT designator FROM airport";
@@ -70,7 +70,7 @@
 				oci_free_statement($stid);
 			?>
 			</select>
-			<select  name="destination" class = "form-control input-sm"> <option value="">Select Destination</option>
+			<select id="destination" name="destination" class = "form-control input-sm"> <option value="">Select Destination</option>
 			<?php
 				require("config.php");
 				$sql = "SELECT designator FROM airport";
@@ -83,7 +83,7 @@
 			?>
 			</select>
 			<input id = "departure_date" type = "date" name = "departure_date" class="form-control  input-sm" placeholder = "DD/MM/YYYY">
-			<button id="btnSearch" name="formSubmit" class="btn btn-sm btn-primary" type="submit">Search</button>
+			<button onclick="return handleUserSearch()"  id="btnSearch" name="formSubmit" class="btn btn-sm btn-primary" type="submit">Search</button>
 		
       <div id = "date-alert" class = "alert alert-info collapse" data-toggle="collapse"role="alert">
 			  <span>
@@ -91,7 +91,6 @@
 			  </span>
 			</div>
 		</form>
-      <button onclick="return testFunction()" id="test" class="btn btn-sm btn-primary">TEST ONLY</button>
     <script type="text/javascript">
  /*   
 $("#test").click(function(){
@@ -103,10 +102,7 @@ $('#btnSearch').click(function(){
           makeAjaxRequest();
           });
 */
-function testFunction() {
-  alert("PLEASE LAH!");
-  return true;
-}
+
 /*
   function makeAjaxRequest() {
   
