@@ -1,0 +1,38 @@
+body {
+	padding-top: 20px;
+	padding-bottom: 20px;
+}
+
+h1 {
+	margin-left:20px;
+}
+
+.navbar {
+	margin-bottom: 20px;
+	font-weight: bold;
+}
+
+
+.navbar-blue {
+	background-color: #4f81bd;
+}
+
+/* All the text in the nav bar are change to white */
+.navbar .nav > li > a {
+	color:  white;
+}
+
+/* The bottom ones affect everything but top of this comment code is also required*/
+.navbar-default .navbar-nav > .active > a, 
+.navbar-default .navbar-nav > .active > a:focus,
+.navbar-default .navbar-nav > .active > a:hover {
+	color: #FFF;
+	background: #95b3d7;
+}
+
+#login-box {
+	padding-left: 30%;
+	padding-right: 30%;
+	text-align:center;
+}
+

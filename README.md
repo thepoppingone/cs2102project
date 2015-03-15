@@ -1,2 +1,1 @@
-# cs2102project
-Main repository for database application
+This CS2102 Project uses bootstrap resources for the html design.
