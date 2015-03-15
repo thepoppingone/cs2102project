@@ -1,22 +1,20 @@
 <?php 
-	$email = $_POST['email'];
 	$name = $_POST['name'];
-	$password = $_POST['pwd'];
+	$designator = $_POST['designator'];
 	
 	require("config.php");
-	$sql = "SELECT * FROM admin a WHERE a.email = '".$email."'";
+	$sql = "SELECT * FROM airline a WHERE a.designator = '".$designator."'";
 	$stid = oci_parse($dbh, $sql);
 	oci_execute($stid, OCI_DEFAULT);
 	if($row = oci_fetch_array($stid)) {
-		echo "admin_exists";
+		echo "airline_exists";
 	} else {
 		// insert the record in
-		$sql = "INSERT INTO admin VALUES(:name, :email, :password)";
+		$sql = "INSERT INTO airline VALUES(:name, :designator)";
 		
 		$stid = oci_parse($dbh, $sql);
 		oci_bind_by_name($stid, ':name', $name);
-		oci_bind_by_name($stid, ':email', $email);
-		oci_bind_by_name($stid, ':password', $password);
+		oci_bind_by_name($stid, ':designator', $designator);
 		
 		$result = oci_execute($stid);
 		if(!$result) {
