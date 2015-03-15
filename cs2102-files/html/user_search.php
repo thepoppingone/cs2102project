@@ -15,7 +15,7 @@
 
     <!-- Custom styles for this template -->
     <link href="user.css" rel="stylesheet">
-	<script src="user.js"></script>
+  <script src="user.js"></script>
 
     <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
     <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
@@ -49,7 +49,7 @@
               <li class="active"><a href="#">Search</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right navbar-blue">
-			  <li><a href="user_login.php">Login</a></li>
+        <li><a href="user_login.php">Login</a></li>
             </ul>
           </div><!--/.nav-collapse -->
         </div><!--/.container-fluid -->
@@ -57,69 +57,40 @@
 
       <!-- Main component for a primary marketing message or call to action -->
       <div class="jumbotron">
-		<form name = "userSearchForm" class="form form-inline" method="get" onsubmit = "return validateUserSearchForm()">
-			<select name="origin" class = "form-control input-sm"> <option value="">Select Origin</option>
-			<?php
-				require("config.php");
-				$sql = "SELECT designator FROM airport";
-				$stid = oci_parse($dbh, $sql);
-				oci_execute($stid, OCI_DEFAULT);
-				while($row = oci_fetch_array($stid)){
-					echo "<option value=\"".$row["DESIGNATOR"]."\">".$row["DESIGNATOR"]."</option><br>";
-				}
-				oci_free_statement($stid);
-			?>
-			</select>
-			<select  name="destination" class = "form-control input-sm"> <option value="">Select Destination</option>
-			<?php
-				require("config.php");
-				$sql = "SELECT designator FROM airport";
-				$stid = oci_parse($dbh, $sql);
-				oci_execute($stid, OCI_DEFAULT);
-				while($row = oci_fetch_array($stid)){
-					echo "<option value=\"".$row["DESIGNATOR"]."\">".$row["DESIGNATOR"]."</option><br>";
-				}
-				oci_free_statement($stid);
-			?>
-			</select>
-			<input id = "departure_date" type = "date" name = "departure_date" class="form-control  input-sm" placeholder = "DD/MM/YYYY">
-			<button name="formSubmit" class="btn btn-sm btn-primary" type="submit">Search</button>
-			<div id = "date-alert" class = "alert alert-info collapse" data-toggle="collapse"role="alert">
-			  <span>
-				<p>Oops! The planes have already departed for that date.</p>
-			  </span>
-			</div>
-		</form>
-<?php
-
-if(isset($_GET['formSubmit'])){
-
-  require("config.php");
-  
-  // values origin and destination taken from the search page to pass in SQL
-  $origin = $_GET['origin'];
-  $destination = $_GET['destination'];
-  
-  // carry out sql command
-  $sql = "SELECT * FROM flight f WHERE f.origin = '".$origin."' AND f.destination = '".$destination."'";
-
-  $stid = oci_parse($dbh, $sql);
-
-  // without OCI_DEFAULT any changes to the database will be instantly viewable by all other connecgtions
-  oci_execute($stid, OCI_DEFAULT); 
-
-  if ($row = oci_fetch_array($stid)) 
-  { 
-    echo "$row[0]"."__"."$row[1]"."__"."$row[2]"."__"."$row[3]"."__"."$row[4]";
-  } else {
-    echo 'nothing la';
-  }
-
-  // to free up the resources
-  oci_free_statement($stid);
-}
-?>
-
+    <form name = "userSearchForm" action="user_search_results.php" class="form form-inline" method="get" onsubmit = "return validateUserSearchForm()">
+      <select id="origin" name="origin" class = "form-control input-sm"> <option value="">Select Origin</option>
+      <?php
+        require("config.php");
+        $sql = "SELECT designator FROM airport";
+        $stid = oci_parse($dbh, $sql);
+        oci_execute($stid, OCI_DEFAULT);
+        while($row = oci_fetch_array($stid)){
+          echo "<option value=\"".$row["DESIGNATOR"]."\">".$row["DESIGNATOR"]."</option><br>";
+        }
+        oci_free_statement($stid);
+      ?>
+      </select>
+      <select id="destination" name="destination" class = "form-control input-sm"> <option value="">Select Destination</option>
+      <?php
+        require("config.php");
+        $sql = "SELECT designator FROM airport";
+        $stid = oci_parse($dbh, $sql);
+        oci_execute($stid, OCI_DEFAULT);
+        while($row = oci_fetch_array($stid)){
+          echo "<option value=\"".$row["DESIGNATOR"]."\">".$row["DESIGNATOR"]."</option><br>";
+        }
+        oci_free_statement($stid);
+      ?>
+      </select>
+      <input id = "departure_date" type = "date" name = "departure_date" class="form-control  input-sm" placeholder = "DD/MM/YYYY">
+      <button onclick="return handleUserSearch()"  id="btnSearch" name="formSubmit" class="btn btn-sm btn-primary" type="submit">Search</button>
+    
+      <div id = "date-alert" class = "alert alert-info collapse" data-toggle="collapse"role="alert">
+        <span>
+        <p>Oops! The planes have already departed for that date.</p>
+        </span>
+      </div>
+    </form>
 
       </div>
     </div> <!-- /container -->
@@ -133,6 +104,6 @@ if(isset($_GET['formSubmit'])){
     <script src="../../dist/js/bootstrap.min.js"></script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
-	
+  
   </body>
 </html>
