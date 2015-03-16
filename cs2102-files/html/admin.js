@@ -1,3 +1,5 @@
+// functions related to ADD
+
 function addCategoryChange() {
 	var selectBar = document.getElementById('add-category');
     var option =  selectBar.options[selectBar.selectedIndex].value;
@@ -19,7 +21,7 @@ function handleAddAdmin() {
 	if(emailStr && nameStr && pwdStr) {		
 		$.post('admin_addAdmin.php', {email:emailStr, name:nameStr, pwd:pwdStr}, function(data) {
 			if(data == 'inserted') {
-				disableForm(['#admin-button', '#add-admin-error-result', '#adminEmailError'], ['add-category', 'admin-email', 'admin-name', 'admin-pwd']);
+				disableForm(['admin-button', 'add-admin-error-result', 'adminEmailError'], ['add-category', 'admin-email', 'admin-name', 'admin-pwd']);
 				displayAddSuccessfulMessage("New administrator added successfully.");
 			}
 			else if(data == 'admin_exists'){
@@ -44,7 +46,7 @@ function handleAddAirline() {
 	if(nameStr && designatorStr) {		
 		$.post('admin_addAirline.php', {name:nameStr, designator:designatorStr}, function(data) {
 			if(data == 'inserted') {
-				disableForm(['#airline-button', '#add-airline-error-result', '#airlineDesignatorError'], ['add-category', 'airline-name', 'airline-designator']);
+				disableForm(['airline-button', 'add-airline-error-result', 'airlineDesignatorError'], ['add-category', 'airline-name', 'airline-designator']);
 				displayAddSuccessfulMessage("New airline added successfully.");
 			}
 			else if(data == 'airline_exists'){
@@ -72,7 +74,7 @@ function handleAddAircraft() {
 	if(designatorStr && aircraftIdStr && modelStr && seatCapacityStr) {		
 		$.post('admin_addAircraft.php', {id: aircraftIdStr, model: modelStr, seatCapacity: seatCapacityStr, designator:designatorStr}, function(data) {
 			if(data == 'inserted') {
-				disableForm(['#aircraft-button', '#add-aircraft-error-result', '#aircraftIdError'], ['add-category', 'aircraft-designator', 'aircraft-id', 'aircraft-model', 'aircraft-seatcapacity']);
+				disableForm(['aircraft-button', 'add-aircraft-error-result', 'aircraftIdError'], ['add-category', 'aircraft-designator', 'aircraft-id', 'aircraft-model', 'aircraft-seatcapacity']);
 				displayAddSuccessfulMessage("New aircraft added successfully.");
 			}
 			else if(data == 'aircraft_exists'){
@@ -98,7 +100,7 @@ function handleAddAirport() {
 	if(nameStr && locationStr && designatorStr) {		
 		$.post('admin_addAirport.php', {name:nameStr, location:locationStr, designator:designatorStr}, function(data) {
 			if(data == 'inserted') {
-				disableForm(['#airport-button', '#add-airport-error-result', '#airportDesignatorError'], ['add-category', 'airport-name', 'airport-designator', 'airport-designator']);
+				disableForm(['airport-button', 'add-airport-error-result', 'airportDesignatorError'], ['add-category', 'airport-name', 'airport-designator', 'airport-designator']);
 				displayAddSuccessfulMessage("New airport added successfully.");
 			}
 			else if(data == 'airport_exists'){
@@ -131,7 +133,7 @@ function handleAddFlight() {
 		if(validateFlightRoute()) {
 			$.post('admin_addFlight.php', {designator:designatorStr, number:numberStr, origin:originStr, destination:destinationStr, duration:durationStr}, function(data) {
 				if(data == 'inserted') {
-					disableForm(['#flight-button', '#add-flight-error-result', '#flightDesignatorError'], ['add-category', 'flight-designator', 'flight-number', 'flight-origin', 'flight-destination', 'flight-duration']);
+					disableForm(['flight-button', 'add-flight-error-result', 'flightDesignatorError'], ['add-category', 'flight-designator', 'flight-number', 'flight-origin', 'flight-destination', 'flight-duration']);
 					displayAddSuccessfulMessage("New Flight added successfully.");
 				}
 				else if(data == 'flight_exists'){
@@ -194,7 +196,7 @@ function handleAddSchedule() {
 										departure:departureStr,
 										arrival:arrivalStr}, function(data) {	
 				if(data == 'inserted') {
-					disableForm(['#schedule-button', '#add-schedule-error-result', '#scheduleTimeError'], ['add-category', 'schedule-flight', 'schedule-aircraft', 'schedule-seats', 'schedule-departure', 'schedule-arrival', 'schedule-price']);
+					disableForm(['schedule-button', 'add-schedule-error-result', 'scheduleTimeError'], ['add-category', 'schedule-flight', 'schedule-aircraft', 'schedule-seats', 'schedule-departure', 'schedule-arrival', 'schedule-price']);
 					displayAddSuccessfulMessage("New schedule added successfully.");
 				}
 				else if(data == 'schedule_exists'){
@@ -255,16 +257,156 @@ function validateScheduleSeat() {
 	return false;
 }
 
-function disableForm(hide, disable) {
-	for(i = 0; i < hide.length; i++) {
-		$(hide[i]).collapse('hide');
-	}
-	for(i = 0; i < disable.length; i++) {
-		document.getElementById(disable[i]).disabled = true;
-	}
-}
-
 function displayAddSuccessfulMessage(msg) {
 	document.getElementById("add-successful-msg").innerHTML = msg;
 	$('#add-successful-result').collapse('show');
+}
+
+// functions related to DELETE
+function deleteCategoryChange() {
+	var selectBar = document.getElementById('delete-category');
+    var option =  selectBar.options[selectBar.selectedIndex].value;
+	//var options = ["administrator", "member", "reservation", "airline", "aircraft", "airport", "flight", "schedule"];
+	document.getElementById("delete-options").innerHTML = "";
+	disableForm(['delete-success-result', 'delete-error-result'], [])
+	if(option == "administrator") {
+		loadAdminOptions();
+	} else if(option == "airline") {
+		loadAirlineOptions();
+	} else if(option == "aircraft") {
+		loadAircraftOptions();
+	}
+}
+
+function loadAdminOptions() {
+	$.post('admin_deleteAdmin.php', function(data) {
+		if(data) {
+			document.getElementById("delete-options").innerHTML = 
+				"<form><table id=\"resultTable\" class=\"table table-striped table-hover\">" + 
+				"<thead><th>Delete</th><th>Name</th><th>Email</th></thead>" + 
+				"<tbody>" + data + "</tbody>" + 
+				"</table>" + 
+				"<button type=\"submit\" class=\"btn btn-primary\" onclick = \"return deleteAdmin()\">Delete Administrator(s)</button>" + 
+				"</form>";
+			$('#delete-options').collapse('show');
+		} else {
+			document.getElementById("delete-success-msg").innerHTML = "No entries found!";
+			$('#delete-success-result').collapse('show');		
+		}
+	});	
+}
+
+function deleteAdmin() {
+	var inputElements = document.getElementsByClassName('checked-administrator');
+	var emails = "";
+	for(i = 0; i < inputElements.length; i++) {
+		if(inputElements[i].checked && inputElements[i].disabled == false){
+		   emails = emails + inputElements[i].value + " ";
+		}
+	}
+	
+	$.post('admin_deleteAdmin.php', {email:emails}, function(resultMsg) {	
+		var message = resultMsg.split(" ");
+		if(message[0] == "successful") {
+			disableForm([], message.slice(1,message.length-1));
+			document.getElementById("delete-success-msg").innerHTML = "" + (message.length - 2) + " entries deleted.";
+			$('#delete-success-result').collapse('show');
+		} else {
+			document.getElementById("delete-error-msg").innerHTML = "Error message:" + resultMsg;
+			$('#delete-error-result').collapse('show');
+		}
+	});	
+	return false;
+}
+
+function loadAirlineOptions() {
+	$.post('admin_deleteAirline.php', function(data) {
+		if(data) {
+			document.getElementById("delete-options").innerHTML = 
+				"<form><table id=\"resultTable\" class=\"table table-striped table-hover\">" + 
+				"<thead><th>Delete</th><th>Name</th><th>Designator</th></thead>" + 
+				"<tbody>" + data + "</tbody>" + 
+				"</table>" + 
+				"<button type=\"submit\" class=\"btn btn-primary\" onclick = \"return deleteAirline()\">Delete Airline(s)</button>" + 
+				"</form>";
+			$('#delete-options').collapse('show');
+		} else {
+			document.getElementById("delete-success-msg").innerHTML = "No entries found!";
+			$('#delete-success-result').collapse('show');		
+		}
+	});	
+}
+
+function deleteAirline() {
+	var inputElements = document.getElementsByClassName('checked-airline');
+	var designators = "";
+	for(i = 0; i < inputElements.length; i++) {
+		if(inputElements[i].checked && inputElements[i].disabled == false){
+		   designators = designators + inputElements[i].value + " ";
+		}
+	}
+	
+	$.post('admin_deleteAirline.php', {designator:designators}, function(resultMsg) {	
+		var message = resultMsg.split(" ");
+		if(message[0] == "successful") {
+			disableForm([], message.slice(1,message.length-1));
+			document.getElementById("delete-success-msg").innerHTML = "" + (message.length - 2) + " entries deleted.";
+			$('#delete-success-result').collapse('show');
+		} else {
+			document.getElementById("delete-error-msg").innerHTML = "Error message:" + resultMsg;
+			$('#delete-error-result').collapse('show');
+		}
+	});	
+	return false;
+}
+
+function loadAircraftOptions() {
+	$.post('admin_deleteAircraft.php', function(data) {
+		if(data) {
+			document.getElementById("delete-options").innerHTML = 
+				"<form><table id=\"resultTable\" class=\"table table-striped table-hover\">" + 
+				"<thead><th>Delete</th><th>Airline</th><th>Aircraft Id</th><th>Model</th><th>Seat Capacity</th></thead>" + 
+				"<tbody>" + data + "</tbody>" + 
+				"</table>" + 
+				"<button type=\"submit\" class=\"btn btn-primary\" onclick = \"return deleteAircraft()\">Delete Aircraft(s)</button>" + 
+				"</form>";
+			$('#delete-options').collapse('show');
+		} else {
+			document.getElementById("delete-success-msg").innerHTML = "No entries found!";
+			$('#delete-success-result').collapse('show');		
+		}
+	});	
+}
+
+function deleteAircraft() {
+	var inputElements = document.getElementsByClassName('checked-aircraft');
+	var aircraftIds = "";
+	for(i = 0; i < inputElements.length; i++) {
+		if(inputElements[i].checked && inputElements[i].disabled == false){
+		   aircraftIds = aircraftIds + inputElements[i].value + " ";
+		}
+	}
+	
+	$.post('admin_deleteAircraft.php', {aircraftId:aircraftIds}, function(resultMsg) {	
+		var message = resultMsg.split(" ");
+		if(message[0] == "successful") {
+			disableForm([], message.slice(1,message.length-1));
+			document.getElementById("delete-success-msg").innerHTML = "" + (message.length - 2) + " entries deleted.";
+			$('#delete-success-result').collapse('show');
+		} else {
+			document.getElementById("delete-error-msg").innerHTML = "Error message:" + resultMsg;
+			$('#delete-error-result').collapse('show');
+		}
+	});	
+	return false;
+}
+
+// other helper functions
+function disableForm(hideId, disableId) {
+	for(i = 0; i < hideId.length; i++) {
+		$("#" + hideId[i]).collapse('hide');
+	}
+	for(i = 0; i < disableId.length; i++) {
+		document.getElementById(disableId[i]).disabled = true;
+	}
 }

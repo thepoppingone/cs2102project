@@ -409,6 +409,7 @@ if(empty($_SESSION['admin'])) {
 			<p id = "add-successful-msg"></p>
 			<a href = "admin_add_panel.php"><button class="btn btn-primary">Add another record</button></a>
 		</div>		
+	 </div>
     </div>
 	<!-- /container -->
 
