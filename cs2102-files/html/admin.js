@@ -19,10 +19,8 @@ function handleAddAdmin() {
 	if(emailStr && nameStr && pwdStr) {		
 		$.post('admin_addAdmin.php', {email:emailStr, name:nameStr, pwd:pwdStr}, function(data) {
 			if(data == 'inserted') {
-				$('#category-form').collapse('hide'); 
-				$('#administrator').collapse('hide'); 
-				document.getElementById("add-admin-successful-msg").innerHTML = "New administrator added successfully.";
-				$('#add-admin-successful-result').collapse('show');
+				disableForm(['#admin-button', '#add-admin-error-result', '#adminEmailError'], ['add-category', 'admin-email', 'admin-name', 'admin-pwd']);
+				displayAddSuccessfulMessage("New administrator added successfully.");
 			}
 			else if(data == 'admin_exists'){
 				$('#add-admin-error-result').collapse('hide');
@@ -46,10 +44,8 @@ function handleAddAirline() {
 	if(nameStr && designatorStr) {		
 		$.post('admin_addAirline.php', {name:nameStr, designator:designatorStr}, function(data) {
 			if(data == 'inserted') {
-				$('#category-form').collapse('hide'); 
-				$('#airline').collapse('hide'); 
-				document.getElementById("add-airline-successful-msg").innerHTML = "New airline added successfully.";
-				$('#add-airline-successful-result').collapse('show');
+				disableForm(['#airline-button', '#add-airline-error-result', '#airlineDesignatorError'], ['add-category', 'airline-name', 'airline-designator']);
+				displayAddSuccessfulMessage("New airline added successfully.");
 			}
 			else if(data == 'airline_exists'){
 				$('#add-airline-error-result').collapse('hide');
@@ -76,10 +72,8 @@ function handleAddAircraft() {
 	if(designatorStr && aircraftIdStr && modelStr && seatCapacityStr) {		
 		$.post('admin_addAircraft.php', {id: aircraftIdStr, model: modelStr, seatCapacity: seatCapacityStr, designator:designatorStr}, function(data) {
 			if(data == 'inserted') {
-				$('#category-form').collapse('hide'); 
-				$('#aircraft').collapse('hide'); 
-				document.getElementById("add-aircraft-successful-msg").innerHTML = "New aircraft added successfully.";
-				$('#add-aircraft-successful-result').collapse('show');
+				disableForm(['#aircraft-button', '#add-aircraft-error-result', '#aircraftIdError'], ['add-category', 'aircraft-designator', 'aircraft-id', 'aircraft-model', 'aircraft-seatcapacity']);
+				displayAddSuccessfulMessage("New aircraft added successfully.");
 			}
 			else if(data == 'aircraft_exists'){
 				$('#add-aircraft-error-result').collapse('hide');
@@ -104,10 +98,8 @@ function handleAddAirport() {
 	if(nameStr && locationStr && designatorStr) {		
 		$.post('admin_addAirport.php', {name:nameStr, location:locationStr, designator:designatorStr}, function(data) {
 			if(data == 'inserted') {
-				$('#category-form').collapse('hide'); 
-				$('#airport').collapse('hide'); 
-				document.getElementById("add-airport-successful-msg").innerHTML = "New airport added successfully.";
-				$('#add-airport-successful-result').collapse('show');
+				disableForm(['#airport-button', '#add-airport-error-result', '#airportDesignatorError'], ['add-category', 'airport-name', 'airport-designator', 'airport-designator']);
+				displayAddSuccessfulMessage("New airport added successfully.");
 			}
 			else if(data == 'airport_exists'){
 				$('#add-airport-error-result').collapse('hide');
@@ -136,28 +128,143 @@ function handleAddFlight() {
 	var durationStr = document.getElementById('flight-duration').value;
 				
 	if(designatorStr && numberStr && originStr && destinationStr && durationStr) {		
-		$.post('admin_addFlight.php', {designator:designatorStr, number:numberStr, origin:originStr, destination:destinationStr, duration:durationStr}, function(data) {
-			if(data == 'inserted') {
-				$('#category-form').collapse('hide'); 
-				$('#flight').collapse('hide'); 
-				document.getElementById("add-flight-successful-msg").innerHTML = "New airport added successfully.";
-				$('#add-flight-successful-result').collapse('show');
-			}
-			else if(data == 'flight_exists'){
-				$('#add-flight-error-result').collapse('hide');
-				$('#flightDesignatorError').collapse('show');
-			} else {
-				$('#flightDesignatorError').collapse('hide'); 
-				document.getElementById("add-flight-error-msg").innerHTML = "Error message:" + data;
-				$('#add-flight-error-result').collapse('show');
-			}
-		});
+		if(validateFlightRoute()) {
+			$.post('admin_addFlight.php', {designator:designatorStr, number:numberStr, origin:originStr, destination:destinationStr, duration:durationStr}, function(data) {
+				if(data == 'inserted') {
+					disableForm(['#flight-button', '#add-flight-error-result', '#flightDesignatorError'], ['add-category', 'flight-designator', 'flight-number', 'flight-origin', 'flight-destination', 'flight-duration']);
+					displayAddSuccessfulMessage("New Flight added successfully.");
+				}
+				else if(data == 'flight_exists'){
+					$('#add-flight-error-result').collapse('hide');
+					$('#flightDesignatorError').collapse('show');
+				} else {
+					$('#flightDesignatorError').collapse('hide'); 
+					document.getElementById("add-flight-error-msg").innerHTML = "Error message:" + data;
+					$('#add-flight-error-result').collapse('show');
+				}
+			});
+		}
 		return false;
 	} else {
 		return true;
 	}
 }
 
-function falseFunction() {
+function validateFlightRoute() {
+	var selectOrigin = document.getElementById('flight-origin');
+    var origin =  selectOrigin.options[selectOrigin.selectedIndex].value;
+	
+	var selectDestination = document.getElementById('flight-destination');
+    var destination =  selectDestination.options[selectDestination.selectedIndex].value;
+	
+	if(origin && destination) {
+		if(origin == destination) {
+			$('#flightRouteError').collapse('show');
+		} else {
+			$('#flightRouteError').collapse('hide');
+			return true;
+		}
+	}
 	return false;
+}
+
+function handleAddSchedule() {
+	
+	var selectBarF = document.getElementById('schedule-flight');
+	var flightStr = selectBarF.options[selectBarF.selectedIndex].value.split(" ");
+	var designatorStr = flightStr[0];
+	var flightNumberStr = flightStr[1];
+	
+	var selectBarA = document.getElementById('schedule-aircraft');
+	var aircraftStr = selectBarA.options[selectBarA.selectedIndex].value.split(" ")[1];;
+	
+	var seatStr = document.getElementById('schedule-seats').value;
+	var departureStr = document.getElementById('schedule-departure').value;
+	var arrivalStr = document.getElementById('schedule-arrival').value;
+	var priceStr = document.getElementById('schedule-price').value;
+	
+	if(designatorStr && flightNumberStr && aircraftStr && seatStr && departureStr && arrivalStr && priceStr) {
+		if(validateScheduleSeat() && validateAircraft()) {		
+			$.post('admin_addSchedule.php', {
+										designator:designatorStr, 
+										f_number:flightNumberStr, 
+										aircraft:aircraftStr, 
+										seatNum:seatStr, 
+										price:priceStr, 
+										departure:departureStr,
+										arrival:arrivalStr}, function(data) {	
+				if(data == 'inserted') {
+					disableForm(['#schedule-button', '#add-schedule-error-result', '#scheduleTimeError'], ['add-category', 'schedule-flight', 'schedule-aircraft', 'schedule-seats', 'schedule-departure', 'schedule-arrival', 'schedule-price']);
+					displayAddSuccessfulMessage("New schedule added successfully.");
+				}
+				else if(data == 'schedule_exists'){
+					$('#add-schedule-error-result').collapse('hide');
+					$('#scheduleTimeError').collapse('show');
+				} else {
+					$('#scheduleTimeError').collapse('hide'); 
+					document.getElementById("add-schedule-error-msg").innerHTML = "Error message:" + data;
+					$('#add-schedule-error-result').collapse('show');
+				}
+			});
+		}
+		return false;
+	} else {
+		return true;
+	}
+}
+
+function validateAircraft() {
+	var selectFlight = document.getElementById('schedule-flight');
+    var flight =  selectFlight.options[selectFlight.selectedIndex].value;
+	
+	var selectAircraft = document.getElementById('schedule-aircraft');
+    var aircraft =  selectAircraft.options[selectAircraft.selectedIndex].value;
+	
+	validateScheduleSeat()
+	
+	if(flight && aircraft) {
+		flight = flight.split(" ")[0];
+		aircraft = aircraft.split(" ")[0];
+		if(flight == aircraft) {
+			$('#scheduleAircraftError').collapse('hide');
+			return true;
+		} else {
+			$('#scheduleAircraftError').collapse('show');
+		}
+	}
+	return false;
+}
+
+function validateScheduleSeat() {
+	var selectAircraft = document.getElementById('schedule-aircraft');
+    var aircraft =  selectAircraft.options[selectAircraft.selectedIndex].value;
+	var seat = document.getElementById('schedule-seats').value;
+	if(aircraft && seat && !isNaN(seat)) {
+		var totalSeat = parseInt(aircraft.split(" ")[2]);
+		var seatNum = parseInt(seat);
+		if(seatNum > totalSeat) {
+			document.getElementById("scheduleSeatError").innerHTML = "This plane can only hold a maximum of " + totalSeat + " passengers.";
+			$('#scheduleSeatError').collapse('show');
+		} else {
+			$('#scheduleSeatError').collapse('hide');
+			return true;
+		}
+	} else {
+			$('#scheduleSeatError').collapse('hide');
+	}
+	return false;
+}
+
+function disableForm(hide, disable) {
+	for(i = 0; i < hide.length; i++) {
+		$(hide[i]).collapse('hide');
+	}
+	for(i = 0; i < disable.length; i++) {
+		document.getElementById(disable[i]).disabled = true;
+	}
+}
+
+function displayAddSuccessfulMessage(msg) {
+	document.getElementById("add-successful-msg").innerHTML = msg;
+	$('#add-successful-result').collapse('show');
 }

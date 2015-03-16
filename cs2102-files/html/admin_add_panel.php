@@ -72,7 +72,7 @@ if(empty($_SESSION['admin'])) {
 			<div class="form-group">
 				<label class="control-label col-xs-3">Category </label>
 				<div class="col-xs-9">
-					<select id="add-category" class = "form-control input-sm"  onchange = "addCategoryChange()">
+					<select id="add-category" class = "form-control input-sm"  onchange = "addCategoryChange()" required>
 						<option selected = "true" disabled>Select category</option>
 						<option class="select-dash" disabled="disabled">----</option>
 						<option value="administrator">Administrator</option>
@@ -98,24 +98,24 @@ if(empty($_SESSION['admin'])) {
 				<div class="form-group">
 					<label class="control-label col-xs-3">Name</label>
 					<div class="col-xs-9">		
-						<input id = "admin-name" type="text" class="form-control" placeholder="Name" required="" autofocus="">
+						<input id = "admin-name" type="text" class="form-control" placeholder="Name"  required autofocus="">
 					</div>
 				</div>			
 				<div class="form-group">
 					<label for="inputEmail" class="control-label col-xs-3">Email Address</label>
 					<div class="col-xs-9">		
-						<input id = "admin-email" type="email" id="inputEmail" class="form-control" placeholder="Email address" required="" autofocus="">
+						<input id = "admin-email" type="email" id="inputEmail" class="form-control" placeholder="Email address"  required autofocus="">
 						<p id = "adminEmailError" class = "collapse" class='text-danger' data-toggle="false">Oops! The owner of the email is already an administrator.</p>
 					</div>
 				</div>	
 				<div class="form-group">
 					<label class="control-label col-xs-3">Password</label>
 					<div class="col-xs-9">
-						<input id = "admin-pwd" class="form-control" placeholder="Password" required="" autofocus="">
+						<input id = "admin-pwd" class="form-control" placeholder="Password"  required autofocus="">
 					</div>
 				</div>
 				<div class="form-group">
-					<div class="col-xs-offset-2 col-xs-10">
+					<div id = "admin-button"  class="col-xs-offset-2 col-xs-10 collapse in" data-toggle="false">
 						<button type="submit" class="btn btn-primary" onclick = "return handleAddAdmin()">Add Administrator</button>
 					</div>
 				</div>
@@ -123,9 +123,6 @@ if(empty($_SESSION['admin'])) {
 			<div id = "add-admin-error-result" class = "collapse" data-toggle="false">
 				<p id = "add-admin-error-msg"></p>
 			</div>
-		</div>
-		<div id = "add-admin-successful-result" class = "collapse" data-toggle="false">
-			<p id = "add-admin-successful-msg"></p>
 		</div>
 		<!-- end for add new admin stuffs -->
 		
@@ -136,18 +133,18 @@ if(empty($_SESSION['admin'])) {
 				<div class="form-group">
 					<label class="control-label col-xs-3">Name</label>
 					<div class="col-xs-9">		
-						<input id = "airline-name" type="text" class="form-control" placeholder="Airline Name" required="" autofocus="">
+						<input id = "airline-name" type="text" class="form-control" placeholder="Airline Name"  required autofocus="">
 					</div>
 				</div>		
 				<div class="form-group">
 					<label class="control-label col-xs-3">Designator</label>
 					<div class="col-xs-9">		
-						<input id = "airline-designator" type="text" class="form-control" placeholder="Airline Designator" required="" autofocus="">
+						<input id = "airline-designator" type="text" class="form-control" placeholder="Airline Designator"  required autofocus="">
 						<p id = "airlineDesignatorError" class = "collapse" class='text-danger' data-toggle="false">Oops! The unique airline designator is already in the records.</p>
 					</div>
 				</div>
 				<div class="form-group">
-					<div class="col-xs-offset-2 col-xs-10">
+					<div id = "airline-button"  class="col-xs-offset-2 col-xs-10 collapse in" data-toggle="false">
 						<button type="submit" class="btn btn-primary" onclick = "return handleAddAirline()">Add Airline</button>
 					</div>
 				</div>
@@ -155,9 +152,6 @@ if(empty($_SESSION['admin'])) {
 			<div id = "add-airline-error-result" class = "collapse" data-toggle="false">
 				<p id = "add-airline-error-msg"></p>
 			</div>
-		</div>
-		<div id = "add-airline-successful-result" class = "collapse" data-toggle="false">
-			<p id = "add-airline-successful-msg"></p>
 		</div>
 		<!-- end for add new airline stuffs -->
 		
@@ -168,7 +162,7 @@ if(empty($_SESSION['admin'])) {
 				<div class="form-group">
 					<label class="control-label col-xs-3">Airline</label>
 					<div class="col-xs-9">		
-						<select  id="aircraft-designator" class = "form-control input-sm"> 
+						<select  id="aircraft-designator" class = "form-control input-sm" required> 
 						<option selected = "true" disabled>Select Airline</option>
 						<?php
 							require("config.php");
@@ -186,24 +180,24 @@ if(empty($_SESSION['admin'])) {
 				<div class="form-group">
 					<label class="control-label col-xs-3">Aircraft ID</label>
 					<div class="col-xs-9">		
-						<input id = "aircraft-id" type="text" class="form-control" placeholder="Aircraft Unique Identification" required="" autofocus="">
+						<input id = "aircraft-id" type="number" class="form-control" placeholder="Aircraft Unique Identification"  required autofocus="">
 						<p id = "aircraftIdError" class = "collapse" class='text-danger' data-toggle="false">Oops! This aircraft has already exists in the records. </p>
 					</div>
 				</div>		
 				<div class="form-group">
 					<label class="control-label col-xs-3">Model</label>
 					<div class="col-xs-9">		
-						<input id = "aircraft-model" type="text" class="form-control" placeholder="Boeing-777 etc" required="" autofocus="">
+						<input id = "aircraft-model" type="text" class="form-control" placeholder="Boeing-777 etc"  required autofocus="">
 					</div>
 				</div>	
 				<div class="form-group">
 					<label class="control-label col-xs-3">Seat Capacity</label>
 					<div class="col-xs-9">		
-						<input id = "aircraft-seatcapacity" type="text" class="form-control" placeholder="Number of Passenger Seats" required="" autofocus="">
+						<input id = "aircraft-seatcapacity" type="number" class="form-control" placeholder="Number of Passenger Seats"  required autofocus="">
 					</div>
 				</div>
 				<div class="form-group">
-					<div class="col-xs-offset-2 col-xs-10">
+					<div id = "aircraft-button"  class="col-xs-offset-2 col-xs-10 collapse in" data-toggle="false">
 						<button type="submit" class="btn btn-primary" onclick = "return handleAddAircraft()">Add Aircraft</button>
 					</div>
 				</div>
@@ -211,9 +205,6 @@ if(empty($_SESSION['admin'])) {
 			<div id = "add-aircraft-error-result" class = "collapse" data-toggle="false">
 				<p id = "add-aircraft-error-msg"></p>
 			</div>
-		</div>
-		<div id = "add-aircraft-successful-result" class = "collapse" data-toggle="false">
-			<p id = "add-aircraft-successful-msg"></p>
 		</div>
 		<!-- end for add new airline stuffs -->		
 		
@@ -224,24 +215,24 @@ if(empty($_SESSION['admin'])) {
 				<div class="form-group">
 					<label class="control-label col-xs-3">Name</label>
 					<div class="col-xs-9">		
-						<input id = "airport-name" type="text" class="form-control" placeholder="Airport Name" required="" autofocus="">
+						<input id = "airport-name" type="text" class="form-control" placeholder="Airport Name"  required autofocus="">
 					</div>
 				</div>		
 				<div class="form-group">
 					<label class="control-label col-xs-3">Location</label>
 					<div class="col-xs-9">		
-						<input id = "airport-location" type="text" class="form-control" placeholder="Airport Location" required="" autofocus="">
+						<input id = "airport-location" type="text" class="form-control" placeholder="Airport Location"  required autofocus="">
 					</div>
 				</div>	
 				<div class="form-group">
 					<label class="control-label col-xs-3">Designator</label>
 					<div class="col-xs-9">		
-						<input id = "airport-designator" type="text" class="form-control" placeholder="Airport Designator" required="" autofocus="">
+						<input id = "airport-designator" type="text" class="form-control" placeholder="Airport Designator"  required autofocus="">
 						<p id = "airportDesignatorError" class = "collapse" class='text-danger' data-toggle="false">Oops! This airport designator is already recorded. </p>
 					</div>
 				</div>
 				<div class="form-group">
-					<div class="col-xs-offset-2 col-xs-10">
+					<div id = "airport-button"  class="col-xs-offset-2 col-xs-10 collapse in" data-toggle="false">
 						<button type="submit" class="btn btn-primary" onclick = "return handleAddAirport()">Add Airport</button>
 					</div>
 				</div>
@@ -249,9 +240,6 @@ if(empty($_SESSION['admin'])) {
 			<div id = "add-airport-error-result" class = "collapse" data-toggle="false">
 				<p id = "add-airport-error-msg"></p>
 			</div>
-		</div>
-		<div id = "add-airport-successful-result" class = "collapse" data-toggle="false">
-			<p id = "add-airport-successful-msg"></p>
 		</div>
 		<!-- end for add new airport stuffs -->			
 		
@@ -262,7 +250,7 @@ if(empty($_SESSION['admin'])) {
 				<div class="form-group">
 					<label class="control-label col-xs-3">Designator</label>
 					<div class="col-xs-9">		
-						<select  id="flight-designator" class = "form-control input-sm"> 
+						<select  id="flight-designator" class = "form-control input-sm" required> 
 						<option selected = "true" disabled>Select Airline (Designator)</option>
 						<?php
 							require("config.php");
@@ -280,14 +268,14 @@ if(empty($_SESSION['admin'])) {
 				<div class="form-group">
 					<label class="control-label col-xs-3">Number</label>
 					<div class="col-xs-9">		
-						<input id = "flight-number" type="text" class="form-control" placeholder="Flight Number" required="" autofocus="">
+						<input id = "flight-number" type="number" class="form-control" placeholder="Flight Number"  required autofocus="">
 						<p id = "flightDesignatorError" class = "collapse" class='text-danger' data-toggle="false">Oops! This flight is already recorded. </p>
 					</div>
 				</div>		
 				<div class="form-group">
 					<label class="control-label col-xs-3">Origin</label>
 					<div class="col-xs-9">		
-						<select  id="flight-origin" class = "form-control input-sm"> 
+						<select  id="flight-origin" class = "form-control input-sm"  onchange = "validateFlightRoute()" required> 
 						<option selected = "true" disabled>Select Airport</option>
 						<?php
 							require("config.php");
@@ -305,7 +293,7 @@ if(empty($_SESSION['admin'])) {
 				<div class="form-group">
 					<label class="control-label col-xs-3">Destination</label>
 					<div class="col-xs-9">		
-						<select  id="flight-destination" class = "form-control input-sm"> 
+						<select  id="flight-destination" class = "form-control input-sm"  onchange = "validateFlightRoute()" required> 
 						<option selected = "true" disabled>Select Airport</option>
 						<?php
 							require("config.php");
@@ -318,16 +306,17 @@ if(empty($_SESSION['admin'])) {
 							oci_free_statement($stid);
 						?>
 						</select>
+						<p id = "flightRouteError" class = "collapse" class='text-danger' data-toggle="false">Please do not select same origin and destination.</p>
 					</div>
 				</div>
 				<div class="form-group">
 					<label class="control-label col-xs-3">Duration</label>
 					<div class="col-xs-9">		
-						<input id = "flight-duration" type="text" class="form-control" placeholder="4.5 Hours etc" required="" autofocus="">
+						<input id = "flight-duration" type="text" class="form-control" placeholder="4.5 Hours etc"  required autofocus="">
 					</div>
 				</div>				
 				<div class="form-group">
-					<div class="col-xs-offset-2 col-xs-10">
+					<div id = "flight-button"  class="col-xs-offset-2 col-xs-10 collapse in" data-toggle="false">
 						<button type="submit" class="btn btn-primary" onclick = "return handleAddFlight()">Add Flight</button>
 					</div>
 				</div>
@@ -335,9 +324,6 @@ if(empty($_SESSION['admin'])) {
 			<div id = "add-flight-error-result" class = "collapse" data-toggle="false">
 				<p id = "add-flight-error-msg"></p>
 			</div>
-		</div>
-		<div id = "add-flight-successful-result" class = "collapse" data-toggle="false">
-			<p id = "add-flight-successful-msg"></p>
 		</div>
 		<!-- end for add new flight stuffs -->		
 		
@@ -348,15 +334,15 @@ if(empty($_SESSION['admin'])) {
 				<div class="form-group">
 					<label class="control-label col-xs-3">Flight</label>
 					<div class="col-xs-9">		
-						<select  id="schedule-flight" class = "form-control input-sm"> 
-						<option selected = "true" disabled>Select Flight</option>
+						<select  id="schedule-flight" class = "form-control input-sm" onchange = "validateAircraft()"  required > 
+						<option selected = "true" value ="" disabled>Select Flight</option>
 						<?php
 							require("config.php");
-							$sql = "SELECT f.f_number, f.designator FROM flight f";
+							$sql = "SELECT f.f_number, f.designator, f.origin, f.destination FROM flight f";
 							$stid = oci_parse($dbh, $sql);
 							oci_execute($stid, OCI_DEFAULT);
 							while($row = oci_fetch_array($stid)){
-								echo "<option value=\"".$row["DESIGNATOR"]." ".$row["F_NUMBER"]."\">".$row["DESIGNATOR"].$row["F_NUMBER"]."</option><br>";
+								echo "<option value=\"".$row["DESIGNATOR"]." ".$row["F_NUMBER"]."\">".$row["DESIGNATOR"].$row["F_NUMBER"]." (".$row["ORIGIN"]." to ".$row["DESTINATION"].")</option><br>";
 							}
 							oci_free_statement($stid);
 						?>
@@ -366,47 +352,50 @@ if(empty($_SESSION['admin'])) {
 				<div class="form-group">
 					<label class="control-label col-xs-3">Aircraft</label>
 					<div class="col-xs-9">		
-						<select  id="schedule-aircraft" class = "form-control input-sm"> 
-						<option selected = "true" disabled>Select Aircraft</option>
+						<select  id="schedule-aircraft" class = "form-control input-sm" onchange = "validateAircraft()"  required > 
+						<option selected = "true" value ="" disabled>Select Aircraft</option>
 						<?php
 							require("config.php");
-							$sql = "SELECT p.aircraft_no, p.designator FROM plane p";
+							$sql = "SELECT p.aircraft_no, p.designator, p.seat_capacity FROM plane p";
 							$stid = oci_parse($dbh, $sql);
 							oci_execute($stid, OCI_DEFAULT);
 							while($row = oci_fetch_array($stid)){
-								echo "<option value=\"".$row["DESIGNATOR"]." ".$row["AIRCRAFT_NO"]."\">".$row["DESIGNATOR"].$row["AIRCRAFT_NO"]."</option><br>";
+								echo "<option value=\"".$row["DESIGNATOR"]." ".$row["AIRCRAFT_NO"]." ".$row["SEAT_CAPACITY"]."\">".$row["DESIGNATOR"].$row["AIRCRAFT_NO"]."</option><br>";
 							}
 							oci_free_statement($stid);
 						?>
 						</select>
+						<p id = "scheduleAircraftError" class = "collapse" class='text-danger' data-toggle="false">Please ensure that aircraft designator matches with the flight designator.</p>
 					</div>
 				</div>	
 				<div class="form-group">
 					<label class="control-label col-xs-3">Seat Availability</label>
 					<div class="col-xs-9">		
-						<input id = "schedule-seats" type="text" class="form-control" placeholder="Number of Seats Available" required="" autofocus="">
+						<input id = "schedule-seats" type="number" class="form-control" placeholder="Number of Seats Available"  required autofocus="" onfocusout="validateScheduleSeat()">
+						<p id = "scheduleSeatError" class = "collapse" class='text-danger' data-toggle="false"></p>
 					</div>
 				</div>	
 				<div class="form-group">
 					<label class="control-label col-xs-3">Departure Time</label>
 					<div class="col-xs-9">		
-						<input id = "schedule-departure" type="text" class="form-control" placeholder="Departure Time" required="" autofocus="">
+						<input id = "schedule-departure" type="datetime-local" value = "<?php date_default_timezone_set('Asia/Singapore'); $today_date = date('Y-m-d'); echo strftime('%Y-%m-%dT%H:%M:%S', strtotime($today_date)) ?>" class="form-control" placeholder="Departure Time"  required autofocus="">
+						<p id = "scheduleTimeError" class = "collapse" class='text-danger' data-toggle="false">Oops! This flight has already been scheduled for this departure time!</p>
 					</div>
 				</div>		
 				<div class="form-group">
 					<label class="control-label col-xs-3">Arrival Time</label>
 					<div class="col-xs-9">		
-						<input id = "schedule-arrival" type="text" class="form-control" placeholder="Arrival Time" required="" autofocus="">
+						<input id = "schedule-arrival" type="datetime-local" value = "<?php date_default_timezone_set('Asia/Singapore'); $today_date = date('Y-m-d'); echo strftime('%Y-%m-%dT%H:%M:%S', strtotime($today_date)) ?>" class="form-control" placeholder="Arrival Time"  required autofocus="">
 					</div>
 				</div>				
 				<div class="form-group">
 					<label class="control-label col-xs-3">Price</label>
 					<div class="col-xs-9">		
-						<input id = "schedule-price" type="text" class="form-control" placeholder="Air Ticket Price" required="" autofocus="">
+						<input id = "schedule-price" type="number" class="form-control" placeholder="Air Ticket Price"  required autofocus="">
 					</div>
 				</div>			
 				<div class="form-group">
-					<div class="col-xs-offset-2 col-xs-10">
+					<div id = "schedule-button"  class="col-xs-offset-2 col-xs-10 collapse in" data-toggle="false">
 						<button type="submit" class="btn btn-primary" onclick = "return handleAddSchedule()">Add Schedule</button>
 					</div>
 				</div>
@@ -415,12 +404,12 @@ if(empty($_SESSION['admin'])) {
 				<p id = "add-schedule-error-msg"></p>
 			</div>
 		</div>
-		<div id = "add-schedule-successful-result" class = "collapse" data-toggle="false">
-			<p id = "add-schedule-successful-msg"></p>
-		</div>
-		<!-- end for add new schedule stuffs -->				
-		
-    </div> 
+		<!-- end for add new schedule stuffs -->			
+		<div id = "add-successful-result" class = "collapse" data-toggle="false">
+			<p id = "add-successful-msg"></p>
+			<a href = "admin_add_panel.php"><button class="btn btn-primary">Add another record</button></a>
+		</div>		
+    </div>
 	<!-- /container -->
 
 
