@@ -197,40 +197,16 @@ function deleteCategoryChange() {
 	document.getElementById("delete-options").innerHTML = "";
 	disableForm(['delete-success-result', 'delete-error-result'], [])
 	if(option == "administrator") {
-		loadAdminOptions();
+		loadAdminOptions("delete");
 	} /*else if(option == "airport") {
-		loadAirlineOptions();
+		loadAirlineOptions("delete");
 	}*/
 }
 
-function loadAdminOptions() {
-	$.post('admin_func_delete_admin.php', function(data) {
-		if(data) {
-			// headers in array, rows, function to call when delete button is clicked, words in the button
-			document.getElementById("delete-options").innerHTML = createTableFormHtml(["Delete","Name","Email"], data, "handleDeleteAdmin()", "Delete Administrator(s)");
-			$('#delete-options').collapse('show');
-		} else {
-			document.getElementById("delete-success-msg").innerHTML = "No entries found!";
-			$('#delete-success-result').collapse('show');		
-		}
-	});	
-}
-
-function handleDeleteAdmin() {
-	var inputElements = document.getElementsByClassName('checked-administrator');
-	var emails = "";
-	for(i = 0; i < inputElements.length; i++) {
-		if(inputElements[i].checked && inputElements[i].disabled == false){
-		   emails = emails + inputElements[i].value + " ";
-		}
-	}
-	
-	$.post('admin_func_delete_admin.php', {email:emails}, function(resultMsg) {	
-		var message = resultMsg.split(" ");
-		if(message[0] == "successful") {
-			disableForm([], message.slice(1,message.length-1));
-			document.getElementById("delete-success-msg").innerHTML = "" + (message.length - 2) + " entries deleted.";
-			$('#delete-success-result').collapse('show');
+function handleDeleteAdmin(id, emailStr) {
+	$.post('admin_func_delete_admin.php', {email:emailStr}, function(data) {	
+		if(data == "successful") {
+			disableForm([id],[]);
 		} else {
 			document.getElementById("delete-error-msg").innerHTML = "Error message:" + resultMsg;
 			$('#delete-error-result').collapse('show');
@@ -258,13 +234,32 @@ function loadAdminEditOptions() {
 	$.post('admin_func_retrieve_admin.php', {edit:"edit"}, function(data) {
 		if(data) {
 			// headers in array, rows, function to call when delete button is clicked, words in the button
-			document.getElementById("edit-options").innerHTML = createTableFormHtml(["Name","Email"], data, "handleEditAdmin()", "Edit Administrator(s)");
+			document.getElementById("edit-options").innerHTML = createTableFormHtml(["Name","Email"], data, "", "");
 			$('#edit-options').collapse('show');
 		} else {
 			//document.getElementById("delete-success-msg").innerHTML = "No entries found!";
 			//$('#delete-success-result').collapse('show');		
 		}
 	});	
+}
+
+/**************************************
+* functions used by DELETE and EDIT
+***************************************/
+
+function loadAdminOptions(choice) {
+	var editStr = choice;
+	if(choice == "delete") editStr = "";
+	$.post('admin_func_retrieve_admin.php',{edit:editStr}, function(data) {
+		if(data) {
+			// headers in array, rows, function to call when delete/edit button is clicked, words in the button
+			document.getElementById(choice + '-options').innerHTML = createTableFormHtml(["Name","Email"], data, "", "");
+			$('#' + choice + '-options').collapse('show');
+		} else {
+			document.getElementById('#' + choice + '-success-msg').innerHTML = "No entries found!";
+			$('#' + choice + '-success-result').collapse('show');		
+		}
+	});		
 }
 
 /********************************

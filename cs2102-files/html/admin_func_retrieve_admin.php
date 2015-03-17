@@ -11,7 +11,7 @@
 	$index = 0;
 	if(empty($edit)) {
 		while($row = oci_fetch_array($stid)) {
-			$output = $output." <tr id = \"".$index."\" class = \"collapse in\" data-toggle = \"false\"><td>".$row['NAME']."</td><td>".$row['EMAIL']."</td><td><span class=\"glyphicon glyphicon-remove \" value=\"".$row['EMAIL']."\" onclick = \"return handleDeleteAdmin('".$index."')\"></span></td></tr>";
+			$output = $output." <tr id = \"".$index."\" class = \"collapse in\" data-toggle = \"false\"><td>".$row['NAME']."</td><td>".$row['EMAIL']."</td><td><span class=\"glyphicon glyphicon-remove \" onclick = \"return handleDeleteAdmin('".$index."','".$row['EMAIL']."')\"></span></td></tr>";
 			$index++;
 		}
 	} else {
