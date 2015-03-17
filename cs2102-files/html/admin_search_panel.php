@@ -22,6 +22,7 @@ if(empty($_SESSION['admin'])) {
 
     <!-- Custom styles for this template -->
     <link href="admin.css" rel="stylesheet">
+	<script src="admin.js"></script>
 
     <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
     <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
@@ -66,11 +67,91 @@ if(empty($_SESSION['admin'])) {
 
       <!-- Main component for a primary marketing message or call to action -->
       <div class="jumbotron">
-        <h1>Search - alot of things to do here</h1>
-        <p>Insert hell lot of options here</p>
-        <p>
-          <a class="btn btn-lg btn-primary" href="../../components/#navbar" role="button">View navbar docs &raquo;</a>
-        </p>
+        <!-- drop down bar for selecting category-->
+		<form name = "admin_search_panel_form" class="form-horizontal collapse in" id = "category-form" data-toggle="false">
+			<div class="form-group">
+				<label class="control-label col-xs-3">Category </label>
+				<div class="col-xs-9">
+					<select id="search-category" class = "form-control input-sm"  onchange = "searchCategoryChange()" required>
+						<option selected = "true" disabled>Select category</option>
+						<option class="select-dash" disabled="disabled">----</option>
+						<option value="administrator">Administrator</option>
+						<option class="select-dash" disabled="disabled">----</option>
+						<option value="member">Member</option>
+						<option value="reservation">Reservation</option>
+						<option class="select-dash" disabled="disabled">----</option>
+						<option value="airport">Airport</option>
+						<option value="flight">Flight</option>
+						<option value="schedule">Flight Schedule</option>
+					</select>
+				</div>
+			</div>
+		</form>
+		
+		<!-- div box for adminstrator search fields -->
+		<div id = "administrator" class = "collapse" data-toggle="false">
+			<form id = "search-admin-form" class="form-horizontal"> 
+				<div class="form-group">
+					<label class="control-label col-xs-3">Name</label>
+					<div class="col-xs-9">		
+						<input id = "admin-name" type="text" class="form-control" placeholder="Name"  autofocus="">
+					</div>
+				</div>			
+				<div class="form-group">
+					<label for="inputEmail" class="control-label col-xs-3">Email Address</label>
+					<div class="col-xs-9">		
+						<input id = "admin-email" type="email" id="inputEmail" class="form-control" placeholder="Email address"  autofocus="">
+					</div>
+				</div>	
+				<div class="form-group">
+					<label class="control-label col-xs-3">Password</label>
+					<div class="col-xs-9">
+						<input id = "admin-pwd" class="form-control" placeholder="Password"  autofocus="">
+					</div>
+				</div>
+				<div class="form-group">
+					<div id = "admin-button"  class="col-xs-offset-2 col-xs-10 collapse in" data-toggle="false">
+						<button type="submit" class="btn btn-primary" onclick = "return handleSearchAdmin()">Search Administrator</button>
+					</div>
+				</div>
+			</form>
+		</div>
+		<!-- end for adminstrator-->
+		
+		
+		<!-- div box for airport search fields -->
+		<div id = "airport" class = "collapse" data-toggle="false">
+			<form id = "search-airport-form" class="form-horizontal"> 				
+				<div class="form-group">
+					<label class="control-label col-xs-3">Name</label>
+					<div class="col-xs-9">		
+						<input id = "airport-name" type="text" class="form-control" placeholder="Airport Name"  autofocus="">
+					</div>
+				</div>		
+				<div class="form-group">
+					<label class="control-label col-xs-3">Location</label>
+					<div class="col-xs-9">		
+						<input id = "airport-location" type="text" class="form-control" placeholder="Airport Location"  autofocus="">
+					</div>
+				</div>	
+				<div class="form-group">
+					<label class="control-label col-xs-3">Designator</label>
+					<div class="col-xs-9">		
+						<input id = "airport-designator" type="text" class="form-control" placeholder="Airport Designator"  autofocus="">
+					</div>
+				</div>
+				<div class="form-group">
+					<div id = "airport-button"  class="col-xs-offset-2 col-xs-10 collapse in" data-toggle="false">
+						<button type="submit" class="btn btn-primary" onclick = "return handleSearchAirport()">Search Airport</button>
+					</div>
+				</div>
+			</form>
+		</div>
+		<!-- end for airport -->			
+
+		<!-- search results div box -->
+		<div id = "search-results" class = "collapse" data-toggle="false">
+		</div>
       </div>
 
     </div> <!-- /container -->

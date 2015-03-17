@@ -260,7 +260,7 @@ function loadAdminOptions() {
 	$.post('admin_deleteAdmin.php', function(data) {
 		if(data) {
 			// headers in array, rows, function to call when delete button is clicked, words in the button
-			document.getElementById("delete-options").innerHTML = createTableFormHtml(["Delete","Name","Email"], data, "deleteAdmin()", "Delete Administrator(s)");
+			document.getElementById("delete-options").innerHTML = createTableFormHtml(["Delete","Name","Email"], data, "handleDeleteAdmin()", "Delete Administrator(s)");
 			$('#delete-options').collapse('show');
 		} else {
 			document.getElementById("delete-success-msg").innerHTML = "No entries found!";
@@ -269,7 +269,7 @@ function loadAdminOptions() {
 	});	
 }
 
-function deleteAdmin() {
+function handleDeleteAdmin() {
 	var inputElements = document.getElementsByClassName('checked-administrator');
 	var emails = "";
 	for(i = 0; i < inputElements.length; i++) {
@@ -290,6 +290,56 @@ function deleteAdmin() {
 		}
 	});	
 	return false;
+}
+
+/********************************
+* functions related to SEARCH
+*********************************/
+function searchCategoryChange() {
+	var selectBar = document.getElementById('search-category');
+    var option =  selectBar.options[selectBar.selectedIndex].value;
+	var options = ["administrator", "member", "reservation", "airport", "flight", "schedule"];
+	$("#search-results").collapse('hide');
+	for(i = 0; i < options.length; i++) {
+		if(option == options[i]) {
+			$('#' + options[i]).collapse('show');	
+		} else {
+			$('#' + options[i]).collapse('hide');
+		}
+	}
+}
+
+function handleSearchAdmin() {
+	var emailStr = String(document.getElementById('admin-email').value);
+	var nameStr = String(document.getElementById('admin-name').value);
+	var pwdStr = String(document.getElementById('admin-pwd').value);
+	
+	$.post('admin_searchAdmin.php', {email:emailStr, name:nameStr, pwd:pwdStr}, function(data) {
+		if(data) {
+			var message = data.split(" ");
+			if(message[0] != "Error") {
+				document.getElementById("search-results").innerHTML = createTableFormHtml(["test", "Name", "Email"], data, "", "");
+				$("#search-results").collapse('show');
+			} else {
+				// error
+				handleSearchError();
+			}
+		} else {
+			handleEmptySearchResults();			
+		}
+	});
+	return false;
+	
+}
+
+function handleEmptySearchResults() {
+	document.getElementById("search-results").innerHTML = "<p>No records found.</p>";
+	$("#search-results").collapse('show');
+}
+
+function handleSearchError() {
+	document.getElementById("search-results").innerHTML = "Sorry, there was an error in searching!";
+	$("#search-results").collapse('show');
 }
 
 /********************************
@@ -314,7 +364,11 @@ function createTableFormHtml(headers, rows, onclickFunction, buttonContent) {
 	}	
 	
 	output = output + "</thead><tbody>" + rows + "</tbody></table>";
-	output = output + "<button type=\"submit\" class=\"btn btn-primary\" onclick = \"return " + onclickFunction + "\">" + buttonContent + "</button>";
+	
+	if(buttonContent && onclickFunction) {
+		output = output + "<button type=\"submit\" class=\"btn btn-primary\" onclick = \"return " + onclickFunction + "\">" + buttonContent + "</button>";
+	}
+	
 	output = output + "</form>";
 	
 	return output;
