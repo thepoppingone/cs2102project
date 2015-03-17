@@ -80,10 +80,7 @@ if(empty($_SESSION['admin'])) {
 						<option value="member">Member</option>
 						<option value="reservation">Reservation</option>
 						<option class="select-dash" disabled="disabled">----</option>
-						<option value="airline">Airline</option>
-						<option value="aircraft">Aircraft</option>
 						<option value="airport">Airport</option>
-						<option class="select-dash" disabled="disabled">----</option>
 						<option value="flight">Flight</option>
 						<option value="schedule">Flight Schedule</option>
 					</select>

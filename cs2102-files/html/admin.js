@@ -1,4 +1,6 @@
-// functions related to ADD
+/********************************
+* functions related to ADD
+*********************************/
 
 function addCategoryChange() {
 	var selectBar = document.getElementById('add-category');
@@ -237,7 +239,10 @@ function displayAddSuccessfulMessage(msg) {
 	$('#add-successful-result').collapse('show');
 }
 
-// functions related to DELETE
+/********************************
+* functions related to DELETE
+*********************************/
+
 function deleteCategoryChange() {
 	var selectBar = document.getElementById('delete-category');
     var option =  selectBar.options[selectBar.selectedIndex].value;
@@ -246,23 +251,16 @@ function deleteCategoryChange() {
 	disableForm(['delete-success-result', 'delete-error-result'], [])
 	if(option == "administrator") {
 		loadAdminOptions();
-	} else if(option == "airline") {
+	} /*else if(option == "airport") {
 		loadAirlineOptions();
-	} else if(option == "aircraft") {
-		loadAircraftOptions();
-	}
+	}*/
 }
 
 function loadAdminOptions() {
 	$.post('admin_deleteAdmin.php', function(data) {
 		if(data) {
-			document.getElementById("delete-options").innerHTML = 
-				"<form><table id=\"resultTable\" class=\"table table-striped table-hover\">" + 
-				"<thead><th>Delete</th><th>Name</th><th>Email</th></thead>" + 
-				"<tbody>" + data + "</tbody>" + 
-				"</table>" + 
-				"<button type=\"submit\" class=\"btn btn-primary\" onclick = \"return deleteAdmin()\">Delete Administrator(s)</button>" + 
-				"</form>";
+			// headers in array, rows, function to call when delete button is clicked, words in the button
+			document.getElementById("delete-options").innerHTML = createTableFormHtml(["Delete","Name","Email"], data, "deleteAdmin()", "Delete Administrator(s)");
 			$('#delete-options').collapse('show');
 		} else {
 			document.getElementById("delete-success-msg").innerHTML = "No entries found!";
@@ -294,89 +292,10 @@ function deleteAdmin() {
 	return false;
 }
 
-function loadAirlineOptions() {
-	$.post('admin_deleteAirline.php', function(data) {
-		if(data) {
-			document.getElementById("delete-options").innerHTML = 
-				"<form><table id=\"resultTable\" class=\"table table-striped table-hover\">" + 
-				"<thead><th>Delete</th><th>Name</th><th>Designator</th></thead>" + 
-				"<tbody>" + data + "</tbody>" + 
-				"</table>" + 
-				"<button type=\"submit\" class=\"btn btn-primary\" onclick = \"return deleteAirline()\">Delete Airline(s)</button>" + 
-				"</form>";
-			$('#delete-options').collapse('show');
-		} else {
-			document.getElementById("delete-success-msg").innerHTML = "No entries found!";
-			$('#delete-success-result').collapse('show');		
-		}
-	});	
-}
+/********************************
+* helper functions
+*********************************/
 
-function deleteAirline() {
-	var inputElements = document.getElementsByClassName('checked-airline');
-	var designators = "";
-	for(i = 0; i < inputElements.length; i++) {
-		if(inputElements[i].checked && inputElements[i].disabled == false){
-		   designators = designators + inputElements[i].value + " ";
-		}
-	}
-	
-	$.post('admin_deleteAirline.php', {designator:designators}, function(resultMsg) {	
-		var message = resultMsg.split(" ");
-		if(message[0] == "successful") {
-			disableForm([], message.slice(1,message.length-1));
-			document.getElementById("delete-success-msg").innerHTML = "" + (message.length - 2) + " entries deleted.";
-			$('#delete-success-result').collapse('show');
-		} else {
-			document.getElementById("delete-error-msg").innerHTML = "Error message:" + resultMsg;
-			$('#delete-error-result').collapse('show');
-		}
-	});	
-	return false;
-}
-
-function loadAircraftOptions() {
-	$.post('admin_deleteAircraft.php', function(data) {
-		if(data) {
-			document.getElementById("delete-options").innerHTML = 
-				"<form><table id=\"resultTable\" class=\"table table-striped table-hover\">" + 
-				"<thead><th>Delete</th><th>Airline</th><th>Aircraft Id</th><th>Model</th><th>Seat Capacity</th></thead>" + 
-				"<tbody>" + data + "</tbody>" + 
-				"</table>" + 
-				"<button type=\"submit\" class=\"btn btn-primary\" onclick = \"return deleteAircraft()\">Delete Aircraft(s)</button>" + 
-				"</form>";
-			$('#delete-options').collapse('show');
-		} else {
-			document.getElementById("delete-success-msg").innerHTML = "No entries found!";
-			$('#delete-success-result').collapse('show');		
-		}
-	});	
-}
-
-function deleteAircraft() {
-	var inputElements = document.getElementsByClassName('checked-aircraft');
-	var aircraftIds = "";
-	for(i = 0; i < inputElements.length; i++) {
-		if(inputElements[i].checked && inputElements[i].disabled == false){
-		   aircraftIds = aircraftIds + inputElements[i].value + " ";
-		}
-	}
-	
-	$.post('admin_deleteAircraft.php', {aircraftId:aircraftIds}, function(resultMsg) {	
-		var message = resultMsg.split(" ");
-		if(message[0] == "successful") {
-			disableForm([], message.slice(1,message.length-1));
-			document.getElementById("delete-success-msg").innerHTML = "" + (message.length - 2) + " entries deleted.";
-			$('#delete-success-result').collapse('show');
-		} else {
-			document.getElementById("delete-error-msg").innerHTML = "Error message:" + resultMsg;
-			$('#delete-error-result').collapse('show');
-		}
-	});	
-	return false;
-}
-
-// other helper functions
 function disableForm(hideId, disableId) {
 	for(i = 0; i < hideId.length; i++) {
 		$("#" + hideId[i]).collapse('hide');
@@ -384,4 +303,20 @@ function disableForm(hideId, disableId) {
 	for(i = 0; i < disableId.length; i++) {
 		document.getElementById(disableId[i]).disabled = true;
 	}
+}
+
+function createTableFormHtml(headers, rows, onclickFunction, buttonContent) {
+
+	var output =  "<form><table id=\"resultTable\" class=\"table table-striped table-hover\"><thead>";
+	
+	for(i = 0; i < headers.length; i++) {
+		output = output + "<th>" + headers[i] + "</th>";
+	}	
+	
+	output = output + "</thead><tbody>" + rows + "</tbody></table>";
+	output = output + "<button type=\"submit\" class=\"btn btn-primary\" onclick = \"return " + onclickFunction + "\">" + buttonContent + "</button>";
+	output = output + "</form>";
+	
+	return output;
+	
 }
