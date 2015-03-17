@@ -80,10 +80,7 @@ if(empty($_SESSION['admin'])) {
 						<option value="member">Member</option>
 						<option value="reservation">Reservation</option>
 						<option class="select-dash" disabled="disabled">----</option>
-						<option value="airline">Airline</option>
-						<option value="aircraft">Aircraft</option>
 						<option value="airport">Airport</option>
-						<option class="select-dash" disabled="disabled">----</option>
 						<option value="flight">Flight</option>
 						<option value="schedule">Flight Schedule</option>
 					</select>
@@ -126,87 +123,6 @@ if(empty($_SESSION['admin'])) {
 		</div>
 		<!-- end for add new admin stuffs -->
 		
-		<!-- add new airline stuffs -->
-		<!-- div box for airline -->
-		<div id = "airline" class = "collapse" data-toggle="false">
-			<form id = "add-airline-form" class="form-horizontal"> 
-				<div class="form-group">
-					<label class="control-label col-xs-3">Name</label>
-					<div class="col-xs-9">		
-						<input id = "airline-name" type="text" class="form-control" placeholder="Airline Name"  required autofocus="">
-					</div>
-				</div>		
-				<div class="form-group">
-					<label class="control-label col-xs-3">Designator</label>
-					<div class="col-xs-9">		
-						<input id = "airline-designator" type="text" class="form-control" placeholder="Airline Designator"  required autofocus="">
-						<p id = "airlineDesignatorError" class = "collapse" class='text-danger' data-toggle="false">Oops! The unique airline designator is already in the records.</p>
-					</div>
-				</div>
-				<div class="form-group">
-					<div id = "airline-button"  class="col-xs-offset-2 col-xs-10 collapse in" data-toggle="false">
-						<button type="submit" class="btn btn-primary" onclick = "return handleAddAirline()">Add Airline</button>
-					</div>
-				</div>
-			</form>
-			<div id = "add-airline-error-result" class = "collapse" data-toggle="false">
-				<p id = "add-airline-error-msg"></p>
-			</div>
-		</div>
-		<!-- end for add new airline stuffs -->
-		
-		<!-- add new aircraft stuffs -->
-		<!-- div box for aircraft -->
-		<div id = "aircraft" class = "collapse" data-toggle="false">
-			<form id = "add-aircraft-form" class="form-horizontal"> 
-				<div class="form-group">
-					<label class="control-label col-xs-3">Airline</label>
-					<div class="col-xs-9">		
-						<select  id="aircraft-designator" class = "form-control input-sm" required> 
-						<option selected = "true" disabled>Select Airline</option>
-						<?php
-							require("config.php");
-							$sql = "SELECT a.name, a.designator FROM airline a";
-							$stid = oci_parse($dbh, $sql);
-							oci_execute($stid, OCI_DEFAULT);
-							while($row = oci_fetch_array($stid)){
-								echo "<option value=\"".$row["DESIGNATOR"]."\">".$row["NAME"]." (".$row["DESIGNATOR"].")</option><br>";
-							}
-							oci_free_statement($stid);
-						?>
-						</select>
-					</div>
-				</div>				
-				<div class="form-group">
-					<label class="control-label col-xs-3">Aircraft ID</label>
-					<div class="col-xs-9">		
-						<input id = "aircraft-id" type="number" class="form-control" placeholder="Aircraft Unique Identification"  required autofocus="">
-						<p id = "aircraftIdError" class = "collapse" class='text-danger' data-toggle="false">Oops! This aircraft has already exists in the records. </p>
-					</div>
-				</div>		
-				<div class="form-group">
-					<label class="control-label col-xs-3">Model</label>
-					<div class="col-xs-9">		
-						<input id = "aircraft-model" type="text" class="form-control" placeholder="Boeing-777 etc"  required autofocus="">
-					</div>
-				</div>	
-				<div class="form-group">
-					<label class="control-label col-xs-3">Seat Capacity</label>
-					<div class="col-xs-9">		
-						<input id = "aircraft-seatcapacity" type="number" class="form-control" placeholder="Number of Passenger Seats"  required autofocus="">
-					</div>
-				</div>
-				<div class="form-group">
-					<div id = "aircraft-button"  class="col-xs-offset-2 col-xs-10 collapse in" data-toggle="false">
-						<button type="submit" class="btn btn-primary" onclick = "return handleAddAircraft()">Add Aircraft</button>
-					</div>
-				</div>
-			</form>
-			<div id = "add-aircraft-error-result" class = "collapse" data-toggle="false">
-				<p id = "add-aircraft-error-msg"></p>
-			</div>
-		</div>
-		<!-- end for add new airline stuffs -->		
 		
 		<!-- add new airport stuffs -->
 		<!-- div box for airport -->
@@ -250,19 +166,7 @@ if(empty($_SESSION['admin'])) {
 				<div class="form-group">
 					<label class="control-label col-xs-3">Designator</label>
 					<div class="col-xs-9">		
-						<select  id="flight-designator" class = "form-control input-sm" required> 
-						<option selected = "true" disabled>Select Airline (Designator)</option>
-						<?php
-							require("config.php");
-							$sql = "SELECT a.name, a.designator FROM airline a";
-							$stid = oci_parse($dbh, $sql);
-							oci_execute($stid, OCI_DEFAULT);
-							while($row = oci_fetch_array($stid)){
-								echo "<option value=\"".$row["DESIGNATOR"]."\">".$row["NAME"]." (".$row["DESIGNATOR"].")</option><br>";
-							}
-							oci_free_statement($stid);
-						?>
-						</select>
+						<input id="flight-designator" type = "text" class = "form-control" placeholder = "Designator" required autofocus=""> 
 					</div>
 				</div>				
 				<div class="form-group">
@@ -314,7 +218,13 @@ if(empty($_SESSION['admin'])) {
 					<div class="col-xs-9">		
 						<input id = "flight-duration" type="text" class="form-control" placeholder="4.5 Hours etc"  required autofocus="">
 					</div>
-				</div>				
+				</div>		
+				<div class="form-group">
+					<label class="control-label col-xs-3">Seat Capacity</label>
+					<div class="col-xs-9">		
+						<input id = "flight-seat" type="number" class="form-control" placeholder="Number of passenger seats"  required autofocus="">
+					</div>
+				</div>					
 				<div class="form-group">
 					<div id = "flight-button"  class="col-xs-offset-2 col-xs-10 collapse in" data-toggle="false">
 						<button type="submit" class="btn btn-primary" onclick = "return handleAddFlight()">Add Flight</button>
@@ -349,25 +259,6 @@ if(empty($_SESSION['admin'])) {
 						</select>
 					</div>
 				</div>				
-				<div class="form-group">
-					<label class="control-label col-xs-3">Aircraft</label>
-					<div class="col-xs-9">		
-						<select  id="schedule-aircraft" class = "form-control input-sm" onchange = "validateAircraft()"  required > 
-						<option selected = "true" value ="" disabled>Select Aircraft</option>
-						<?php
-							require("config.php");
-							$sql = "SELECT p.aircraft_no, p.designator, p.seat_capacity FROM plane p";
-							$stid = oci_parse($dbh, $sql);
-							oci_execute($stid, OCI_DEFAULT);
-							while($row = oci_fetch_array($stid)){
-								echo "<option value=\"".$row["DESIGNATOR"]." ".$row["AIRCRAFT_NO"]." ".$row["SEAT_CAPACITY"]."\">".$row["DESIGNATOR"].$row["AIRCRAFT_NO"]."</option><br>";
-							}
-							oci_free_statement($stid);
-						?>
-						</select>
-						<p id = "scheduleAircraftError" class = "collapse" class='text-danger' data-toggle="false">Please ensure that aircraft designator matches with the flight designator.</p>
-					</div>
-				</div>	
 				<div class="form-group">
 					<label class="control-label col-xs-3">Seat Availability</label>
 					<div class="col-xs-9">		
