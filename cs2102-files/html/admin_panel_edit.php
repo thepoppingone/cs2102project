@@ -22,6 +22,8 @@ if(empty($_SESSION['admin'])) {
 
     <!-- Custom styles for this template -->
     <link href="admin.css" rel="stylesheet">
+	<script src="admin.js"></script>
+
 
     <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
     <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
@@ -66,11 +68,28 @@ if(empty($_SESSION['admin'])) {
 
       <!-- Main component for a primary marketing message or call to action -->
       <div class="jumbotron">
-        <h1>Edit - alot of things to do here</h1>
-        <p>Insert hell lot of options here</p>
-        <p>
-          <a class="btn btn-lg btn-primary" href="../../components/#navbar" role="button">View navbar docs &raquo;</a>
-        </p>
+		<!-- drop down bar for selecting category-->
+		<form name = "admin_edit_panel_form" class="form-horizontal collapse in" id = "category-form" data-toggle="false">
+			<div class="form-group">
+				<label class="control-label col-xs-3">Category </label>
+				<div class="col-xs-9">
+					<select id="edit-category" class = "form-control input-sm"  onchange = "editCategoryChange()" required>
+						<option selected = "true" disabled>Select category</option>
+						<option class="select-dash" disabled="disabled">----</option>
+						<option value="administrator">Administrator</option>
+						<option class="select-dash" disabled="disabled">----</option>
+						<option value="member">Member</option>
+						<option value="reservation">Reservation</option>
+						<option class="select-dash" disabled="disabled">----</option>
+						<option value="airport">Airport</option>
+						<option value="flight">Flight</option>
+						<option value="schedule">Flight Schedule</option>
+					</select>
+				</div>
+			</div>
+		</form>
+	    <div id = "edit-options" class = "collapse" data-toggle="false">
+	    </div>	  
       </div>
 
     </div> <!-- /container -->

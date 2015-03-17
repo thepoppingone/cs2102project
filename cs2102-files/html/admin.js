@@ -240,8 +240,37 @@ function handleDeleteAdmin() {
 }
 
 /********************************
+* functions related to EDIT
+*********************************/
+
+function editCategoryChange() {
+	var selectBar = document.getElementById('edit-category');
+    var option =  selectBar.options[selectBar.selectedIndex].value;
+	document.getElementById("edit-options").innerHTML = "";
+	if(option == "administrator") {
+		loadAdminEditOptions();
+	} /*else if(option == "airport") {
+		loadAirlineOptions();
+	}*/
+}
+
+function loadAdminEditOptions() {
+	$.post('admin_func_retrieve_admin.php', {edit:"edit"}, function(data) {
+		if(data) {
+			// headers in array, rows, function to call when delete button is clicked, words in the button
+			document.getElementById("edit-options").innerHTML = createTableFormHtml(["Name","Email"], data, "handleEditAdmin()", "Edit Administrator(s)");
+			$('#edit-options').collapse('show');
+		} else {
+			//document.getElementById("delete-success-msg").innerHTML = "No entries found!";
+			//$('#delete-success-result').collapse('show');		
+		}
+	});	
+}
+
+/********************************
 * functions related to SEARCH
 *********************************/
+
 function searchCategoryChange() {
 	var selectBar = document.getElementById('search-category');
     var option =  selectBar.options[selectBar.selectedIndex].value;
