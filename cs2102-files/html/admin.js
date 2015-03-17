@@ -21,7 +21,7 @@ function handleAddAdmin() {
 	var pwdStr = String(document.getElementById('admin-pwd').value);
 				
 	if(emailStr && nameStr && pwdStr) {		
-		$.post('admin_addAdmin.php', {email:emailStr, name:nameStr, pwd:pwdStr}, function(data) {
+		$.post('admin_func_add_admin.php', {email:emailStr, name:nameStr, pwd:pwdStr}, function(data) {
 			if(data == 'inserted') {
 				disableForm(['admin-button', 'add-admin-error-result', 'adminEmailError'], ['add-category', 'admin-email', 'admin-name', 'admin-pwd']);
 				displayAddSuccessfulMessage("New administrator added successfully.");
@@ -41,66 +41,13 @@ function handleAddAdmin() {
 	}
 }
 
-function handleAddAirline() {
-	var nameStr = document.getElementById('airline-name').value;
-	var designatorStr = document.getElementById('airline-designator').value;
-				
-	if(nameStr && designatorStr) {		
-		$.post('admin_addAirline.php', {name:nameStr, designator:designatorStr}, function(data) {
-			if(data == 'inserted') {
-				disableForm(['airline-button', 'add-airline-error-result', 'airlineDesignatorError'], ['add-category', 'airline-name', 'airline-designator']);
-				displayAddSuccessfulMessage("New airline added successfully.");
-			}
-			else if(data == 'airline_exists'){
-				$('#add-airline-error-result').collapse('hide');
-				$('#airlineDesignatorError').collapse('show');
-			} else {
-				$('#airlineDesignatorError').collapse('hide'); 
-				document.getElementById("add-airline-error-msg").innerHTML = "Error message:" + data;
-				$('#add-airline-error-result').collapse('show');
-			}
-		});
-		return false;
-	} else {
-		return true;
-	}
-}
-
-function handleAddAircraft() {
-	var selectBar = document.getElementById('aircraft-designator');
-	var designatorStr = selectBar.options[selectBar.selectedIndex].value;
-	var aircraftIdStr = document.getElementById('aircraft-id').value;
-	var modelStr = document.getElementById('aircraft-model').value;
-	var seatCapacityStr = document.getElementById('aircraft-seatcapacity').value;
-				
-	if(designatorStr && aircraftIdStr && modelStr && seatCapacityStr) {		
-		$.post('admin_addAircraft.php', {id: aircraftIdStr, model: modelStr, seatCapacity: seatCapacityStr, designator:designatorStr}, function(data) {
-			if(data == 'inserted') {
-				disableForm(['aircraft-button', 'add-aircraft-error-result', 'aircraftIdError'], ['add-category', 'aircraft-designator', 'aircraft-id', 'aircraft-model', 'aircraft-seatcapacity']);
-				displayAddSuccessfulMessage("New aircraft added successfully.");
-			}
-			else if(data == 'aircraft_exists'){
-				$('#add-aircraft-error-result').collapse('hide');
-				$('#aircraftIdError').collapse('show');
-			} else {
-				$('#aircraftIdError').collapse('hide'); 
-				document.getElementById("add-aircraft-error-msg").innerHTML = "Error message:" + data;
-				$('#add-aircraft-error-result').collapse('show');
-			}
-		});
-		return false;
-	} else {
-		return true;
-	}
-}
-
 function handleAddAirport() {
 	var nameStr = document.getElementById('airport-name').value;
 	var locationStr = document.getElementById('airport-location').value;
 	var designatorStr = document.getElementById('airport-designator').value;
 				
 	if(nameStr && locationStr && designatorStr) {		
-		$.post('admin_addAirport.php', {name:nameStr, location:locationStr, designator:designatorStr}, function(data) {
+		$.post('admin_func_add_airport.php', {name:nameStr, location:locationStr, designator:designatorStr}, function(data) {
 			if(data == 'inserted') {
 				disableForm(['airport-button', 'add-airport-error-result', 'airportDesignatorError'], ['add-category', 'airport-name', 'airport-designator', 'airport-designator']);
 				displayAddSuccessfulMessage("New airport added successfully.");
@@ -133,7 +80,7 @@ function handleAddFlight() {
 				
 	if(designatorStr && numberStr && originStr && destinationStr && durationStr && seatStr) {		
 		if(validateFlightRoute()) {
-			$.post('admin_addFlight.php', {designator:designatorStr, number:numberStr, origin:originStr, destination:destinationStr, duration:durationStr, seat:seatStr}, function(data) {
+			$.post('admin_func_add_flight.php', {designator:designatorStr, number:numberStr, origin:originStr, destination:destinationStr, duration:durationStr, seat:seatStr}, function(data) {
 				if(data == 'inserted') {
 					disableForm(['flight-button', 'add-flight-error-result', 'flightDesignatorError'], ['add-category', 'flight-designator', 'flight-number', 'flight-origin', 'flight-destination', 'flight-duration']);
 					disableForm(['#flight-button', '#add-flight-error-result', '#flightDesignatorError'], ['add-category', 'flight-designator', 'flight-number', 'flight-origin', 'flight-destination', 'flight-duration', "flight-seat"]);
@@ -187,7 +134,7 @@ function handleAddSchedule() {
 	
 	if(designatorStr && flightNumberStr && seatStr && departureStr && arrivalStr && priceStr) {
 		if(validateScheduleSeat()) {		
-			$.post('admin_addSchedule.php', {
+			$.post('admin_func_add_schedule.php', {
 										designator:designatorStr, 
 										f_number:flightNumberStr, 
 										seatNum:seatStr, 
@@ -257,7 +204,7 @@ function deleteCategoryChange() {
 }
 
 function loadAdminOptions() {
-	$.post('admin_deleteAdmin.php', function(data) {
+	$.post('admin_func_delete_admin.php', function(data) {
 		if(data) {
 			// headers in array, rows, function to call when delete button is clicked, words in the button
 			document.getElementById("delete-options").innerHTML = createTableFormHtml(["Delete","Name","Email"], data, "handleDeleteAdmin()", "Delete Administrator(s)");
@@ -278,7 +225,7 @@ function handleDeleteAdmin() {
 		}
 	}
 	
-	$.post('admin_deleteAdmin.php', {email:emails}, function(resultMsg) {	
+	$.post('admin_func_delete_admin.php', {email:emails}, function(resultMsg) {	
 		var message = resultMsg.split(" ");
 		if(message[0] == "successful") {
 			disableForm([], message.slice(1,message.length-1));
@@ -314,7 +261,7 @@ function handleSearchAdmin() {
 	var nameStr = String(document.getElementById('admin-name').value);
 	var pwdStr = String(document.getElementById('admin-pwd').value);
 	
-	$.post('admin_searchAdmin.php', {email:emailStr, name:nameStr, pwd:pwdStr}, function(data) {
+	$.post('admin_func_search_admin.php', {email:emailStr, name:nameStr, pwd:pwdStr}, function(data) {
 		if(data) {
 			var message = data.split(" ");
 			if(message[0] != "Error") {

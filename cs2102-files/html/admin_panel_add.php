@@ -54,9 +54,9 @@ if(empty($_SESSION['admin'])) {
             <ul class="nav navbar-nav">
               <li><a href="admin_panel.php"><span class="glyphicon glyphicon-home"></span> Home</a></li>
               <li class="active"><a href="#"><span class="glyphicon glyphicon-plus"></span> Add</a></li>
-              <li><a href="admin_delete_panel.php"><span class="glyphicon glyphicon-remove"></span> Delete</a></li>
-              <li><a href="admin_edit_panel.php"><span class="glyphicon glyphicon-pencil"></span>  Edit</a></li>
-              <li><a href="admin_search_panel.php"><span class="glyphicon glyphicon-search"></span> Search</a></li>
+              <li><a href="admin_panel_delete.php"><span class="glyphicon glyphicon-remove"></span> Delete</a></li>
+              <li><a href="admin_panel_edit.php"><span class="glyphicon glyphicon-pencil"></span>  Edit</a></li>
+              <li><a href="admin_panel_search.php"><span class="glyphicon glyphicon-search"></span> Search</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
               <li><a href="user_logout.php"><span class="glyphicon glyphicon-log-out"></span> Log Out</a></li>
@@ -298,7 +298,7 @@ if(empty($_SESSION['admin'])) {
 		<!-- end for add new schedule stuffs -->			
 		<div id = "add-successful-result" class = "collapse" data-toggle="false">
 			<p id = "add-successful-msg"></p>
-			<a href = "admin_add_panel.php"><button class="btn btn-primary">Add another record</button></a>
+			<a href = "admin_panel_add.php"><button class="btn btn-primary">Add another record</button></a>
 		</div>		
 	 </div>
     </div>
