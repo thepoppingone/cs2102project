@@ -110,7 +110,7 @@ if(empty($_SESSION['admin'])) {
 					</div>
 				</div>
 				<div class="form-group">
-					<div id = "admin-button"  class="col-xs-offset-2 col-xs-10 collapse in" data-toggle="false">
+					<div id = "admin-button"  class="col-xs-offset-3 col-xs-9 collapse in" data-toggle="false">
 						<button type="submit" class="btn btn-primary" onclick = "return handleSearchAdmin()">Search Administrator</button>
 					</div>
 				</div>
@@ -141,7 +141,7 @@ if(empty($_SESSION['admin'])) {
 					</div>
 				</div>
 				<div class="form-group">
-					<div id = "airport-button"  class="col-xs-offset-2 col-xs-10 collapse in" data-toggle="false">
+					<div id = "airport-button"  class="col-xs-offset-3 col-xs-9 collapse in" data-toggle="false">
 						<button type="submit" class="btn btn-primary" onclick = "return handleSearchAirport()">Search Airport</button>
 					</div>
 				</div>
