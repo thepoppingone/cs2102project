@@ -5,7 +5,7 @@
 function addCategoryChange() {
 	var selectBar = document.getElementById('add-category');
     var option =  selectBar.options[selectBar.selectedIndex].value;
-	var options = ["administrator", "member", "reservation", "airport", "flight", "schedule"];
+	var options = ["administrator", "passenger", "reservation", "airport", "flight", "schedule"];
 	for(i = 0; i < options.length; i++) {
 		if(option == options[i]) {
 			$('#' + options[i]).collapse('show');	
@@ -188,7 +188,7 @@ function validateScheduleSeat() {
 function deleteCategoryChange() {
 	var selectBar = document.getElementById('delete-category');
     var option =  selectBar.options[selectBar.selectedIndex].value;
-	//var options = ["administrator", "member", "reservation", "airline", "aircraft", "airport", "flight", "schedule"];
+	//var options = ["administrator", "passenger", "reservation", "airline", "aircraft", "airport", "flight", "schedule"];
 	document.getElementById("delete-options").innerHTML = "";
 	disableForm(['delete-success-result', 'delete-error-result'], [])
 	if(option == "administrator") {
@@ -295,7 +295,7 @@ function loadAdminOptions(choice) {
 function searchCategoryChange() {
 	var selectBar = document.getElementById('search-category');
     var option =  selectBar.options[selectBar.selectedIndex].value;
-	var options = ["administrator", "member", "reservation", "airport", "flight", "schedule"];
+	var options = ["administrator", "passenger", "reservation", "airport", "flight", "schedule"];
 	$("#search-results").collapse('hide');
 	for(i = 0; i < options.length; i++) {
 		if(option == options[i]) {
