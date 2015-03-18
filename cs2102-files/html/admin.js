@@ -240,6 +240,65 @@ function handleDeleteAdmin() {
 }
 
 /********************************
+* functions related to EDIT
+*********************************/
+
+function editCategoryChange() {
+	var selectBar = document.getElementById('edit-category');
+    var option =  selectBar.options[selectBar.selectedIndex].value;
+	document.getElementById("edit-options").innerHTML = "";
+	if(option == "administrator") {
+		loadAdminOptions("edit");
+	} /*else if(option == "airport") {
+		loadAirlineOptions();
+	}*/
+}
+
+function forwardToAdminEditDetails(emailStr) {
+	document.getElementById('result-form').action = "admin_edit_details.php";
+	appendToForm('result-form', ["selected", "email"],["administrator", emailStr]);
+	document.getElementById('result-form').submit();
+	return true;
+}
+
+
+function handleEditAdmin() {
+	var originalEmailStr = document.getElementById('admin-email').name;
+	var emailStr = document.getElementById('admin-email').value;
+	var nameStr = document.getElementById('admin-name').value;
+	var pwdStr = document.getElementById('admin-pwd').value;
+
+	if(emailStr && nameStr && pwdStr) {		
+		$.post('admin_func_edit_admin.php', {originalEmail: originalEmailStr, email:emailStr, name:nameStr, pwd:pwdStr}, function(data) {
+			if(data == 'edited') {
+				disableForm(['admin-button', 'edit-admin-error-result', 'adminEmailError'], ['admin-email', 'admin-name', 'admin-pwd']);
+				displayAddSuccessfulMessage("edit","Administrator information updated!");
+			}
+			else if(data == 'admin_exists'){
+				$('#edit-admin-error-result').collapse('hide');
+				$('#adminEmailError').collapse('show');
+			} else {
+				$('#adminEmailError').collapse('hide'); 
+				document.getElementById("edit-admin-error-msg").innerHTML = "Error message:" + data;
+				$('#edit-admin-error-result').collapse('show');
+			}
+		});
+		return false;
+	} else {
+		return true;
+	}
+}
+
+function appendToForm(formName, names, values) {
+	for(i = 0; i < names.length; i++) {
+		var input = $("<input>")
+					   .attr("type", "hidden")
+					   .attr("name", names[i]).val(values[i]);
+		$('#'+ formName).append($(input));		
+	}
+}
+
+/********************************
 * functions related to SEARCH
 *********************************/
 function searchCategoryChange() {
