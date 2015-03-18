@@ -9098,7 +9098,7 @@ INSERT INTO airport VALUES('Washabo','Washabo,Suriname','WSO');
 INSERT INTO airport VALUES('Balt/wash International','Baltimore,United States','BWI');
 INSERT INTO airport VALUES('Bolling AFB','Washington,United States','BOF');
 INSERT INTO airport VALUES('Buzzards Pt S','Washington,United States','BZS');
-INSERT INTO airport VALUES('Washington Dulles Intl','"Dulles,DC"','United States');
+INSERT INTO airport VALUES('Washington Dulles Intl','Dulles,United States', 'IAD');
 INSERT INTO airport VALUES('New Carrolton RR','Washington,United States','ZRZ');
 INSERT INTO airport VALUES('Pentagon Army','Washington,United States','JPN');
 INSERT INTO airport VALUES('Ronald Reagan National','Washington,United States','DCA');
