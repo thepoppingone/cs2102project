@@ -102,7 +102,7 @@ if(empty($_SESSION['admin'])) {
 					<label for="inputEmail" class="control-label col-xs-3">Email Address</label>
 					<div class="col-xs-9">		
 						<input id = "admin-email" type="email" id="inputEmail" class="form-control" placeholder="Email address"  required autofocus="">
-						<p id = "adminEmailError" class = "collapse" class='text-danger' data-toggle="false">Oops! The owner of the email is already an administrator.</p>
+						<p id = "adminEmailError" class = "collapse text-danger"  data-toggle="false">Oops! The owner of the email is already an administrator.</p>
 					</div>
 				</div>	
 				<div class="form-group">
@@ -112,12 +112,12 @@ if(empty($_SESSION['admin'])) {
 					</div>
 				</div>
 				<div class="form-group">
-					<div id = "admin-button"  class="col-xs-offset-2 col-xs-10 collapse in" data-toggle="false">
+					<div id = "admin-button"  class="col-xs-offset-3 col-xs-9 collapse in" data-toggle="false">
 						<button type="submit" class="btn btn-primary" onclick = "return handleAddAdmin()">Add Administrator</button>
 					</div>
 				</div>
 			</form>
-			<div id = "add-admin-error-result" class = "collapse" data-toggle="false">
+			<div id = "add-admin-error-result"  class = "collapse text-danger"   data-toggle="false">
 				<p id = "add-admin-error-msg"></p>
 			</div>
 		</div>
@@ -144,16 +144,16 @@ if(empty($_SESSION['admin'])) {
 					<label class="control-label col-xs-3">Designator</label>
 					<div class="col-xs-9">		
 						<input id = "airport-designator" type="text" class="form-control" placeholder="Airport Designator"  required autofocus="">
-						<p id = "airportDesignatorError" class = "collapse" class='text-danger' data-toggle="false">Oops! This airport designator is already recorded. </p>
+						<p id = "airportDesignatorError"  class = "collapse text-danger"   data-toggle="false">Oops! This airport designator is already recorded. </p>
 					</div>
 				</div>
 				<div class="form-group">
-					<div id = "airport-button"  class="col-xs-offset-2 col-xs-10 collapse in" data-toggle="false">
+					<div id = "airport-button"  class="col-xs-offset-3 col-xs-9 collapse in" data-toggle="false">
 						<button type="submit" class="btn btn-primary" onclick = "return handleAddAirport()">Add Airport</button>
 					</div>
 				</div>
 			</form>
-			<div id = "add-airport-error-result" class = "collapse" data-toggle="false">
+			<div id = "add-airport-error-result" class = "collapse text-danger"   data-toggle="false">
 				<p id = "add-airport-error-msg"></p>
 			</div>
 		</div>
@@ -173,7 +173,7 @@ if(empty($_SESSION['admin'])) {
 					<label class="control-label col-xs-3">Number</label>
 					<div class="col-xs-9">		
 						<input id = "flight-number" type="number" class="form-control" placeholder="Flight Number"  required autofocus="">
-						<p id = "flightDesignatorError" class = "collapse" class='text-danger' data-toggle="false">Oops! This flight is already recorded. </p>
+						<p id = "flightDesignatorError" class = "collapse text-danger"  data-toggle="false">Oops! This flight is already recorded. </p>
 					</div>
 				</div>		
 				<div class="form-group">
@@ -210,7 +210,7 @@ if(empty($_SESSION['admin'])) {
 							oci_free_statement($stid);
 						?>
 						</select>
-						<p id = "flightRouteError" class = "collapse" class='text-danger' data-toggle="false">Please do not select same origin and destination.</p>
+						<p id = "flightRouteError" class = "collapse text-danger"   data-toggle="false">Please do not select same origin and destination.</p>
 					</div>
 				</div>
 				<div class="form-group">
@@ -226,12 +226,12 @@ if(empty($_SESSION['admin'])) {
 					</div>
 				</div>					
 				<div class="form-group">
-					<div id = "flight-button"  class="col-xs-offset-2 col-xs-10 collapse in" data-toggle="false">
+					<div id = "flight-button"  class="col-xs-offset-3 col-xs-9 collapse in" data-toggle="false">
 						<button type="submit" class="btn btn-primary" onclick = "return handleAddFlight()">Add Flight</button>
 					</div>
 				</div>
 			</form>
-			<div id = "add-flight-error-result" class = "collapse" data-toggle="false">
+			<div id = "add-flight-error-result" class = "collapse text-danger"   data-toggle="false">
 				<p id = "add-flight-error-msg"></p>
 			</div>
 		</div>
@@ -263,14 +263,14 @@ if(empty($_SESSION['admin'])) {
 					<label class="control-label col-xs-3">Seat Availability</label>
 					<div class="col-xs-9">		
 						<input id = "schedule-seats" type="number" class="form-control" placeholder="Number of Seats Available"  required autofocus="" onfocusout="validateScheduleSeat()">
-						<p id = "scheduleSeatError" class = "collapse" class='text-danger' data-toggle="false"></p>
+						<p id = "scheduleSeatError" class = "collapse text-danger"   data-toggle="false"></p>
 					</div>
 				</div>	
 				<div class="form-group">
 					<label class="control-label col-xs-3">Departure Time</label>
 					<div class="col-xs-9">		
 						<input id = "schedule-departure" type="datetime-local" value = "<?php date_default_timezone_set('Asia/Singapore'); $today_date = date('Y-m-d'); echo strftime('%Y-%m-%dT%H:%M:%S', strtotime($today_date)) ?>" class="form-control" placeholder="Departure Time"  required autofocus="">
-						<p id = "scheduleTimeError" class = "collapse" class='text-danger' data-toggle="false">Oops! This flight has already been scheduled for this departure time!</p>
+						<p id = "scheduleTimeError" class = "collapse text-danger"   data-toggle="false">Oops! This flight has already been scheduled for this departure time!</p>
 					</div>
 				</div>		
 				<div class="form-group">
@@ -286,20 +286,20 @@ if(empty($_SESSION['admin'])) {
 					</div>
 				</div>			
 				<div class="form-group">
-					<div id = "schedule-button"  class="col-xs-offset-2 col-xs-10 collapse in" data-toggle="false">
+					<div id = "schedule-button" class="col-xs-offset-3 col-xs-9 collapse in" data-toggle="false">
 						<button type="submit" class="btn btn-primary" onclick = "return handleAddSchedule()">Add Schedule</button>
 					</div>
 				</div>
 			</form>
-			<div id = "add-schedule-error-result" class = "collapse" data-toggle="false">
+			<div id = "add-schedule-error-result" class = "collapse text-danger"  data-toggle="false">
 				<p id = "add-schedule-error-msg"></p>
 			</div>
 		</div>
 		<!-- end for add new schedule stuffs -->			
-		<div id = "add-successful-result" class = "collapse" data-toggle="false">
-			<p id = "add-successful-msg"></p>
+		<div id = "add-successful-result" class = "col-xs-offset-3 collapse" data-toggle="false">
+			<p id = "add-successful-msg" class = "alert alert-success" role = "alert"></p>
 			<a href = "admin_panel_add.php"><button class="btn btn-primary">Add another record</button></a>
-		</div>		
+		</div>			
 	 </div>
     </div>
 	<!-- /container -->
