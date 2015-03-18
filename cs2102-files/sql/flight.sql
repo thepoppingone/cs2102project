@@ -1,34 +1,40 @@
-INSERT INTO flight VALUES(123, '1 HR 5 MIN', 'AAH' , 'AAR' , 100, 'Air Berlin', 'AB');
-INSERT INTO flight VALUES(124, '1 HR 5 MIN', 'AAR' , 'AAH' , 100, 'Air Berlin', 'AB');
-INSERT INTO flight VALUES(255, '7 HR 54 MIN', 'YXX' , 'AAH' , 160, 'Air Berlin', 'AB');
-INSERT INTO flight VALUES(256, '7 HR 54 MIN', 'AAH' , 'YXX' , 160, 'Air Berlin', 'AB');
-INSERT INTO flight VALUES(377, '8 HR 13 MIN', 'AAL' , 'AES' , 220, 'Air Berlin', 'AB');
-INSERT INTO flight VALUES(378, '8 HR 13 MIN', 'AES' , 'AAL' , 220, 'Air Berlin', 'AB');
-INSERT INTO flight VALUES(377, '2 HR 47 MIN', 'AAW' , 'ABD' , 160, 'Iran Air', 'IR');
-INSERT INTO flight VALUES(378, '2 HR 47 MIN', 'ABD' , 'AAW' , 160, 'Iran Air', 'IR');
-INSERT INTO flight VALUES(521, '6 HR 23 MIN', 'ABD' , 'ABZ' , 100, 'Iran Air', 'IR');
-INSERT INTO flight VALUES(522, '6 HR 23 MIN', 'ABZ' , 'ABD' , 100, 'Iran Air', 'IR');
-INSERT INTO flight VALUES(879, '14 HR 17 MIN', 'ABD' , 'APG' , 160, 'Iran Air', 'IR');
-INSERT INTO flight VALUES(880, '14 HR 17 MIN', 'APG' , 'ABD' , 160, 'Iran Air', 'IR');
-INSERT INTO flight VALUES(763, '19 HR 28 MIN', 'ABG' , 'VJI' , 220, 'Air Midwest', 'ZV');
-INSERT INTO flight VALUES(764, '19 HR 28 MIN', 'VJI' , 'ABG' , 220, 'Air Midwest', 'ZV');
-INSERT INTO flight VALUES(333, '11 HR 34 MIN', 'OGO' , 'VJI' , 160, 'Air Midwest', 'ZV');
-INSERT INTO flight VALUES(334, '11 HR 34 MIN', 'VJI' , 'OGO' , 160, 'Air Midwest', 'ZV');
-INSERT INTO flight VALUES(101, '2 HR 58 MIN', 'VJI' , 'AJS' , 100, 'Air Midwest', 'ZV');
-INSERT INTO flight VALUES(102, '2 HR 58 MIN', 'AJS' , 'VJI' , 100, 'Air Midwest', 'ZV');
-INSERT INTO flight VALUES(445, '1 HR 49 MIN', 'VJI' , 'APG' , 50, 'Air Midwest', 'ZV');
-INSERT INTO flight VALUES(446, '1 HR 49 MIN', 'APG' , 'VJI' , 50, 'Air Midwest', 'ZV');
-INSERT INTO flight VALUES(43, '2 HR 11 MIN', 'VJI' , 'ADG' , 50, 'Air Midwest', 'ZV');
-INSERT INTO flight VALUES(44, '2 HR 11 MIN', 'ADG' , 'VJI' , 50, 'Air Midwest', 'ZV');
-INSERT INTO flight VALUES(221, '12 HR 59 MIN', 'ADG' , 'AXT' , 220, 'Virgin America', 'VX');
-INSERT INTO flight VALUES(222, '12 HR 59 MIN', 'AXT' , 'ADG' , 220, 'Virgin America', 'VX');
-INSERT INTO flight VALUES(677, '0 HR 40 MIN', 'ADG' , 'AFO' , 50, 'Virgin America', 'VX');
-INSERT INTO flight VALUES(678, '0 HR 40 MIN', 'AFO' , 'ADG' , 50, 'Virgin America', 'VX');
-INSERT INTO flight VALUES(55, '11 HR 45 MIN', 'AXT' , 'AAH' , 160, 'Air Japan', 'NQ');
-INSERT INTO flight VALUES(56, '11 HR 45 MIN', 'AAH' , 'AXT' , 160, 'Air Japan', 'NQ');
-INSERT INTO flight VALUES(831, '9 HR 32 MIN', 'AXT' , 'ABG' , 160, 'Air Japan', 'NQ');
-INSERT INTO flight VALUES(832, '9 HR 32 MIN', 'ABG' , 'AXT' , 160, 'Air Japan', 'NQ');
-INSERT INTO flight VALUES(591, '13 HR 54 MIN', 'AXT' , 'ZMH' , 220, 'Air Japan', 'NQ');
-INSERT INTO flight VALUES(592, '13 HR 54 MIN', 'ZMH' , 'AXT' , 220, 'Air Japan', 'NQ');
-INSERT INTO flight VALUES(305, '12 HR 17 MIN', 'AXT' , 'AUE' , 100, 'Air Japan', 'NQ');
-INSERT INTO flight VALUES(306, '12 HR 17 MIN', 'AUE' , 'AXT' , 100, 'Air Japan', 'NQ');
+--f_number VARCHAR(256) PRIMARY KEY,
+--duration VARCHAR(256),
+--destination VARCHAR(10) REFERENCES airport(designator),
+--origin VARCHAR(10) REFERENCES airport(designator),
+--seat_capacity INT CHECK(seat_capacity > 0)
+
+INSERT INTO flight VALUES('SB123', '1 HR 5 MIN', 'AAH' , 'AAR' , 100);
+INSERT INTO flight VALUES('SB124', '1 HR 5 MIN', 'AAR' , 'AAH' , 100);
+INSERT INTO flight VALUES('SB255', '7 HR 54 MIN', 'YXX' , 'AAH' , 160);
+INSERT INTO flight VALUES('SB256', '7 HR 54 MIN', 'AAH' , 'YXX' , 160);
+INSERT INTO flight VALUES('SB377', '8 HR 13 MIN', 'AAL' , 'AES' , 220);
+INSERT INTO flight VALUES('SB378', '8 HR 13 MIN', 'AES' , 'AAL' , 220);
+INSERT INTO flight VALUES('SB379', '2 HR 47 MIN', 'AAW' , 'ABD' , 160);
+INSERT INTO flight VALUES('SB380', '2 HR 47 MIN', 'ABD' , 'AAW' , 160);
+INSERT INTO flight VALUES('SB521', '6 HR 23 MIN', 'ABD' , 'ABZ' , 100);
+INSERT INTO flight VALUES('SB522', '6 HR 23 MIN', 'ABZ' , 'ABD' , 100);
+INSERT INTO flight VALUES('SB879', '14 HR 17 MIN', 'ABD' , 'APG' , 160);
+INSERT INTO flight VALUES('SB880', '14 HR 17 MIN', 'APG' , 'ABD' , 160);
+INSERT INTO flight VALUES('SB763', '19 HR 28 MIN', 'ABG' , 'VJI' , 220);
+INSERT INTO flight VALUES('SB764', '19 HR 28 MIN', 'VJI' , 'ABG' , 220);
+INSERT INTO flight VALUES('SB333', '11 HR 34 MIN', 'OGO' , 'VJI' , 160);
+INSERT INTO flight VALUES('SB334', '11 HR 34 MIN', 'VJI' , 'OGO' , 160);
+INSERT INTO flight VALUES('SB101', '2 HR 58 MIN', 'VJI' , 'AJS' , 100);
+INSERT INTO flight VALUES('SB102', '2 HR 58 MIN', 'AJS' , 'VJI' , 100);
+INSERT INTO flight VALUES('SB445', '1 HR 49 MIN', 'VJI' , 'APG' , 50);
+INSERT INTO flight VALUES('SB446', '1 HR 49 MIN', 'APG' , 'VJI' , 50);
+INSERT INTO flight VALUES('SB43', '2 HR 11 MIN', 'VJI' , 'ADG' , 50);
+INSERT INTO flight VALUES('SB44', '2 HR 11 MIN', 'ADG' , 'VJI' , 50);
+INSERT INTO flight VALUES('SB221', '12 HR 59 MIN', 'ADG' , 'AXT' , 220);
+INSERT INTO flight VALUES('SB222', '12 HR 59 MIN', 'AXT' , 'ADG' , 220);
+INSERT INTO flight VALUES('SB677', '0 HR 40 MIN', 'ADG' , 'AFO' , 50);
+INSERT INTO flight VALUES('SB678', '0 HR 40 MIN', 'AFO' , 'ADG' , 50);
+INSERT INTO flight VALUES('SB55', '11 HR 45 MIN', 'AXT' , 'AAH' , 160);
+INSERT INTO flight VALUES('SB56', '11 HR 45 MIN', 'AAH' , 'AXT' , 160);
+INSERT INTO flight VALUES('SB831', '9 HR 32 MIN', 'AXT' , 'ABG' , 160);
+INSERT INTO flight VALUES('SB832', '9 HR 32 MIN', 'ABG' , 'AXT' , 160);
+INSERT INTO flight VALUES('SB591', '13 HR 54 MIN', 'AXT' , 'ZMH' , 220);
+INSERT INTO flight VALUES('SB592', '13 HR 54 MIN', 'ZMH' , 'AXT' , 220);
+INSERT INTO flight VALUES('SB305', '12 HR 17 MIN', 'AXT' , 'AUE' , 100);
+INSERT INTO flight VALUES('SB306', '12 HR 17 MIN', 'AUE' , 'AXT' , 100);
