@@ -14,11 +14,12 @@ seat_capacity INT CHECK(seat_capacity > 0)
 
 CREATE TABLE schedule (
 arrival_time TIMESTAMP NOT NULL,
-depart_time TIMESTAMP CHECK (depart_time < arrival_time),
+depart_time TIMESTAMP,
 num_of_seats_avail INT NOT NULL,
 price FLOAT NOT NULL,
 flight_number VARCHAR(256) REFERENCES flight(f_number),
-PRIMARY KEY (flight_number, depart_time)
+PRIMARY KEY (flight_number, depart_time),
+CHECK (depart_time < arrival_time)
 );
 
 CREATE TABLE booking (
