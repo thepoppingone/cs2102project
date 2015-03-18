@@ -77,7 +77,7 @@ if(empty($_SESSION['admin'])) {
 						<option class="select-dash" disabled="disabled">----</option>
 						<option value="administrator">Administrator</option>
 						<option class="select-dash" disabled="disabled">----</option>
-						<option value="member">Passenger</option>
+						<option value="passenger">Passenger</option>
 						<option value="reservation">Reservation</option>
 						<option class="select-dash" disabled="disabled">----</option>
 						<option value="airport">Airport</option>
@@ -111,12 +111,72 @@ if(empty($_SESSION['admin'])) {
 				</div>
 				<div class="form-group">
 					<div id = "admin-button"  class="col-xs-offset-3 col-xs-9 collapse in" data-toggle="false">
-						<button type="submit" class="btn btn-primary" onclick = "return handleSearchAdmin()">Search Administrator</button>
+						<button type="submit" class="btn btn-primary pull-right" onclick = "return handleSearchAdmin()">Search Administrator</button>
 					</div>
 				</div>
 			</form>
 		</div>
 		<!-- end for adminstrator-->
+		
+		<!-- search for passengers -->
+		<!-- div box for passenger -->
+		<div id = "passenger" class = "collapse" data-toggle="false">
+			<form id = "search-passenger-form" class="form-horizontal"> 
+				<div class="form-group">
+					<label class="control-label col-xs-3">Title</label>
+					<div class="col-xs-9">		
+						<input id = "passenger-title" type="text" class="form-control" placeholder="Title (Mr/Ms/Mdm etc)"  autofocus="">
+					</div>
+				</div>	
+				<div class="form-group">
+					<label class="control-label col-xs-3">First Name</label>
+					<div class="col-xs-9">		
+						<input id = "passenger-first-name" type="text" class="form-control" placeholder="First Name"  autofocus="">
+					</div>
+				</div>	
+				<div class="form-group">
+					<label class="control-label col-xs-3">Last Name</label>
+					<div class="col-xs-9">		
+						<input id = "passenger-last-name" type="text" class="form-control" placeholder="Last Name"  autofocus="">
+					</div>
+				</div>					
+				<div class="form-group">
+					<label class="control-label col-xs-3">Passport Number</label>
+					<div class="col-xs-9">		
+						<input id = "passenger-passport" type="text" class="form-control" placeholder="Passport Number"  autofocus="">
+					</div>
+				</div>	
+				<!--
+				<div class="form-group">
+					<label class="control-label col-xs-3">Reservation Id</label>
+					<div class="col-xs-9">
+						<select  id = "passenger-reservation-id" class = "form-control input-sm"> 
+							<option selected = "true" value = "" disabled>Select Reservation Id</option>
+							<?php
+								require("config.php");
+								$sql = "SELECT b.id FROM booking b";
+								$stid = oci_parse($dbh, $sql);
+								oci_execute($stid, OCI_DEFAULT);
+								while($row = oci_fetch_array($stid)){
+									echo "<option value=\"".$row["ID"]."\">".$row["ID"]."</option><br>";
+								}
+								oci_free_statement($stid);
+							?>
+						</select>
+					</div>
+				</div>
+				-->
+				<div class="form-group">
+					<div id = "passenger-button"  class="col-xs-offset-3 col-xs-9 collapse in" data-toggle="false">
+						<button type="submit" class="btn btn-primary pull-right" onclick = "return handleSearchPassenger()">Search Passenger</button>
+					</div>
+				</div>
+			</form>
+			<div id = "search-passenger-error-result"  class = "col-xs-offset-3 col-xs-9 collapse text-danger"   data-toggle="false">
+				<p id = "search-passenger-error-msg"></p>
+			</div>
+		</div>
+		<!-- end for passenger -->				
 		
 		
 		<!-- div box for airport search fields -->
@@ -142,7 +202,7 @@ if(empty($_SESSION['admin'])) {
 				</div>
 				<div class="form-group">
 					<div id = "airport-button"  class="col-xs-offset-3 col-xs-9 collapse in" data-toggle="false">
-						<button type="submit" class="btn btn-primary" onclick = "return handleSearchAirport()">Search Airport</button>
+						<button type="submit" class="btn btn-primary pull-right" onclick = "return handleSearchAirport()">Search Airport</button>
 					</div>
 				</div>
 			</form>

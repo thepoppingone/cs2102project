@@ -312,11 +312,11 @@ function handleSearchAdmin() {
 	var nameStr = document.getElementById('admin-name').value;
 	var pwdStr = document.getElementById('admin-pwd').value;
 	
-	$.post('admin_func_search_admin.php', {email:emailStr, name:nameStr, pwd:pwdStr}, function(data) {
+	$.post('admin_func_search_admin.php', {email:emailStr, name:nameStr, password:pwdStr}, function(data) {
 		if(data) {
 			var message = data.split(" ");
 			if(message[0] != "Error") {
-				document.getElementById("search-results").innerHTML = createTableFormHtml(["test", "Name", "Email"], data, "", "");
+				document.getElementById("search-results").innerHTML = createTableFormHtml(["Name", "Email"], data, "", "");
 				$("#search-results").collapse('show');
 			} else {
 				// error
@@ -327,16 +327,65 @@ function handleSearchAdmin() {
 		}
 	});
 	return false;
+}
+
+function handleSearchPassenger() {
+
+	var titleStr = document.getElementById('passenger-title').value;
+	var firstNameStr = document.getElementById('passenger-first-name').value;
+	var lastNameStr = document.getElementById('passenger-last-name').value;
+	var passportStr = document.getElementById('passenger-passport').value;
 	
+	//var selectBar = document.getElementById('passenger-reservation-id');
+    //var reservationId =  selectBar.options[selectBar.selectedIndex].value;
+	
+	$.post('admin_func_search_passenger.php', {title:titleStr, first_name:firstNameStr, last_name:lastNameStr, passport_number:passportStr}, function(data) {
+		if(data) {
+			var message = data.split(" ");
+			if(message[0] != "Error") {
+				document.getElementById("search-results").innerHTML = createTableFormHtml(["Title", "First Name", "Last Name", "Passport"], data, "", "");
+				$("#search-results").collapse('show');
+			} else {
+				// error
+				handleSearchError();
+			}
+		} else {
+			handleEmptySearchResults();			
+		}
+	});
+	return false;
+}
+
+function handleSearchAirport() {
+
+	var nameStr = document.getElementById('airport-name').value;
+	var designatorStr = document.getElementById('airport-designator').value;
+	var locationStr = document.getElementById('airport-location').value;
+	
+	$.post('admin_func_search_airport.php', {name:nameStr, location:locationStr, designator:designatorStr}, function(data) {
+		if(data) {
+			var message = data.split(" ");
+			if(message[0] != "Error") {
+				document.getElementById("search-results").innerHTML = createTableFormHtml(["Name", "Location", "Designator"], data, "", "");
+				$("#search-results").collapse('show');
+			} else {
+				// error
+				handleSearchError();
+			}
+		} else {
+			handleEmptySearchResults();			
+		}
+	});
+	return false;
 }
 
 function handleEmptySearchResults() {
-	document.getElementById("search-results").innerHTML = "<p>No records found.</p>";
+	document.getElementById("search-results").innerHTML = "<div class=\"col-xs-offset-3 col-xs-9 alert alert-info\" role = \"alert\" >No records found.</div></br>";
 	$("#search-results").collapse('show');
 }
 
 function handleSearchError() {
-	document.getElementById("search-results").innerHTML = "Sorry, there was an error in searching!";
+	document.getElementById("search-results").innerHTML = "<div class=\"col-xs-offset-3 col-xs-9 alert alert-danger\" role = \"alert\" >Sorry, there was an error in searching!</div></br>";
 	$("#search-results").collapse('show');
 }
 
