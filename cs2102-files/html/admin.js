@@ -16,15 +16,15 @@ function addCategoryChange() {
 }
 
 function handleAddAdmin() {
-	var emailStr = document.getElementById('admin-email').value;
-	var nameStr = document.getElementById('admin-name').value;
-	var pwdStr = document.getElementById('admin-pwd').value;
+	var emailStr = String(document.getElementById('admin-email').value);
+	var nameStr = String(document.getElementById('admin-name').value);
+	var pwdStr = String(document.getElementById('admin-pwd').value);
 				
 	if(emailStr && nameStr && pwdStr) {		
 		$.post('admin_func_add_admin.php', {email:emailStr, name:nameStr, pwd:pwdStr}, function(data) {
 			if(data == 'inserted') {
 				disableForm(['admin-button', 'add-admin-error-result', 'adminEmailError'], ['add-category', 'admin-email', 'admin-name', 'admin-pwd']);
-				displayAddSuccessfulMessage("add","New administrator added successfully.");
+				displayAddSuccessfulMessage("New administrator added successfully.");
 			}
 			else if(data == 'admin_exists'){
 				$('#add-admin-error-result').collapse('hide');
@@ -50,7 +50,7 @@ function handleAddAirport() {
 		$.post('admin_func_add_airport.php', {name:nameStr, location:locationStr, designator:designatorStr}, function(data) {
 			if(data == 'inserted') {
 				disableForm(['airport-button', 'add-airport-error-result', 'airportDesignatorError'], ['add-category', 'airport-name', 'airport-designator', 'airport-designator']);
-				displayAddSuccessfulMessage("add","New airport added successfully.");
+				displayAddSuccessfulMessage("New airport added successfully.");
 			}
 			else if(data == 'airport_exists'){
 				$('#add-airport-error-result').collapse('hide');
@@ -84,7 +84,7 @@ function handleAddFlight() {
 				if(data == 'inserted') {
 					disableForm(['flight-button', 'add-flight-error-result', 'flightDesignatorError'], ['add-category', 'flight-designator', 'flight-number', 'flight-origin', 'flight-destination', 'flight-duration']);
 					disableForm(['#flight-button', '#add-flight-error-result', '#flightDesignatorError'], ['add-category', 'flight-designator', 'flight-number', 'flight-origin', 'flight-destination', 'flight-duration', "flight-seat"]);
-					displayAddSuccessfulMessage("add","New Flight added successfully.");
+					displayAddSuccessfulMessage("New Flight added successfully.");
 				}
 				else if(data == 'flight_exists'){
 					$('#add-flight-error-result').collapse('hide');
@@ -143,7 +143,7 @@ function handleAddSchedule() {
 										arrival:arrivalStr}, function(data) {	
 				if(data == 'inserted') {
 					disableForm(['schedule-button', 'add-schedule-error-result', 'scheduleTimeError'], ['add-category', 'schedule-flight', 'schedule-aircraft', 'schedule-seats', 'schedule-departure', 'schedule-arrival', 'schedule-price']);
-					displayAddSuccessfulMessage("add","New schedule added successfully.");
+					displayAddSuccessfulMessage("New schedule added successfully.");
 				}
 				else if(data == 'schedule_exists'){
 					$('#add-schedule-error-result').collapse('hide');
@@ -181,6 +181,11 @@ function validateScheduleSeat() {
 	return false;
 }
 
+function displayAddSuccessfulMessage(msg) {
+	document.getElementById("add-successful-msg").innerHTML = msg;
+	$('#add-successful-result').collapse('show');
+}
+
 /********************************
 * functions related to DELETE
 *********************************/
@@ -192,16 +197,40 @@ function deleteCategoryChange() {
 	document.getElementById("delete-options").innerHTML = "";
 	disableForm(['delete-success-result', 'delete-error-result'], [])
 	if(option == "administrator") {
-		loadAdminOptions("delete");
+		loadAdminOptions();
 	} /*else if(option == "airport") {
-		loadAirlineOptions("delete");
+		loadAirlineOptions();
 	}*/
 }
 
-function handleDeleteAdmin(id, emailStr) {
-	$.post('admin_func_delete_admin.php', {email:emailStr}, function(data) {	
-		if(data == "successful") {
-			disableForm([id],[]);
+function loadAdminOptions() {
+	$.post('admin_func_delete_admin.php', function(data) {
+		if(data) {
+			// headers in array, rows, function to call when delete button is clicked, words in the button
+			document.getElementById("delete-options").innerHTML = createTableFormHtml(["Delete","Name","Email"], data, "handleDeleteAdmin()", "Delete Administrator(s)");
+			$('#delete-options').collapse('show');
+		} else {
+			document.getElementById("delete-success-msg").innerHTML = "No entries found!";
+			$('#delete-success-result').collapse('show');		
+		}
+	});	
+}
+
+function handleDeleteAdmin() {
+	var inputElements = document.getElementsByClassName('checked-administrator');
+	var emails = "";
+	for(i = 0; i < inputElements.length; i++) {
+		if(inputElements[i].checked && inputElements[i].disabled == false){
+		   emails = emails + inputElements[i].value + " ";
+		}
+	}
+	
+	$.post('admin_func_delete_admin.php', {email:emails}, function(resultMsg) {	
+		var message = resultMsg.split(" ");
+		if(message[0] == "successful") {
+			disableForm([], message.slice(1,message.length-1));
+			document.getElementById("delete-success-msg").innerHTML = "" + (message.length - 2) + " entries deleted.";
+			$('#delete-success-result').collapse('show');
 		} else {
 			document.getElementById("delete-error-msg").innerHTML = "Error message:" + resultMsg;
 			$('#delete-error-result').collapse('show');
@@ -211,87 +240,8 @@ function handleDeleteAdmin(id, emailStr) {
 }
 
 /********************************
-* functions related to EDIT
-*********************************/
-
-function editCategoryChange() {
-	var selectBar = document.getElementById('edit-category');
-    var option =  selectBar.options[selectBar.selectedIndex].value;
-	document.getElementById("edit-options").innerHTML = "";
-	if(option == "administrator") {
-		loadAdminOptions("edit");
-	} /*else if(option == "airport") {
-		loadAirlineOptions();
-	}*/
-}
-
-function forwardToAdminEditDetails(emailStr) {
-	document.getElementById('result-form').action = "admin_edit_details.php";
-	appendToForm('result-form', ["selected", "email"],["administrator", emailStr]);
-	document.getElementById('result-form').submit();
-	return true;
-}
-
-
-function handleEditAdmin() {
-	var originalEmailStr = document.getElementById('admin-email').name;
-	var emailStr = document.getElementById('admin-email').value;
-	var nameStr = document.getElementById('admin-name').value;
-	var pwdStr = document.getElementById('admin-pwd').value;
-
-	if(emailStr && nameStr && pwdStr) {		
-		$.post('admin_func_edit_admin.php', {originalEmail: originalEmailStr, email:emailStr, name:nameStr, pwd:pwdStr}, function(data) {
-			if(data == 'edited') {
-				disableForm(['admin-button', 'edit-admin-error-result', 'adminEmailError'], ['admin-email', 'admin-name', 'admin-pwd']);
-				displayAddSuccessfulMessage("edit","Administrator information updated!");
-			}
-			else if(data == 'admin_exists'){
-				$('#edit-admin-error-result').collapse('hide');
-				$('#adminEmailError').collapse('show');
-			} else {
-				$('#adminEmailError').collapse('hide'); 
-				document.getElementById("edit-admin-error-msg").innerHTML = "Error message:" + data;
-				$('#edit-admin-error-result').collapse('show');
-			}
-		});
-		return false;
-	} else {
-		return true;
-	}
-}
-
-function appendToForm(formName, names, values) {
-	for(i = 0; i < names.length; i++) {
-		var input = $("<input>")
-					   .attr("type", "hidden")
-					   .attr("name", names[i]).val(values[i]);
-		$('#'+ formName).append($(input));		
-	}
-}
-
-/**************************************
-* functions used by DELETE and EDIT
-***************************************/
-
-function loadAdminOptions(choice) {
-	var editStr = choice;
-	if(choice == "delete") editStr = "";
-	$.post('admin_func_retrieve_admin.php',{edit:editStr}, function(data) {
-		if(data) {
-			// headers in array, rows, function to call when delete/edit button is clicked, words in the button
-			document.getElementById(choice + '-options').innerHTML = createTableFormHtml(["Name","Email"], data, "", "");
-			$('#' + choice + '-options').collapse('show');
-		} else {
-			document.getElementById('#' + choice + '-success-msg').innerHTML = "No entries found!";
-			$('#' + choice + '-success-result').collapse('show');		
-		}
-	});		
-}
-
-/********************************
 * functions related to SEARCH
 *********************************/
-
 function searchCategoryChange() {
 	var selectBar = document.getElementById('search-category');
     var option =  selectBar.options[selectBar.selectedIndex].value;
@@ -307,16 +257,15 @@ function searchCategoryChange() {
 }
 
 function handleSearchAdmin() {
-
-	var emailStr = document.getElementById('admin-email').value;
-	var nameStr = document.getElementById('admin-name').value;
-	var pwdStr = document.getElementById('admin-pwd').value;
+	var emailStr = String(document.getElementById('admin-email').value);
+	var nameStr = String(document.getElementById('admin-name').value);
+	var pwdStr = String(document.getElementById('admin-pwd').value);
 	
 	$.post('admin_func_search_admin.php', {email:emailStr, name:nameStr, pwd:pwdStr}, function(data) {
 		if(data) {
 			var message = data.split(" ");
 			if(message[0] != "Error") {
-				document.getElementById("search-results").innerHTML = createTableFormHtml(["test", "Name", "Email"], data, "", "");
+				document.getElementById("search-results").innerHTML = createTableFormHtml(["Name", "Email"], data, "", "");
 				$("#search-results").collapse('show');
 			} else {
 				// error
@@ -344,12 +293,6 @@ function handleSearchError() {
 * helper functions
 *********************************/
 
-// use by add, edit
-function displayAddSuccessfulMessage(func, msg) {
-	document.getElementById(func + "-successful-msg").innerHTML = msg;
-	$('#' + func + '-successful-result').collapse('show');
-}
-
 function disableForm(hideId, disableId) {
 	for(i = 0; i < hideId.length; i++) {
 		$("#" + hideId[i]).collapse('hide');
@@ -359,10 +302,9 @@ function disableForm(hideId, disableId) {
 	}
 }
 
-// use by add, edit, search
 function createTableFormHtml(headers, rows, onclickFunction, buttonContent) {
-	// the form created uses the get method
-	var output =  "<form id = \"result-form\" action =\"\" method = \"POST\"><table id=\"resultTable\" class=\"table table-striped table-hover\"><thead>";
+
+	var output =  "<form><table id=\"resultTable\" class=\"table table-striped table-hover\"><thead>";
 	
 	for(i = 0; i < headers.length; i++) {
 		output = output + "<th>" + headers[i] + "</th>";
@@ -377,4 +319,5 @@ function createTableFormHtml(headers, rows, onclickFunction, buttonContent) {
 	output = output + "</form>";
 	
 	return output;
+	
 }
