@@ -11,12 +11,14 @@
 	$index = 0;
 	if(empty($edit)) {
 		while($row = oci_fetch_array($stid)) {
+			// create a row with name, email, delete icon which calls a handleDeleteAdmin(rowId, email)
 			$output = $output." <tr id = \"".$index."\" class = \"collapse in\" data-toggle = \"false\"><td>".$row['NAME']."</td><td>".$row['EMAIL']."</td><td><span class=\"glyphicon glyphicon-remove \" onclick = \"return handleDeleteAdmin('".$index."','".$row['EMAIL']."')\"></span></td></tr>";
 			$index++;
 		}
 	} else {
 		while($row = oci_fetch_array($stid)) {
-			$output = $output." <tr id = \"".$index."\" class = \"collapse in\" data-toggle = \"false\"><td>".$row['NAME']."</td><td>".$row['EMAIL']."</td><td><span class=\"glyphicon glyphicon-pencil \" value=\"".$row['EMAIL']."\" onclick = \"return handleEditAdmin('".$index."')\"></span></td></tr>";
+			// create a row with name, email, pencil icon which calls a handleEditAdmin(email)
+			$output = $output." <tr id = \"".$index."\" class = \"collapse in\" data-toggle = \"false\"><td>".$row['NAME']."</td><td>".$row['EMAIL']."</td><td><span class=\"glyphicon glyphicon-pencil \" value=\"".$row['EMAIL']."\" onclick = \"return forwardToAdminEditDetails('".$row['EMAIL']."')\"></span></td></tr>";
 			$index++;
 		}	
 	}
