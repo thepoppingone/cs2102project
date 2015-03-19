@@ -13,12 +13,11 @@ if(empty($_POST['selected'])) {
 	$sql = "";
 	if($_POST['selected'] == "administrator") {
 		$sql = "SELECT * FROM admin a WHERE a.email = '".$_POST['email']."'";
-	} else if {
-		require("config.php");		
-		$sql = "";
-		if($_POST['selected'] == "airport") {
-			$sql = "SELECT * FROM airport a WHERE a.designator = '".$_POST['designator']."'";
-	} else
+	} else if ($_POST['selected'] == "airport") {
+		$sql = "SELECT * FROM airport a WHERE a.designator = '".$_POST['designator']."'";
+	} else if ($_POST['selected'] == "passenger") {
+		$sql = "SELECT * FROM passenger p WHERE p.passport_number = '".$_POST['num']."'";
+	} else{
 	}
 	if(!empty($sql)) {
 		$stid = oci_parse($dbh, $sql);
@@ -153,7 +152,7 @@ if(empty($_POST['selected'])) {
 							<label for="inputDesignator" class="control-label col-xs-3" >Designator</label>
 							<div class="col-xs-9">		
 								<input id = "airport-designator" type="designator" id="inputDesignator" class="form-control" placeholder="Designator"  required autofocus="" name = "'.$row['DESIGNATOR'].'" value = "'.$row['DESIGNATOR'].'">
-								<p id = "airportDesignatorError" class = "collapse" class="text-danger" data-toggle="false">Oops! The airport with this designator already exists.</p>
+								<p id = "airportDesignatorError" class = "collapse" class="text-danger" data-toggle="false">Oops! An airport with this designator already exists.</p>
 							</div>
 						</div>	
 						<div class="form-group">
@@ -174,6 +173,59 @@ if(empty($_POST['selected'])) {
 					</div>
 				</div>
 				<!-- end for airport stuffs -->
+				';
+		}
+		else if ($_POST['selected'] == "passenger") {
+			
+
+			// to keep track of primary key original values, put it as input name
+			echo '
+				<!-- div box for passenger -->
+				<div id = "passenger" >
+					<form id = "edit-passenger-form" class="form-horizontal"> 			
+						<div class="form-group">
+							<label for="inputNum" class="control-label col-xs-3" >Passport Number</label>
+							<div class="col-xs-9">		
+								<input id = "passenger-num" type="text" id="inputNum" class="form-control" placeholder="Passport Number"  required autofocus="" name = "'.$row['PASSPORT_NUMBER'].'" value = "'.$row['PASSPORT_NUMBER'].'">
+								<p id = "passengerNumError" class = "collapse" class="text-danger" data-toggle="false">Oops! A passenger with this passport number already exists.</p>
+							</div>
+						</div>	
+						<div class="form-group">
+							<label class="control-label col-xs-3">Type</label>
+							<div class="col-xs-9">		
+								<input id = "passenger-type" type="text" class="form-control" placeholder="Type" required autofocus="" value = "'.$row['TYPE'].'">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="control-label col-xs-3">Title</label>
+							<div class="col-xs-9">
+								<input id = "passenger-title" class="form-control" placeholder="Title"  required autofocus="" value = "'.$row['TITLE'].'">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="control-label col-xs-3">First Name</label>
+							<div class="col-xs-9">
+								<input id = "passenger-firstname" class="form-control" placeholder="First Name"  required autofocus="" value = "'.$row['FIRST_NAME'].'">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="control-label col-xs-3">Last Name</label>
+							<div class="col-xs-9">
+								<input id = "passenger-lastname" class="form-control" placeholder="Last Name"  required autofocus="" value = "'.$row['LAST_NAME'].'">
+							</div>
+						</div>
+						<div class="form-group">
+							<div id = "passenger-button"  class="col-xs-offset-3 col-xs-9 collapse in " data-toggle="false">
+								<button type="reset" class="btn btn-primary">Reset</button>
+								<button type="submit" class="btn btn-primary" onclick = "return handleEditPassenger()">Edit Passenger</button>
+							</div>
+						</div>
+					</form>
+					<div id = "edit-passenger-error-result" class = "collapse" data-toggle="false">
+						<p id = "edit-passenger-error-msg"></p>
+					</div>
+				</div>
+				<!-- end for passenger stuffs -->
 				';
 		}		
 		?>
