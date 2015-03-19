@@ -220,9 +220,9 @@ function editCategoryChange() {
 	document.getElementById("edit-options").innerHTML = "";
 	if(option == "administrator") {
 		loadAdminOptions("edit");
-	} /*else if(option == "airport") {
-		loadAirlineOptions();
-	}*/
+	} else if(option == "airport") {
+		loadAirportOptions("edit");
+	}
 }
 
 function forwardToAdminEditDetails(emailStr) {
@@ -260,6 +260,39 @@ function handleEditAdmin() {
 	}
 }
 
+function forwardToAirportEditDetails(designatorStr) {
+	document.getElementById('result-form').action = "airport_edit_details.php";
+	appendToForm('result-form', ["selected", "designator"],["airport", designatorStr]);
+	document.getElementById('result-form').submit();
+	return true;
+}
+
+function handleEditAirport() {
+	var originalDesignatorStr = document.getElementById('airport-designator').name;
+	var nameStr = document.getElementById('airport-name').value;
+	var locationStr = document.getElementById('airport-location').value;
+	var designatorStr = document.getElementById('airport-designator').value;
+
+	if(nameStr && locationStr && designatorStr) {		
+		$.post('admin_func_edit_airport.php', {originalDesignator: originalDesignatorStr, location:locationStr, name:nameStr, designator:designatorStr}, function(data) {
+			if(data == 'edited') {
+				disableForm(['airport-button', 'edit-airport-error-result', 'airportDesignatorError'], ['airport-designator', 'airport-name', 'airport-location']);
+				displayAddSuccessfulMessage("edit","Airport information updated!");
+			}
+			else if(data == 'airport_exists'){
+				$('#edit-airport-error-result').collapse('hide');
+				$('#airportDesignatorError').collapse('show');
+			} else {
+				$('#aairportDesignatorError').collapse('hide'); 
+				document.getElementById("edit-airport-error-msg").innerHTML = "Error message:" + data;
+				$('#edit-airport-error-result').collapse('show');
+			}
+		});
+		return false;
+	} else {
+		return true;
+	}
+}
 function appendToForm(formName, names, values) {
 	for(i = 0; i < names.length; i++) {
 		var input = $("<input>")
@@ -280,6 +313,21 @@ function loadAdminOptions(choice) {
 		if(data) {
 			// headers in array, rows, function to call when delete/edit button is clicked, words in the button
 			document.getElementById(choice + '-options').innerHTML = createTableFormHtml(["Name","Email"], data, "", "");
+			$('#' + choice + '-options').collapse('show');
+		} else {
+			document.getElementById('#' + choice + '-success-msg').innerHTML = "No entries found!";
+			$('#' + choice + '-success-result').collapse('show');		
+		}
+	});		
+}
+
+function loadAirportOptions(choice) {
+	var editStr = choice;
+	if(choice == "delete") editStr = "";
+	$.post('admin_func_retrieve_airport.php',{edit:editStr}, function(data) {
+		if(data) {
+			// headers in array, rows, function to call when delete/edit button is clicked, words in the button
+			document.getElementById(choice + '-options').innerHTML = createTableFormHtml(["Name","Location", "Designator"], data, "", "");
 			$('#' + choice + '-options').collapse('show');
 		} else {
 			document.getElementById('#' + choice + '-success-msg').innerHTML = "No entries found!";
