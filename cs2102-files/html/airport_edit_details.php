@@ -11,14 +11,9 @@ if(empty($_POST['selected'])) {
 	
 	require("config.php");		
 	$sql = "";
-	if($_POST['selected'] == "administrator") {
-		$sql = "SELECT * FROM admin a WHERE a.email = '".$_POST['email']."'";
-	} else if {
-		require("config.php");		
-		$sql = "";
-		if($_POST['selected'] == "airport") {
-			$sql = "SELECT * FROM airport a WHERE a.designator = '".$_POST['designator']."'";
-	} else
+	if($_POST['selected'] == "airport") {
+		$sql = "SELECT * FROM airport a WHERE a.designator = '".$_POST['designator']."'";
+	} else {
 	}
 	if(!empty($sql)) {
 		$stid = oci_parse($dbh, $sql);
@@ -94,48 +89,7 @@ if(empty($_POST['selected'])) {
 	  
 		<?php 
 		
-		if($_POST['selected'] == "administrator") {
-			
-			// display the form (same format as found in admin_panel_add)
-			// to keep track of primary key original values, put it as input name
-			echo '
-				<!-- div box for adminstrator -->
-				<div id = "administrator" >
-					<form id = "edit-admin-form" class="form-horizontal"> 
-						<div class="form-group">
-							<label class="control-label col-xs-3">Name</label>
-							<div class="col-xs-9">		
-								<input id = "admin-name" type="text" class="form-control" placeholder="Name" required autofocus="" value = "'.$row['NAME'].'">
-							</div>
-						</div>			
-						<div class="form-group">
-							<label for="inputEmail" class="control-label col-xs-3" >Email Address</label>
-							<div class="col-xs-9">		
-								<input id = "admin-email" type="email" id="inputEmail" class="form-control" placeholder="Email address"  required autofocus="" name = "'.$row['EMAIL'].'" value = "'.$row['EMAIL'].'">
-								<p id = "adminEmailError" class = "collapse" class="text-danger" data-toggle="false">Oops! The owner of the email is already an administrator.</p>
-							</div>
-						</div>	
-						<div class="form-group">
-							<label class="control-label col-xs-3">Password</label>
-							<div class="col-xs-9">
-								<input id = "admin-pwd" class="form-control" placeholder="Password"  required autofocus="" value = "'.$row['PASSWORD'].'">
-							</div>
-						</div>
-						<div class="form-group">
-							<div id = "admin-button"  class="col-xs-offset-3 col-xs-9 collapse in " data-toggle="false">
-								<button type="reset" class="btn btn-primary">Reset</button>
-								<button type="submit" class="btn btn-primary" onclick = "return handleEditAdmin()">Edit Administrator</button>
-							</div>
-						</div>
-					</form>
-					<div id = "edit-admin-error-result" class = "collapse" data-toggle="false">
-						<p id = "edit-admin-error-msg"></p>
-					</div>
-				</div>
-				<!-- end for admin stuffs -->
-				';
-		}
-		else if ($_POST['selected'] == "airport") {
+		if($_POST['selected'] == "airport") {
 			
 
 			// to keep track of primary key original values, put it as input name
