@@ -56,7 +56,7 @@ if(empty($_SESSION['admin'])) {
               <li><a href="admin_panel_add.php"><span class="glyphicon glyphicon-plus"></span> Add</a></li>
               <li><a href="admin_panel_delete.php"><span class="glyphicon glyphicon-remove"></span> Delete</a></li>
               <li><a href="admin_panel_edit.php"><span class="glyphicon glyphicon-pencil"></span>  Edit</a></li>
-              <li class="active"><a href="#"><span class="glyphicon glyphicon-search"></span> Search</a></li>
+              <li class="active"><a href="admin_panel_search.php"><span class="glyphicon glyphicon-search"></span> Search</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
               <li><a href="user_logout.php"><span class="glyphicon glyphicon-log-out"></span> Log Out</a></li>
@@ -208,6 +208,146 @@ if(empty($_SESSION['admin'])) {
 			</form>
 		</div>
 		<!-- end for airport -->			
+		
+		<!-- div box for flight search fields -->
+		<div id = "flight" class = "collapse" data-toggle="false">
+			<form id = "search-flight-form" class="form-horizontal"> 				
+				<div class="form-group">
+					<label class="control-label col-xs-3">Flight Number</label>
+					<div class="col-xs-9">		
+						<input id = "flight-number" type="text" class="form-control" placeholder="Flight Number"  autofocus="">
+					</div>
+				</div>		
+				<div class="form-group">
+					<label class="control-label col-xs-3">Origin</label>
+					<div class="col-xs-9">		
+						<input id = "flight-origin" type="text" class="form-control" placeholder="Origin"  autofocus="">
+					</div>
+				</div>	
+				<div class="form-group">
+					<label class="control-label col-xs-3">Destination</label>
+					<div class="col-xs-9">		
+						<input id = "flight-destination" type="text" class="form-control" placeholder="Destination"  autofocus="">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-xs-3">Seat Capacity</label>
+					<div class="col-xs-9">		
+						<input id = "flight-seat" type="number" class="form-control" placeholder="Seat Capacity"  autofocus="">
+					</div>
+				</div>	
+				<div class="form-group">
+					<label class="control-label col-xs-3">Duration</label>
+					<div class="col-xs-9">		
+						<input id = "flight-duration" type="text" class="form-control" placeholder="4.5 Hours etc"  autofocus="">
+					</div>
+				</div>					
+				<div class="form-group">
+					<div id = "flight-button"  class="col-xs-offset-3 col-xs-9 collapse in" data-toggle="false">
+						<button type="submit" class="btn btn-primary pull-right" onclick = "return handleSearchFlight()">Search Flight</button>
+					</div>
+				</div>
+			</form>
+		</div>
+		<!-- end for flight -->			
+		
+		<!-- div box for schedule search fields -->
+		<div id = "schedule" class = "collapse" data-toggle="false">
+			<form id = "search-schedule-form" class="form-horizontal"> 				
+				<div class="form-group">
+					<label class="control-label col-xs-3">Flight Number</label>
+					<div class="col-xs-9">
+						<select  id = "schedule-flight" class = "form-control input-sm"> 
+							<option selected = "true" value = "" disabled>Select Flight</option>
+							<?php
+								require("config.php");
+								$sql = "SELECT f.f_number FROM flight f";
+								$stid = oci_parse($dbh, $sql);
+								oci_execute($stid, OCI_DEFAULT);
+								while($row = oci_fetch_array($stid)){
+									echo "<option value=\"".$row["F_NUMBER"]."\">".$row["F_NUMBER"]."</option><br>";
+								}
+								oci_free_statement($stid);
+							?>
+						</select>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-xs-3">Departure Time</label>
+					<div class="col-xs-4">
+						<input id = "schedule-departure-start" type="datetime-local" value = "<?php date_default_timezone_set('Asia/Singapore'); $today_date = date('Y-m-d'); echo strftime('%Y-%m-%dT%H:%M:%S', strtotime($today_date)) ?>" class="form-control" placeholder="Departure Time"  autofocus="">
+					</div>
+					<label class="control-label col-xs-1">to</label>
+					<div class="col-xs-4">	
+						<input id = "schedule-departure-end" type="datetime-local" value = "<?php date_default_timezone_set('Asia/Singapore'); $today_date = date('Y-m-d'); echo strftime('%Y-%m-%dT%H:%M:%S', strtotime($today_date)) ?>" class="form-control" placeholder="Departure Time"  autofocus="">
+					</div>
+				</div>			
+				<div class="form-group">
+					<div id = "schedule-departure-time-error"  class="col-xs-offset-3 col-xs-9 collapse in" data-toggle="false">
+						<p class = "text-danger"></p>
+					</div>
+				</div>		
+
+				<div class="form-group">
+					<label class="control-label col-xs-3">Arrival Time</label>
+					<div class="col-xs-4">
+						<input id = "schedule-arrival-start" type="datetime-local" value = "<?php date_default_timezone_set('Asia/Singapore'); $today_date = date('Y-m-d'); echo strftime('%Y-%m-%dT%H:%M:%S', strtotime($today_date)) ?>" class="form-control" placeholder="Departure Time"  autofocus="">
+					</div>
+					<label class="control-label col-xs-1">to</label>
+					<div class="col-xs-4">	
+						<input id = "schedule-arrival-end" type="datetime-local" value = "<?php date_default_timezone_set('Asia/Singapore'); $today_date = date('Y-m-d'); echo strftime('%Y-%m-%dT%H:%M:%S', strtotime($today_date)) ?>" class="form-control" placeholder="Departure Time"  autofocus="">
+					</div>
+				</div>			
+				<div class="form-group">
+					<div id = "schedule-arrival-time-error"  class="col-xs-offset-3 col-xs-9 collapse in" data-toggle="false">
+						<p class = "text-danger"></p>
+					</div>
+				</div>							
+				<!--
+				<div class="form-group">
+					<label class="control-label col-xs-3">Duration</label>
+					<div class="col-xs-9">		
+						<input id = "schedule-duration" type="text" class="form-control" placeholder="Origin"  autofocus="">
+					</div>
+				</div>	
+				-->
+				<div class="form-group">
+					<label class="control-label col-xs-3">Seat Capacity</label>
+					<div class="col-xs-9">		
+						<input id = "schedule-seat" type="number" class="form-control" placeholder="Seat Capacity"  autofocus="">
+					</div>
+				</div>	
+				<div class="form-group">
+					<label class="control-label col-xs-3">Origin</label>
+					<div class="col-xs-9">		
+						<input id = "schedule-origin" type="text" class="form-control" placeholder="Canada etc"  autofocus="">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-xs-3">Destination</label>
+					<div class="col-xs-9">		
+						<input id = "schedule-destination" type="text" class="form-control" placeholder="New York etc"  autofocus="">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-xs-3">Price</label>
+					<div class="col-xs-4">		
+						<input id = "schedule-price-lowest" type="number" class="form-control" placeholder="lowest price"  autofocus="">
+					</div>
+					<label class="control-label col-xs-1">to</label>
+					<div class="col-xs-4">		
+						<input id = "schedule-price-highest" type="number" class="form-control" placeholder="highest price"  autofocus="">
+					</div>					
+				</div>					
+				<div class="form-group">
+					<div id = "schedule-button"  class="col-xs-offset-3 col-xs-9 collapse in" data-toggle="false">
+						<button type="submit" class="btn btn-primary pull-right" onclick = "return handleSearchSchedule()">Search Flight Schedule</button>
+					</div>
+				</div>
+				
+			</form>
+		</div>
+		<!-- end for schedule -->				
 
 		<!-- search results div box -->
 		<div id = "search-results" class = "collapse" data-toggle="false">
