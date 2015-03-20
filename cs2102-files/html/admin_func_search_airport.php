@@ -23,11 +23,13 @@
 			$error_message = oci_error($stid);
 			echo $error_message;
 	} else {
+		$index = 0;
 		while($row = oci_fetch_array($stid)) {
 			$output = $output." <tr id = \"".$index."\" class = \"collapse in\" data-toggle = \"false\">";
             $output = $output."<td>".$row['NAME']."</td><td>".$row['LOCATION']."</td><td>".$row['DESIGNATOR']."</td>";
             $output = $output."<td><span class=\"glyphicon glyphicon-pencil \" value=\"".$row['DESIGNATOR']."\" onclick = \"return forwardToAirportEditDetails('".$row['DESIGNATOR']."')\"></span></td>";
             $output = $output."<td><span class=\"glyphicon glyphicon-remove \" onclick = \"return handleDeleteAirport('".$index."','".$row['DESIGNATOR']."')\"></span></td></tr>";
+			$index++;
 		}
 		echo $output;
 	}

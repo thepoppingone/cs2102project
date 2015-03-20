@@ -11,13 +11,18 @@
 	$index = 0;
 	if(empty($edit)) {
 		while($row = oci_fetch_array($stid)) {
-			// create a row with name, location, designator delete icon which calls a handleDeleteAirport(rowId, email)
-			//$output = $output." <tr id = \"".$index."\" class = \"collapse in\" data-toggle = \"false\"><td>".$row['NAME']."</td><td>".$row['EMAIL']."</td><td><span class=\"glyphicon glyphicon-remove \" onclick = \"return handleDeleteAdmin('".$index."','".$row['EMAIL']."')\"></span></td></tr>";
-			//$index++;
+			// create a row with name, location, designator, delete icon which calls a handleDeleteAirport(rowId, designator)
+			$output = $output." <tr id = \"".$index."\" class = \"collapse in\" data-toggle = \"false\">
+			<td>".$row['NAME']."</td>
+			<td>".$row['LOCATION']."</td>
+			<td>".$row['DESIGNATOR']."</td>
+			<td><span class=\"glyphicon glyphicon-remove \" value=\"".$row['DESIGNATOR']."\" onclick = \"return handleDeleteAdmin('".$index."','".$row['DESIGNATOR']."')\"></span></td>
+			</tr>";
+			$index++;			
 		}
 	} else {
 		while($row = oci_fetch_array($stid)) {
-			// create a row with name, email, pencil icon which calls a handleEditAirport(email)
+			// create a row with name, location, designator, pencil icon which calls a forwardToAirportEditDetails(designator)
 			$output = $output." <tr id = \"".$index."\" class = \"collapse in\" data-toggle = \"false\">
 			<td>".$row['NAME']."</td>
 			<td>".$row['LOCATION']."</td>
