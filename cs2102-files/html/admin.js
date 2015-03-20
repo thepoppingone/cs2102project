@@ -379,6 +379,116 @@ function handleSearchAirport() {
 	return false;
 }
 
+function handleSearchReservation() {
+
+	var reservationIdStr = document.getElementById('reservation-id').value;
+	var contactPersonStr =  document.getElementById('reservation-name').value;
+	var contactNumberStr =  document.getElementById('reservation-number').value;
+	var contactEmailStr =  document.getElementById('reservation-email').value;
+	var flightNumberStr =  document.getElementById('reservation-flight-number').value;
+	var departTimeMin = document.getElementById('reservation-departure-start').value;
+	var departTimeMax = document.getElementById('reservation-departure-end').value;
+	
+	$.post('admin_func_search_reservation.php', { id: reservationIdStr,
+											 c_person: contactPersonStr,
+											 c_number: contactNumberStr,
+											 c_email: contactEmailStr,
+											 flight_number: flightNumberStr,
+											 depart_time_min: departTimeMin,
+											 depart_time_max: departTimeMax
+											}, function(data) {
+		if(data) {
+			var message = data.split(" ");
+			if(message[0] != "Error") {
+				document.getElementById("search-results").innerHTML = createTableFormHtml(["Reservation Id", "Contact Person", "Contact Number", "Contact Email", "Flight Number", "Departure Time"], data, "", "");
+				$("#search-results").collapse('show');
+			} else {
+				// error
+				handleSearchError();
+			}
+		} else {
+			handleEmptySearchResults();			
+		}
+	});
+	return false;
+}
+
+function handleSearchFlight() {
+
+	var flightStr = document.getElementById('flight-number').value;
+	var originStr = document.getElementById('flight-origin').value;
+	var destinationStr = document.getElementById('flight-destination').value;
+	var seatMin = document.getElementById('flight-seat-min').value;
+	var seatMax = document.getElementById('flight-seat-max').value;
+	var durationStr = document.getElementById('flight-duration').value;
+	
+	$.post('admin_func_search_flight.php', { f_number: flightStr,
+											 origin: originStr,
+											 destination: destinationStr,
+											 seat_min: seatMin,
+											 seat_max: seatMax,
+											 duration: durationStr
+											}, function(data) {
+		if(data) {
+			var message = data.split(" ");
+			if(message[0] != "Error") {
+				document.getElementById("search-results").innerHTML = createTableFormHtml(["Flight Number", "Origin", "Destination", "Seat Capacity"], data, "", "");
+				$("#search-results").collapse('show');
+			} else {
+				// error
+				handleSearchError();
+			}
+		} else {
+			handleEmptySearchResults();			
+		}
+	});
+	return false;
+}
+
+function handleSearchSchedule() {
+
+	var flightStr = document.getElementById('schedule-flight-number').value;
+	var originStr = document.getElementById('schedule-origin').value;
+	var destinationStr = document.getElementById('schedule-destination').value;
+	var departTimeMin = document.getElementById('schedule-departure-start').value;
+	var departTimeMax = document.getElementById('schedule-departure-end').value;
+	var arrivalTimeMin = document.getElementById('schedule-arrival-start').value;
+	var arrivalTimeMax = document.getElementById('schedule-arrival-end').value;
+	var seatMin = document.getElementById('schedule-seat-min').value;
+	var seatMax = document.getElementById('schedule-seat-max').value;
+	var priceMin = document.getElementById('schedule-price-lowest').value;
+	var priceMax = document.getElementById('schedule-price-highest').value;
+	
+	
+	$.post('admin_func_search_schedule.php', { flight_number: flightStr,
+											 origin: originStr,
+											 destination: destinationStr,
+											 depart_time_min: departTimeMin,
+											 depart_time_max: departTimeMax,
+											 arrival_time_min: arrivalTimeMin,
+											 arrival_time_max: arrivalTimeMax,
+											 seat_min: seatMin,
+											 seat_max: seatMax,
+											 price_min: priceMin,
+											 price_max: priceMax
+											}, function(data) {
+		if(data) {
+			var message = data.split(" ");
+			if(message[0] != "Error") {
+				document.getElementById("search-results").innerHTML = createTableFormHtml(["Flight Number", "Origin", "Departure Time", "Arrival Time", "Available Seats", "Price" ], data, "", "");
+				$("#search-results").collapse('show');
+			} else {
+				// error
+				handleSearchError();
+			}
+		} else {
+			handleEmptySearchResults();			
+		}
+	});
+	return false;
+}
+
+
 function handleEmptySearchResults() {
 	document.getElementById("search-results").innerHTML = "<div class=\"col-xs-offset-3 col-xs-9 alert alert-info\" role = \"alert\" >No records found.</div></br>";
 	$("#search-results").collapse('show');
