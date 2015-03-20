@@ -67,8 +67,6 @@
 			<br/>
 			<p id = "login-error" class = "collapse text-danger"  data-toggle="false"></p>
 			<button class="btn btn-lg btn-primary btn-block" type="submit" onclick = "return validate_admin_login()">Login</button>
-			<br/>
-			<p> <a href="#">Create account</a> </p>
 		  </form>
       </div>
 
