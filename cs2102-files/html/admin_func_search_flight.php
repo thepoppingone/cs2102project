@@ -43,11 +43,13 @@
 			$error_message = oci_error($stid);
 			echo $error_message;
 	} else {
+		$index = 0;
 		while($row = oci_fetch_array($stid)) {
 			$output = $output." <tr id = \"".$index."\" class = \"collapse in\" data-toggle = \"false\">";
             $output = $output."<td>".$row['F_NUMBER']."</td><td>".$row['ORIGIN']."</td><td>".$row['DESTINATION']."</td><td>".$row['SEAT_CAPACITY']."</td>";
             $output = $output."<td><span class=\"glyphicon glyphicon-pencil \" value=\"".$row['F_NUMBER']."\" onclick = \"return forwardToFlightEditDetails('".$row['F_NUMBER']."')\"></span></td>";
             $output = $output."<td><span class=\"glyphicon glyphicon-remove \" onclick = \"return handleDeleteFlight('".$index."','".$row['F_NUMBER']."')\"></span></td></tr>";
+			$index++;
 		}
 		echo $output;
 	}

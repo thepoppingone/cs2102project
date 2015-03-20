@@ -23,6 +23,7 @@
 			$error_message = oci_error($stid);
 			echo $error_message;
 	} else {
+		$index = 0;
 		while($row = oci_fetch_array($stid)) {
 			$output = $output." <tr id = \"".$index."\" class = \"collapse in\" data-toggle = \"false\">";
 			$output = $output."<td>".$row['TITLE']."</td>";
@@ -31,6 +32,7 @@
 			$output = $output."<td>".$row['PASSPORT_NUMBER']."</td>";
             $output = $output."<td><span class=\"glyphicon glyphicon-pencil \" value=\"".$row['PASSPORT_NUMBER']."\" onclick = \"return forwardToPassengerEditDetails('".$row['PASSPORT_NUMBER']."')\"></span></td>";
             $output = $output."<td><span class=\"glyphicon glyphicon-remove \" onclick = \"return handleDeletePassenger('".$index."','".$row['PASSPORT_NUMBER']."')\"></span></td></tr>";
+			$index++;
 		}
 		echo $output;
 	}
