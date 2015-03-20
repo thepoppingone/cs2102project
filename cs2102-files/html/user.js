@@ -57,3 +57,26 @@ function validate_admin_login() {
 		return true;
 	}
 }
+
+/*******************************
+* functions related to Booking Retrieval 
+********************************/
+function validate_user_retrieve_booking_inputs() {
+	var bookingIDStr = document.getElementById('inputBookingID').value;
+        var emailStr = document.getElementById('inputEmail').value;
+				
+	if(emailStr && bookingStr) {		
+		$.post('user_validate_retrieve_booking_inputs.php', {email:emailStr, bookingid:bookingIDStr}, function(data) {
+			if(data == 'booking_found') {
+				document.getElementById('retrieveBooking-form').submit();
+			}
+			else {
+				document.getElementById("retrieveBooking-error").innerHTML = "Invalid Credentials.<br/>";
+				$('#retrieveBooking-error').collapse('show');
+			}
+		});
+		return false;
+	} else {
+		return true;
+	}
+}
