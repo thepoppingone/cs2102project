@@ -188,18 +188,48 @@ function validateScheduleSeat() {
 function deleteCategoryChange() {
 	var selectBar = document.getElementById('delete-category');
     var option =  selectBar.options[selectBar.selectedIndex].value;
-	//var options = ["administrator", "passenger", "reservation", "airline", "aircraft", "airport", "flight", "schedule"];
+	//var options = ["administrator", "passenger", "reservation", "airport", "flight", "schedule"];
 	document.getElementById("delete-options").innerHTML = "";
-	disableForm(['delete-success-result', 'delete-error-result'], [])
+	disableForm(['delete-error-result'], []);
 	if(option == "administrator") {
 		loadAdminOptions("delete");
-	} /*else if(option == "airport") {
-		loadAirlineOptions("delete");
-	}*/
+	} else if(option == "passenger") {
+		loadPassengerOptions("delete");
+	} else if(option == "airport") {
+		loadAirportOptions("delete");
+	} else if(option == "reservation") {
+		loadReservationOptions("delete");
+	} else if(option == "flight") {
+		loadFlightOptions("delete");
+	}
 }
 
 function handleDeleteAdmin(id, emailStr) {
 	$.post('admin_func_delete_admin.php', {email:emailStr}, function(data) {	
+		if(data == "successful") {
+			disableForm([id],[]);
+		} else {
+			document.getElementById("delete-error-msg").innerHTML = "Error message:" + resultMsg;
+			$('#delete-error-result').collapse('show');
+		}
+	});	
+	return false;
+}
+
+function handleDeletePassenger(id, passportStr) {
+	$.post('admin_func_delete_passenger.php', {passport:passportStr}, function(data) {	
+		if(data == "successful") {
+			disableForm([id],[]);
+		} else {
+			document.getElementById("delete-error-msg").innerHTML = "Error message:" + resultMsg;
+			$('#delete-error-result').collapse('show');
+		}
+	});	
+	return false;
+}
+
+function handleDeleteAirport(id, designatorStr) {
+	$.post('admin_func_delete_airport.php', {designator:designatorStr}, function(data) {	
 		if(data == "successful") {
 			disableForm([id],[]);
 		} else {
@@ -224,6 +254,10 @@ function editCategoryChange() {
 		loadAirportOptions("edit");
 	} else if(option == "passenger") {
 		loadPassengerOptions("edit");
+	} else if(option == "reservation") {
+		loadReservationOptions("edit");
+	} else if(option == "flight") {
+		loadFlightOptions("edit");
 	}
 }
 
@@ -352,8 +386,7 @@ function loadAdminOptions(choice) {
 			document.getElementById(choice + '-options').innerHTML = createTableFormHtml(["Name","Email"], data, "", "");
 			$('#' + choice + '-options').collapse('show');
 		} else {
-			document.getElementById('#' + choice + '-success-msg').innerHTML = "No entries found!";
-			$('#' + choice + '-success-result').collapse('show');		
+			handleEmptyOptions(choice + '-options'); 		
 		}
 	});		
 }
@@ -367,8 +400,7 @@ function loadAirportOptions(choice) {
 			document.getElementById(choice + '-options').innerHTML = createTableFormHtml(["Name","Location", "Designator"], data, "", "");
 			$('#' + choice + '-options').collapse('show');
 		} else {
-			document.getElementById('#' + choice + '-success-msg').innerHTML = "No entries found!";
-			$('#' + choice + '-success-result').collapse('show');		
+			handleEmptyOptions(choice + '-options'); 	
 		}
 	});
 }
@@ -382,8 +414,35 @@ function loadPassengerOptions(choice) {
 			document.getElementById(choice + '-options').innerHTML = createTableFormHtml(["Passenger Number", "Type", "Title", "First Name", "Last Name"], data, "", "");
 			$('#' + choice + '-options').collapse('show');
 		} else {
-			document.getElementById('#' + choice + '-success-msg').innerHTML = "No entries found!";
-			$('#' + choice + '-success-result').collapse('show');		
+			handleEmptyOptions(choice + '-options'); 	
+		}
+	});	
+}
+
+function loadReservationOptions(choice) {
+	var editStr = choice;
+	if(choice == "delete") editStr = "";
+	$.post('admin_func_retrieve_reservation.php',{edit:editStr}, function(data) {
+		if(data) {
+			// headers in array, rows, function to call when delete/edit button is clicked, words in the button
+			document.getElementById(choice + '-options').innerHTML = createTableFormHtml(["Reservation Id", "Contact Person", "Contact Number", "Contact Email", "Flight Number", "Departure Time"], data, "", "");
+			$('#' + choice + '-options').collapse('show');
+		} else {
+			handleEmptyOptions(choice + '-options'); 	
+		}
+	});	
+}
+
+function loadFlightOptions(choice) {
+	var editStr = choice;
+	if(choice == "delete") editStr = "";
+	$.post('admin_func_retrieve_flight.php',{edit:editStr}, function(data) {
+		if(data) {
+			// headers in array, rows, function to call when delete/edit button is clicked, words in the button
+			document.getElementById(choice + '-options').innerHTML = createTableFormHtml(["Flight Number", "Origin", "Destination", "Seat Capacity"], data, "", "");
+			$('#' + choice + '-options').collapse('show');
+		} else {
+			handleEmptyOptions(choice + '-options'); 
 		}
 	});	
 }
@@ -423,7 +482,7 @@ function handleSearchAdmin() {
 				handleSearchError();
 			}
 		} else {
-			handleEmptySearchResults();			
+			handleEmptyOptions("search-results");		
 		}
 	});
 	return false;
@@ -450,7 +509,7 @@ function handleSearchPassenger() {
 				handleSearchError();
 			}
 		} else {
-			handleEmptySearchResults();			
+			handleEmptyOptions("search-results");		
 		}
 	});
 	return false;
@@ -473,7 +532,7 @@ function handleSearchAirport() {
 				handleSearchError();
 			}
 		} else {
-			handleEmptySearchResults();			
+			handleEmptyOptions("search-results");		
 		}
 	});
 	return false;
@@ -507,7 +566,7 @@ function handleSearchReservation() {
 				handleSearchError();
 			}
 		} else {
-			handleEmptySearchResults();			
+			handleEmptyOptions("search-results");		
 		}
 	});
 	return false;
@@ -539,7 +598,7 @@ function handleSearchFlight() {
 				handleSearchError();
 			}
 		} else {
-			handleEmptySearchResults();			
+			handleEmptyOptions("search-results");	
 		}
 	});
 	return false;
@@ -582,7 +641,7 @@ function handleSearchSchedule() {
 				handleSearchError();
 			}
 		} else {
-			handleEmptySearchResults();			
+			handleEmptyOptions("search-results");		
 		}
 	});
 	return false;
@@ -591,11 +650,6 @@ function handleSearchSchedule() {
 
 function handleEmptySearchResults() {
 	document.getElementById("search-results").innerHTML = "<div class=\"col-xs-offset-3 col-xs-9 alert alert-info\" role = \"alert\" >No records found.</div></br>";
-	$("#search-results").collapse('show');
-}
-
-function handleSearchError() {
-	document.getElementById("search-results").innerHTML = "<div class=\"col-xs-offset-3 col-xs-9 alert alert-danger\" role = \"alert\" >Sorry, there was an error in searching!</div></br>";
 	$("#search-results").collapse('show');
 }
 
@@ -616,6 +670,12 @@ function disableForm(hideId, disableId) {
 	for(i = 0; i < disableId.length; i++) {
 		document.getElementById(disableId[i]).disabled = true;
 	}
+}
+
+// use by delete, edit, search
+function handleEmptyOptions(elementId) {
+	document.getElementById(elementId).innerHTML = "<div class=\"col-xs-offset-3 col-xs-9 alert alert-info\" role = \"alert\" >No records found.</div></br>";
+	$('#' + elementId).collapse('show');	
 }
 
 // use by add, edit, search
