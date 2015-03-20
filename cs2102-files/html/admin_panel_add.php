@@ -77,7 +77,7 @@ if(empty($_SESSION['admin'])) {
 						<option class="select-dash" disabled="disabled">----</option>
 						<option value="administrator">Administrator</option>
 						<option class="select-dash" disabled="disabled">----</option>
-						<option value="member">Member</option>
+						<option value="passenger">Passenger</option>
 						<option value="reservation">Reservation</option>
 						<option class="select-dash" disabled="disabled">----</option>
 						<option value="airport">Airport</option>
@@ -101,7 +101,7 @@ if(empty($_SESSION['admin'])) {
 				<div class="form-group">
 					<label for="inputEmail" class="control-label col-xs-3">Email Address</label>
 					<div class="col-xs-9">		
-						<input id = "admin-email" type="email" id="inputEmail" class="form-control" placeholder="Email address"  required autofocus="">
+						<input id = "admin-email" type="email" class="form-control" placeholder="Email address"  required autofocus="">
 						<p id = "adminEmailError" class = "collapse text-danger"  data-toggle="false">Oops! The owner of the email is already an administrator.</p>
 					</div>
 				</div>	
@@ -122,6 +122,129 @@ if(empty($_SESSION['admin'])) {
 			</div>
 		</div>
 		<!-- end for add new admin stuffs -->
+		
+		<!-- add new passenger into existing reservation -->
+		<!-- div box for passenger -->
+		<div id = "passenger" class = "collapse" data-toggle="false">
+			<form id = "add-passenger-form" class="form-horizontal"> 
+				<div class="form-group">
+					<label class="control-label col-xs-3">Title</label>
+					<div class="col-xs-9">		
+						<input id = "passenger-title" type="text" class="form-control" placeholder="Title (Mr/Ms/Mdm etc)"  required autofocus="">
+					</div>
+				</div>	
+				<div class="form-group">
+					<label class="control-label col-xs-3">First Name</label>
+					<div class="col-xs-9">		
+						<input id = "passenger-first-name" type="text" class="form-control" placeholder="First Name"  required autofocus="">
+					</div>
+				</div>	
+				<div class="form-group">
+					<label class="control-label col-xs-3">Last Name</label>
+					<div class="col-xs-9">		
+						<input id = "passenger-last-name" type="text" class="form-control" placeholder="Last Name"  required autofocus="">
+					</div>
+				</div>					
+				<div class="form-group">
+					<label class="control-label col-xs-3">Passport Number</label>
+					<div class="col-xs-9">		
+						<input id = "passenger-passport" type="text" class="form-control" placeholder="Passport Number"  required autofocus="">
+					</div>
+				</div>	
+				<div class="form-group">
+					<label class="control-label col-xs-3">Reservation Id</label>
+					<div class="col-xs-9">
+						<select  id = "passenger-reservation-id" class = "form-control input-sm"  onchange = "validateFlightRoute()" required> 
+							<option selected = "true" disabled>Select Reservation Id</option>
+							<?php
+								require("config.php");
+								$sql = "SELECT b.id FROM booking b";
+								$stid = oci_parse($dbh, $sql);
+								oci_execute($stid, OCI_DEFAULT);
+								while($row = oci_fetch_array($stid)){
+									echo "<option value=\"".$row["ID"]."\">".$row["ID"]."</option><br>";
+								}
+								oci_free_statement($stid);
+							?>
+						</select>
+					</div>
+				</div>
+				<div class="form-group">
+					<div id = "passenger-button"  class="col-xs-offset-3 col-xs-9 collapse in" data-toggle="false">
+						<button type="submit" class="btn btn-primary" onclick = "return handleAddPassenger()">Add Passenger</button>
+					</div>
+				</div>
+			</form>
+			<div id = "add-passenger-error-result"  class = "collapse text-danger"   data-toggle="false">
+				<p id = "add-passenger-error-msg"></p>
+			</div>
+		</div>
+		<!-- end for passenger -->		
+		
+		<!-- add new reservation -->
+		<!-- div box for reservation -->
+		<div id = "reservation" class = "collapse" data-toggle="false">
+			<form id = "add-reservation-form" class="form-horizontal"> 
+				<div class="form-group">
+					<label for="inputEmail" class="control-label col-xs-3">Email Address</label>
+					<div class="col-xs-9">		
+						<input id = "admin-email" type="email" class="form-control" placeholder="Email address"  required autofocus="">
+					</div>
+				</div>	
+				<div class="form-group">
+					<label class="control-label col-xs-3">Flight</label>
+					<div class="col-xs-9">		
+						<!-- uncompleted work: loadFlightScheduleBar for onchange is not written yet. it is to reload the options for the flight schedule bar-->
+						<select  id="reservation-flight" class = "form-control input-sm" onchange = "loadFlightScheduleBar()"  required > 
+						<option selected = "true" value ="" disabled>Select Flight</option>
+						<?php
+							require("config.php");
+							$sql = "SELECT f.f_number, f.origin, f.destination FROM flight f WHERE EXISTS (SELECT * FROM schedule s WHERE f.f_number = s.flight_number)";
+							$stid = oci_parse($dbh, $sql);
+							oci_execute($stid, OCI_DEFAULT);
+							while($row = oci_fetch_array($stid)){
+								echo "<option value=\"".$row["F_NUMBER"]."\">".$row["F_NUMBER"]." (".$row["ORIGIN"]." to ".$row["DESTINATION"].")</option><br>";
+							}
+							oci_free_statement($stid);
+						?>
+						</select>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-xs-3">Schedule</label>
+					<div class="col-xs-9">		
+						<!-- uncompleted work: validateSeatCapacity for onchange is not written yet. it is to check the no of seats selected can be satisfy-->
+						<select  id="reservation-schedule" class = "form-control input-sm" onchange = "validateSeatCapacity()"  required > 
+							<option selected = "true" value ="" disabled>Select Flight First</option>
+						</select>
+					</div>
+				</div>				
+				<div class="form-group">
+					<label class="control-label col-xs-3">Number of Seats</label>
+					<div class="col-xs-9">		
+						<!-- uncompleted work: loadFlightScheduleBar for onchange is not written yet. it is to reload the options for the flight schedule bar-->
+						<select  id="reservation-schedule" class = "form-control input-sm" onchange = "loadFlightScheduleBar()"  required > 
+							<option selected = "true" value ="" disabled>Select Seat Number</option>
+							<?php
+								for ($x = 1; $x <= 4; $x++) {
+									echo "<option value=\"".$x."\">".$x."</option><br>";
+								}
+							?>
+						</select>
+					</div>
+				</div>	
+				<div class="form-group">
+					<div id = "reservation-button"  class="col-xs-offset-3 col-xs-9 collapse in" data-toggle="false">
+						<!-- uncompleted work : handleAddReservation() should add the reservation and then continue to update the html so that it ask for passenger info -->
+						<button type="submit" class="btn btn-primary" onclick = "return handleAddReservation()">Add Reservation</button>
+					</div>
+				</div>
+			</form>
+			<div id = "add-reservation-error-result"  class = "collapse text-danger"   data-toggle="false">
+				<p id = "add-reservation-error-msg"></p>
+			</div>
+		</div>
+		<!-- end for reservation -->				
 		
 		
 		<!-- add new airport stuffs -->
