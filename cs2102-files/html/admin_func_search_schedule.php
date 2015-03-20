@@ -51,11 +51,13 @@
 			$error_message = oci_error($stid);
 			echo $error_message;
 	} else {
+		$index = 0;
 		while($row = oci_fetch_array($stid)) {
 			$output = $output." <tr id = \"".$index."\" class = \"collapse in\" data-toggle = \"false\">";
             $output = $output."<td>".$row['F_NUMBER']."</td><td>".$row['ORIGIN']."</td><td>".$row['DESTINATION']."</td><td>".$row['DEPART_TIME']."</td><td>".$row['ARRIVALE_TIME']."</td><td>".$row['NUM_OF_SEATS_AVAILABLE']."</td><td>".$row['PRICE']."</td>";
             $output = $output."<td><span class=\"glyphicon glyphicon-pencil \" value=\"".$row['F_NUMBER']."\" onclick = \"return forwardToScheduleEditDetails('".$row['F_NUMBER']."','".$row['DEPART_TIME']."')\"></span></td>";
             $output = $output."<td><span class=\"glyphicon glyphicon-remove \" onclick = \"return handleDeleteSchedule('".$index."','".$row['F_NUMBER']."','".$row['DEPART_TIME'].")\"></span></td></tr>";
+			$index++;
 		}
 		echo $output;
 	}
