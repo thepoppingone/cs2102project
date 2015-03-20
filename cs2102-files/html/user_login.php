@@ -56,7 +56,7 @@
 
       <!-- Main component for a primary marketing message or call to action -->
       <div class="jumbotron" id="login-box">
-		  <form class="form-signin" action="user_checklogin.php" method="post">
+		  <form class="form-signin" action="user_func_check_admin_login.php" method="post">
 			<h2 class="form-signin-heading">Welcome Back :)</h2> <br/>
 			<label for="inputEmail" class="sr-only">Email address</label>
 			<input name = "email" type="email" id="inputEmail" class="form-control input-lg" placeholder="Email address" required="" autofocus="">
