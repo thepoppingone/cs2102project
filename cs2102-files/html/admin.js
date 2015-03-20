@@ -220,9 +220,11 @@ function editCategoryChange() {
 	document.getElementById("edit-options").innerHTML = "";
 	if(option == "administrator") {
 		loadAdminOptions("edit");
-	} /*else if(option == "airport") {
-		loadAirlineOptions();
-	}*/
+	} else if(option == "airport") {
+		loadAirportOptions("edit");
+	} else if(option == "passenger") {
+		loadPassengerOptions("edit");
+	}
 }
 
 function forwardToAdminEditDetails(emailStr) {
@@ -260,6 +262,74 @@ function handleEditAdmin() {
 	}
 }
 
+function forwardToAirportEditDetails(designatorStr) {
+	document.getElementById('result-form').action = "admin_edit_details.php";
+	appendToForm('result-form', ["selected", "designator"],["airport", designatorStr]);
+	document.getElementById('result-form').submit();
+	return true;
+}
+
+function handleEditAirport() {
+	var originalDesignatorStr = document.getElementById('airport-designator').name;
+	var nameStr = document.getElementById('airport-name').value;
+	var locationStr = document.getElementById('airport-location').value;
+	var designatorStr = document.getElementById('airport-designator').value;
+
+	if(nameStr && locationStr && designatorStr) {		
+		$.post('admin_func_edit_airport.php', {originalDesignator: originalDesignatorStr, location:locationStr, name:nameStr, designator:designatorStr}, function(data) {
+			if(data == 'edited') {
+				disableForm(['airport-button', 'edit-airport-error-result', 'airportDesignatorError'], ['airport-designator', 'airport-name', 'airport-location']);
+				displayAddSuccessfulMessage("edit","Airport information updated!");
+			}
+			else if(data == 'airport_exists'){
+				$('#edit-airport-error-result').collapse('hide');
+				$('#airportDesignatorError').collapse('show');
+			} else {
+				$('#airportDesignatorError').collapse('hide'); 
+				document.getElementById("edit-airport-error-msg").innerHTML = "Error message:" + data;
+				$('#edit-airport-error-result').collapse('show');
+			}
+		});
+		return false;
+	} else {
+		return true;
+	}
+}
+function forwardToPassengerEditDetails(numStr) {
+	document.getElementById('result-form').action = "admin_edit_details.php";
+	appendToForm('result-form', ["selected", "num"],["passenger", numStr]);
+	document.getElementById('result-form').submit();
+	return true;
+}
+
+function handleEditPassenger() {
+	var originalNumStr = document.getElementById('passenger-num').name;
+	var numStr = document.getElementById('passenger-num').value;
+	var typeStr = document.getElementById('passenger-type').value;
+	var titleStr = document.getElementById('passenger-title').value;
+	var firstNameStr = document.getElementById('passenger-firstname').value;
+	var lastNameStr = document.getElementById('passenger-lastname').value;
+
+	if(numStr && typeStr && titleStr && firstNameStr && lastNameStr) {		
+		$.post('admin_func_edit_passenger.php', {originalNum: originalNumStr, num:numStr, type:typeStr, title:titleStr, firstName:firstNameStr, lastName: lastNameStr}, function(data) {
+			if(data == 'edited') {
+				disableForm(['passenger-button', 'edit-passenger-error-result', 'passengerNumError'], ['passenger-num', 'passenger-type', 'passenger-title', 'passenger-firstname', 'passenger-lastname']);
+				displayAddSuccessfulMessage("edit","Passenger information updated!");
+			}
+			else if(data == 'passenger_exists'){
+				$('#edit-passenger-error-result').collapse('hide');
+				$('#passengerNumError').collapse('show');
+			} else {
+				$('#passengerNumError').collapse('hide'); 
+				document.getElementById("edit-passenger-error-msg").innerHTML = "Error message:" + data;
+				$('#edit-passenger-error-result').collapse('show');
+			}
+		});
+		return false;
+	} else {
+		return true;
+	}
+}
 function appendToForm(formName, names, values) {
 	for(i = 0; i < names.length; i++) {
 		var input = $("<input>")
@@ -286,6 +356,36 @@ function loadAdminOptions(choice) {
 			$('#' + choice + '-success-result').collapse('show');		
 		}
 	});		
+}
+
+function loadAirportOptions(choice) {
+	var editStr = choice;
+	if(choice == "delete") editStr = "";
+	$.post('admin_func_retrieve_airport.php',{edit:editStr}, function(data) {
+		if(data) {
+			// headers in array, rows, function to call when delete/edit button is clicked, words in the button
+			document.getElementById(choice + '-options').innerHTML = createTableFormHtml(["Name","Location", "Designator"], data, "", "");
+			$('#' + choice + '-options').collapse('show');
+		} else {
+			document.getElementById('#' + choice + '-success-msg').innerHTML = "No entries found!";
+			$('#' + choice + '-success-result').collapse('show');		
+		}
+	});
+}
+
+function loadPassengerOptions(choice) {
+	var editStr = choice;
+	if(choice == "delete") editStr = "";
+	$.post('admin_func_retrieve_passenger.php',{edit:editStr}, function(data) {
+		if(data) {
+			// headers in array, rows, function to call when delete/edit button is clicked, words in the button
+			document.getElementById(choice + '-options').innerHTML = createTableFormHtml(["Passenger Number", "Type", "Title", "First Name", "Last Name"], data, "", "");
+			$('#' + choice + '-options').collapse('show');
+		} else {
+			document.getElementById('#' + choice + '-success-msg').innerHTML = "No entries found!";
+			$('#' + choice + '-success-result').collapse('show');		
+		}
+	});	
 }
 
 /********************************
