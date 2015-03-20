@@ -15,6 +15,7 @@
 
     <!-- Custom styles for this template -->
     <link href="user.css" rel="stylesheet">
+	<script src="user.js"></script>
 
     <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
     <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
@@ -46,7 +47,7 @@
             <ul class="nav navbar-nav  navbar-blue">
               <li><a href="user_index.php">Home</a></li>
               <li><a href="user_search.php">Search</a></li>
-	      <li><a href="user_retrieve_booking.php">Retrieve Booking</a></li>
+              <li><a href="user_retrieve_booking.php">View Booking</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right navbar-blue">
 			  <li class="active"><a href="#">Login</a></li>
@@ -56,20 +57,17 @@
       </nav>
 
       <!-- Main component for a primary marketing message or call to action -->
-      <div class="jumbotron" id="booking-box">
-		  <form class="form-signin" action="user_validate_retrieve_booking_inputs.php" method="post">
-			<h2 class="form-signin-heading">View Booking details</h2> <br/>
-			
-			<h3 label class="control-label col-xs-3">Booking ID</label></h3>
-			<label for="inputBookingID" class="sr-only">BookingID</label>  
-			<input name = "bookingid" type="id" id="inputbookingid" class="form-control input-lg" placeholder="Booking ID" required="" autofocus="">
+      <div class="jumbotron" id="retrieveBooking-box">
+		  <form id = "retrieveBooking-form" class="form-signin" action="user_view_booking.php" method="post">
+			<h2 class="form-signin-heading">Please enter the following</h2> <br/>
+			<label for="inputBookingID" class="sr-only">Booking ID</label>
+			<input name = "bookingID" type="bookingID" id="inputBookingID" class="form-control input-lg" placeholder="Booking ID" required="" autofocus="">
 			<br/>
-			<h3 label class="control-label col-xs-3">Email</label></h3>
 			<label for="inputEmail" class="sr-only">Email</label>
-			<input name = "email" type="password" id="inputEmail" class="form-control input-lg" placeholder="Email of Contact Person" required="">
+			<input name = "email" type="email" id="inputEmail" class="form-control input-lg" placeholder="Email" required="">
 			<br/>
-			<button class="btn btn-lg btn-primary btn-block" type="retrieve_booking">Retrieve My Booking</button>
-			<br/>
+			<p id = "retrieveBooking-error" class = "collapse text-danger"  data-toggle="false"></p>
+			<button class="btn btn-lg btn-primary btn-block" type="submit" onclick = "return validate_user_retrieve_booking_inputs()">Retrieve My Booking!</button>
 		  </form>
       </div>
 
