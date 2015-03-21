@@ -67,12 +67,9 @@
     </div>
   <table id="resultTable" class="table table-striped table-hover">
              <thead>
-                            <th>Designator</th>
                             <th>Flight Number</th>
                             <th>Departure Time</th>
-                            <th>From</th>
                             <th>Arrival Time</th>
-                            <th>To</th>
                             <th>Price</th>
                             <th>Duration</th>
                         </thead>
