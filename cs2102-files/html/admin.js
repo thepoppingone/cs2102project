@@ -364,6 +364,42 @@ function handleEditPassenger() {
 		return true;
 	}
 }
+
+function forwardToFlightEditDetails(numStr) {
+	document.getElementById('result-form').action = "admin_edit_details.php";
+	appendToForm('result-form', ["selected", "num"],["flight", numStr]);
+	document.getElementById('result-form').submit();
+	return true;
+}
+
+function handleEditFlight() {
+	var originalNumStr = document.getElementById('flight-num').name;
+	var numStr = document.getElementById('flight-num').value;
+	var originStr = document.getElementById('flight-origin').value;
+	var destStr = document.getElementById('flight-dest').value;
+	var seatCapacityStr = document.getElementById('flight-seatcapacity').value;
+
+	if(numStr && originStr && destStr && seatCapacityStr) {		
+		$.post('admin_func_edit_flight.php', {originalNum: originalNumStr, num:numStr, origin:originStr, dest:destStr, seatCapacity:seatCapacityStr}, function(data) {
+			if(data == 'edited') {
+				disableForm(['flight-button', 'edit-flight-error-result', 'flightNumError'], ['flight-num', 'flight-origin', 'flight-dest', 'flight-seatcapacity']);
+				displayAddSuccessfulMessage("edit","Flight information updated!");
+			}
+			else if(data == 'flight_exists'){
+				$('#edit-flight-error-result').collapse('hide');
+				$('#flightNumError').collapse('show');
+			} else {
+				$('#flightNumError').collapse('hide'); 
+				document.getElementById("edit-flight-error-msg").innerHTML = "Error message:" + data;
+				$('#edit-flight-error-result').collapse('show');
+			}
+		});
+		return false;
+	} else {
+		return true;
+	}
+}
+
 function appendToForm(formName, names, values) {
 	for(i = 0; i < names.length; i++) {
 		var input = $("<input>")
