@@ -33,27 +33,31 @@ if(!empty($_GET)){
 		
 		//counter for cheat if else outcome
 		$i = 0;
+		$index = 1;
 		//FETCH AN ASSOICATIVE ARRAY FOR DATA EXTRACTION
 		while ($row = oci_fetch_assoc($stid)) 
 		{
 			//NOTE THE ASSOCIATIVE ARRAY REACTS ONLY TO CAPITAL LETTERS
+			// window.location is compliant to all browsers rather than using document
 			echo "<tr>";
-				echo "<td>".$row['FLIGHT_NUMBER']."</td>";
-				echo "<td>".$row['DEPART_TIME']."</td>";
+				echo "<td id='fNumBook".$index."'>".$row['FLIGHT_NUMBER']."</td>";
+				echo "<td id='departTimeBook".$index."'>".$row['DEPART_TIME']."</td>";
 				echo "<td>".$row['ARRIVAL_TIME']."</td>";
-				echo "<td>".$row['PRICE']."</td>";
+				echo "<td>$".$row['PRICE']."</td>";
 				echo "<td>".$row['DURATION']."</td>";
 			echo "</tr>";
 			$i++;
+			$index++;
 		}
 	
 	
 		//no records found
 		//used cheat method simple $i counter to keep check whether there are entries found or not
 		if($i == 0)
-		{echo "<tr>";
-			echo "<td colspan='4'>There are no available flights on this date</td>";
-		echo "</tr>";
+		{
+			echo "no_existing_flights";
+			//when inserting code from php USE single quotes!
+		//	echo "";
 		}
 
 		// to free up the resources

@@ -60,9 +60,10 @@
         <h2>Flight Search</h2>
         <br/>
         <h3>Please select your origiin, destination and the date of flight below!</h3>
-    <form name = "userSearchForm" action="user_search_results.php" class="form form-inline" method="get" onsubmit = "return validateUserSearchForm()">
+    <form data-toggle='validator' name = "userSearchForm" action="user_search_results.php" class="form form-inline" method="get" onsubmit = "return validateUserSearchForm()">
       <br/>
-      <select id="origin" name="origin" class = "form-control input-sm"> <option value="">Select Origin</option>
+      <label for="origin_booking">Origin: </label>
+      <select id="origin" name="origin" class = "form-control input-sm" required> <option value="">Select Origin</option>
       <?php
         require("config.php");
         $sql = "SELECT designator FROM airport";
@@ -74,7 +75,8 @@
         oci_free_statement($stid);
       ?>
       </select>
-      <select id="destination" name="destination" class = "form-control input-sm"> <option value="">Select Destination</option>
+      <label for="destination_booking">Destination: </label>
+      <select id="destination" name="destination" class = "form-control input-sm" required> <option value="">Select Destination</option>
       <?php
         require("config.php");
         $sql = "SELECT designator FROM airport";
@@ -86,12 +88,28 @@
         oci_free_statement($stid);
       ?>
       </select>
-      <input id = "departure_date" type = "date" name = "departure_date" class="form-control  input-sm" placeholder = "DD/MM/YYYY">
-      <button onclick="return handleUserSearch()"  id="btnSearch" name="formSubmit" class="btn btn-sm btn-primary" type="submit">Search</button>
+      <label for="departure_date_booking">Date of Departure: </label>
+      <input id = "departure_date" type = "date" name = "departure_date" class="form-control  input-sm" placeholder = "DD/MM/YYYY" required>
+     
+      <label for="adult_booking">Adult: </label>
+      <select id="adult" name="adult" class="form-control input-sm">
+      <option selected="selected">1</option> <option>2</option> <option>3</option> <option>4</option>
+      </select>
+     
+      <label for="child_booking">Child: </label>
+      <select id="child" name="child" class="form-control input-sm">
+        <option>0</option> <option>1</option> <option>2</option> <option>3</option> <option>4</option>
+      </select>
+      <button id="btnSearch" name="formSubmit" class="btn btn-primary" type="submit">Search</button>
     
       <div id = "date-alert" class = "alert alert-info collapse" data-toggle="collapse"role="alert">
         <span>
         <p>Oops! The planes have already departed for that date.</p>
+        </span>
+      </div>
+      <div id = "passengers-alert" class = "alert alert-info collapse" data-toggle="collapse"role="alert">
+        <span>
+        <p>Oops! You can only book to a maximum of 4 passengers!</p>
         </span>
       </div>
     </form>

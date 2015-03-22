@@ -58,33 +58,45 @@
 
 
       <!-- Main component for a primary marketing message or call to action -->
-      <div class="jumbotron"><h3>
-        <?php 
-        echo 'Displaying Search Results for: <b>' .
-        $_GET['origin'] .'</b> to <b>' . 
-        $_GET['destination'] .  '</b> on <b>' . 
-        $_GET['departure_date'] . '</b> for '.$_GET['adult']. 
-        ' adult and '. $_GET['child']. ' child';
-        ?>
+      <div class="jumbotron">
+        
+ <label class="lead control-label col-sm-9"><strong>Passenger Details:</strong></label>
+<br/>
 
-      </h3>
-        <div id="tableDis" class="collapse" data-toggle="false">
-          <p class="info">Select your flight below!</p>
-         <table id="resultTable" class="table table-striped table-hover">
-             <thead>
-                            <th>Flight Number</th>
-                            <th>Departure Time</th>
-                            <th>Arrival Time</th>
-                            <th>Price</th>
-                            <th>Duration</th>
-                        </thead>
-                        <tbody></tbody>
-                    </table>
+<!-- Form Name -->
+<label style="margin:5px"class="lead control-label col-sm-6">Passenger 1: Adult</label>
+<!-- Select Basic -->
+<table class="table">
+  <tr>
+  <form class="form-inline">
+  <td id="passenger_title_box">
+  <label for="passenger_title">Title</label>
+    <select id="passenger_title" name="passenger_title" class="form-control input-sm">
+      <option>Mr.</option>
+      <option>Mrs.</option>
+      <option>Miss</option>
+    </select>
+  </td>
+    <td id="passenger_first_name_box">
+  <label for="passenger_first_name">First Name (Given)</label>
+    <input id="passenger_first_name" name="passenger_first_name" type="text" placeholder="Enter your first name" class="form-control input-sm" required="">
+  </td>
+    <td id="passenger_last_name_box">
+  <!--  <p class="help-block">Enter your first name</p> -->
+  <label for="passenger_last_name">Last Name (Surname)</label>
+    <input id="passenger_last_name" name="passenger_last_name" type="text" placeholder="Enter your last name" class="form-control input-sm" required="">
+  </td>
+  <td id="passenger_DOB_box">
+     <label for="passenger_DOB_booking">Date of Birth: </label>
+      <input id = "passenger_DOB" type = "date" name = "DOB" class="form-control input-sm" placeholder = "DD/MM/YYYY" required>
+  </td>
+  <tr><td>
+  <button class="btn btn-primary" type="submit">Submit</button>
+</td></tr>
+</form>
+</table>
 
-        </div>
-        <div id="no_existing_flights" class="collapse" data-toggle="false">
-          <p class='bg-info'> There are no available flights on this date </p>
-        </div>
+
     </div>
  
 

@@ -3,8 +3,12 @@ function validateUserSearchForm() {
 	
 	var returnVal = false;
 	returnVal = validateOrigin();
+	var valDate = false;
+	var valPass = false;
 	if(returnVal) {
-		returnVal = validateDate();
+		valDate = validateDate();
+		valPass = validatePassenger();
+		returnVal = valDate&&valPass;
 	}
 	
 	return returnVal;
@@ -31,4 +35,18 @@ function validateDate() {
 		return false;
 	}
 	return true;
+}
+
+function validatePassenger(){
+	var adult = parseInt($('#child').val());
+	var child = parseInt($('#adult').val());
+
+	var valTotal = adult + child;
+	if(valTotal > 4)
+	{
+		$('#passengers-alert').collapse('show');
+		return false;
+	}
+	return true;
+
 }
