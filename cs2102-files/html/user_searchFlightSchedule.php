@@ -5,6 +5,8 @@ if(!empty($_GET)){
 	// check login credentials for admin
 	$origin = $_GET['origin'];
 	$destination = $_GET['destination'];
+	$numAdults = $_GET['numAdults'];
+	$numChilds = $_GET['numChilds'];
 
 	date_default_timezone_set('Asia/Singapore'); 
 	
@@ -24,7 +26,7 @@ if(!empty($_GET)){
 				AND f.origin LIKE '%".$origin."%'
 				AND f.destination LIKE '%".$destination."%' 
 				AND f.f_number = s.flight_number";
-				
+			// plus one at the date will add a day to the date	
 
 		$stid = oci_parse($dbh, $sql);
 
@@ -40,16 +42,19 @@ if(!empty($_GET)){
 			//NOTE THE ASSOCIATIVE ARRAY REACTS ONLY TO CAPITAL LETTERS
 			// window.location is compliant to all browsers rather than using document
 			echo "<tr>";
+				echo "<td>".$index."</td>";
 				echo "<td id='fNumBook".$index."'>".$row['FLIGHT_NUMBER']."</td>";
 				echo "<td id='departTimeBook".$index."'>".$row['DEPART_TIME']."</td>";
 				echo "<td>".$row['ARRIVAL_TIME']."</td>";
 				echo "<td>$".$row['PRICE']."</td>";
 				echo "<td>".$row['DURATION']."</td>";
+				echo "<td><button id='button".$index."'' class='btn btn-primary' type='submit'>Select</button></td>";
 			echo "</tr>";
+
 			$i++;
 			$index++;
+
 		}
-	
 	
 		//no records found
 		//used cheat method simple $i counter to keep check whether there are entries found or not
@@ -58,11 +63,22 @@ if(!empty($_GET)){
 			echo "no_existing_flights";
 			//when inserting code from php USE single quotes!
 		//	echo "";
+		}else //creates a session
+		{
+		session_set_cookie_params(3600,"/");
+		session_start();
+		$_SESSION['adult'] = $numAdults;
+		$_SESSION['child'] = $numChilds;
+		$_SESSION['numOfRows'] = $i; //because ++ records the exact number of rows
 		}
+
+
+		}
+
 
 		// to free up the resources
 		oci_free_statement($stid);
 	}
 	
-}
+
 ?>

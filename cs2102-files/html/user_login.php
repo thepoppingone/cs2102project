@@ -15,6 +15,7 @@
 
     <!-- Custom styles for this template -->
     <link href="user.css" rel="stylesheet">
+	<script src="user.js"></script>
 
     <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
     <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
@@ -56,7 +57,7 @@
 
       <!-- Main component for a primary marketing message or call to action -->
       <div class="jumbotron" id="login-box">
-		  <form class="form-signin" action="user_checklogin.php" method="post">
+		  <form id = "login-form" class="form-signin" action="admin_panel.php" method="post">
 			<h2 class="form-signin-heading">Welcome Back :)</h2> <br/>
 			<label for="inputEmail" class="sr-only">Email address</label>
 			<input name = "email" type="email" id="inputEmail" class="form-control input-lg" placeholder="Email address" required="" autofocus="">
@@ -64,9 +65,8 @@
 			<label for="inputPassword" class="sr-only">Password</label>
 			<input name = "password" type="password" id="inputPassword" class="form-control input-lg" placeholder="Password" required="">
 			<br/>
-			<button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
-			<br/>
-			<p> <a href="#">Create account</a> </p>
+			<p id = "login-error" class = "collapse text-danger"  data-toggle="false"></p>
+			<button class="btn btn-lg btn-primary btn-block" type="submit" onclick = "return validate_admin_login()">Login</button>
 		  </form>
       </div>
 

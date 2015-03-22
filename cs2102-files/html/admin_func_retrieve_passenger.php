@@ -11,9 +11,16 @@
 	$index = 0;
 	if(empty($edit)) {
 		while($row = oci_fetch_array($stid)) {
-			// create a row with name, location, designator delete icon which calls a handleDeleteAirport(rowId, email)
-			//$output = $output." <tr id = \"".$index."\" class = \"collapse in\" data-toggle = \"false\"><td>".$row['NAME']."</td><td>".$row['EMAIL']."</td><td><span class=\"glyphicon glyphicon-remove \" onclick = \"return handleDeleteAdmin('".$index."','".$row['EMAIL']."')\"></span></td></tr>";
-			//$index++;
+			// create a row with name, location, designator delete icon which calls a handleDeletePassenger(rowId, num)
+			$output = $output." <tr id = \"".$index."\" class = \"collapse in\" data-toggle = \"false\">
+			<td>".$row['PASSPORT_NUMBER']."</td>
+			<td>".$row['TYPE']."</td>
+			<td>".$row['TITLE']."</td>
+			<td>".$row['FIRST_NAME']."</td>
+			<td>".$row['LAST_NAME']."</td>
+			<td><span class=\"glyphicon glyphicon-remove \" value=\"".$row['PASSPORT_NUMBER']."\" onclick = \"return handleDeletePassenger('".$index."','".$row['PASSPORT_NUMBER']."')\"></span></td>
+			</tr>";
+			$index++;			
 		}
 	} else {
 		while($row = oci_fetch_array($stid)) {

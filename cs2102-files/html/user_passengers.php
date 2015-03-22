@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -47,7 +50,7 @@
           <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav  navbar-blue">
               <li><a href="user_index.php">Home</a></li>
-              <li class="active"><a href="#">Search</a></li>
+              <li class="active"><a href="user_search.php">Search</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right navbar-blue">
         <li><a href="user_login.php">Login</a></li>
@@ -79,23 +82,48 @@
   </td>
     <td id="passenger_first_name_box">
   <label for="passenger_first_name">First Name (Given)</label>
-    <input id="passenger_first_name" name="passenger_first_name" type="text" placeholder="Enter your first name" class="form-control input-sm" required="">
+    <input id="passenger_first_name" name="passenger_first_name" type="text" placeholder="Enter passenger first name" class="form-control input-sm" required="">
   </td>
     <td id="passenger_last_name_box">
   <!--  <p class="help-block">Enter your first name</p> -->
   <label for="passenger_last_name">Last Name (Surname)</label>
-    <input id="passenger_last_name" name="passenger_last_name" type="text" placeholder="Enter your last name" class="form-control input-sm" required="">
+    <input id="passenger_last_name" name="passenger_last_name" type="text" placeholder="Enter passenger last name" class="form-control input-sm" required="">
   </td>
   <td id="passenger_DOB_box">
-     <label for="passenger_DOB_booking">Date of Birth: </label>
+     <label for="passenger_DOB">Date of Birth: </label>
       <input id = "passenger_DOB" type = "date" name = "DOB" class="form-control input-sm" placeholder = "DD/MM/YYYY" required>
   </td>
+  <tr>
+  <td id="passenger_passport_no_box">
+     <label for="passenger_passport_no">Passport No:</label>
+    <input id="passenger_passport_no" name="passenger_passport_no" type="text" placeholder="Enter your passport number" class="form-control input-sm" required="">
+  </td>
+  <td id="passenger_email_box">
+     <label for="passenger_email">Email:</label>
+    <input id="passenger_email" name="passenger_email" type="text" placeholder="Enter your email" class="form-control input-sm" required="">
+  </td>
+  <td id="passenger_contact_box">
+     <label for="passenger_contact">Contact No:</label>
+    <input id="passenger_contact" name="passenger_contact" type="text" placeholder="Enter your contact no." class="form-control input-sm" required="">
+  </td>
+   <td id="passenger_booker_box">
+     <label for="passenger_booker">Booker Name:</label>
+    <input id="passenger_booker" name="passenger_booker" type="text" placeholder="Enter your name" class="form-control input-sm" required="">
+  </td>
+</tr>
   <tr><td>
   <button class="btn btn-primary" type="submit">Submit</button>
 </td></tr>
 </form>
 </table>
 
+
+testing sessions variable
+<?php
+echo "<br/>".$_GET['flight_no']."  ".$_GET['departure_date']."<br/>";
+echo "<br/> Num of adults: ". $_SESSION['adult']."<br/>";
+echo "Num of children: ". $_SESSION['child']."<br/>";
+?>
 
     </div>
  
@@ -117,33 +145,6 @@ function getUrlVars()
 }
 // the above function is to make it easy to retrieve values from GET
 
-    window.onload = function() {
- makeAjaxRequest();
-};
-  function makeAjaxRequest() {
-
-  var originStr = getUrlVars()["origin"];
-  var destinationStr = getUrlVars()["destination"];
-  var departure_dateStr = getUrlVars()["departure_date"];
-
-    $.ajax({
-        url: 'user_searchFlightSchedule.php',
-        type: 'get',
-        data: {origin: originStr,destination: destinationStr,departure_date: departure_dateStr},
-        success: function(response) {
-          
-            if(response=='no_existing_flights')
-            { 
-              $('#no_existing_flights').collapse('show');
-            }
-            else{
-            $('table#resultTable tbody').html(response);
-            $('#tableDis').collapse('show');
-          } //close else call
-          //close success call
-        }
-    });
-  }
 
     </script>
 

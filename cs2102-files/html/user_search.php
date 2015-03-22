@@ -46,7 +46,7 @@
           <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav  navbar-blue">
               <li><a href="user_index.php">Home</a></li>
-              <li class="active"><a href="#">Search</a></li>
+              <li class="active"><a href="user_search.php">Search</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right navbar-blue">
         <li><a href="user_login.php">Login</a></li>
@@ -100,7 +100,7 @@
       <select id="child" name="child" class="form-control input-sm">
         <option>0</option> <option>1</option> <option>2</option> <option>3</option> <option>4</option>
       </select>
-      <button id="btnSearch" name="formSubmit" class="btn btn-primary" type="submit">Search</button>
+     
     
       <div id = "date-alert" class = "alert alert-info collapse" data-toggle="collapse"role="alert">
         <span>
@@ -112,6 +112,8 @@
         <p>Oops! You can only book to a maximum of 4 passengers!</p>
         </span>
       </div>
+      <br/>
+       <button style="margin:5px" id="btnSearch" name="formSubmit" class="btn btn-lg btn-block btn-primary" type="submit">Search</button>
     </form>
 
       </div>

@@ -54,12 +54,12 @@ if(empty($_SESSION['admin'])) {
             <ul class="nav navbar-nav">
               <li><a href="admin_panel.php"><span class="glyphicon glyphicon-home"></span> Home</a></li>
               <li><a href="admin_panel_add.php"><span class="glyphicon glyphicon-plus"></span> Add</a></li>
-              <li class="active"><a href="#"><span class="glyphicon glyphicon-remove"></span> Delete</a></li>
+              <li class="active"><a href="admin_panel_delete.php"><span class="glyphicon glyphicon-remove"></span> Delete</a></li>
               <li><a href="admin_panel_edit.php"><span class="glyphicon glyphicon-pencil"></span>  Edit</a></li>
               <li><a href="admin_panel_search.php"><span class="glyphicon glyphicon-search"></span> Search</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-              <li><a href="user_logout.php"><span class="glyphicon glyphicon-log-out"></span> Log Out</a></li>
+              <li><a href="admin_func_logout.php"><span class="glyphicon glyphicon-log-out"></span> Log Out</a></li>
             </ul>
           </div><!--/.nav-collapse -->
         </div><!--/.container-fluid -->
@@ -89,11 +89,7 @@ if(empty($_SESSION['admin'])) {
 		</form>
 	    <div id = "delete-options" class = "collapse" data-toggle="false">
 	    </div>	  
-		<div id = "delete-error-result" class = "collapse" data-toggle="false">
-			<p id = "delete-error-msg"></p>	
-		</div>
-		<div id = "delete-success-result" class = "collapse" data-toggle="false">
-			<p id = "delete-success-msg"></p>
+		<div id = "delete-msg" class = "collapse" data-toggle="false">
 		</div>
 	 </div>
     </div> <!-- /container -->

@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -47,7 +48,7 @@
           <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav  navbar-blue">
               <li><a href="user_index.php">Home</a></li>
-              <li class="active"><a href="#">Search</a></li>
+              <li class="active"><a href="user_search.php">Search</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right navbar-blue">
         <li><a href="user_login.php">Login</a></li>
@@ -72,11 +73,13 @@
           <p class="info">Select your flight below!</p>
          <table id="resultTable" class="table table-striped table-hover">
              <thead>
+                            <th>#</th>
                             <th>Flight Number</th>
                             <th>Departure Time</th>
                             <th>Arrival Time</th>
                             <th>Price</th>
                             <th>Duration</th>
+                            <th></th>
                         </thead>
                         <tbody></tbody>
                     </table>
@@ -89,6 +92,7 @@
  
 
     <script type="text/javascript">
+//use jquery assign each SELECT button by ID value
 
 // Read a page's GET URL variables and return them as an associative array.
 function getUrlVars()
@@ -113,11 +117,14 @@ function getUrlVars()
   var originStr = getUrlVars()["origin"];
   var destinationStr = getUrlVars()["destination"];
   var departure_dateStr = getUrlVars()["departure_date"];
+  var numAdultsStr = getUrlVars()["adult"];
+  var numChildsStr = getUrlVars()["child"];
+  //above variables work!
 
     $.ajax({
         url: 'user_searchFlightSchedule.php',
         type: 'get',
-        data: {origin: originStr,destination: destinationStr,departure_date: departure_dateStr},
+        data: {origin: originStr,destination: destinationStr,departure_date: departure_dateStr, numAdults: numAdultsStr, numChilds: numChildsStr},
         success: function(response) {
           
             if(response=='no_existing_flights')
@@ -127,10 +134,25 @@ function getUrlVars()
             else{
             $('table#resultTable tbody').html(response);
             $('#tableDis').collapse('show');
+         
+            var select_flight_no;
+            var select_departure_date;
+
+            numOfRows = <?php echo $_SESSION['numOfRows']; ?>;
+            for(i = 0; i < numOfRows; i++) {
+             select_flight_no = $('#fNumBook'+(i+1)).text(); //to get the TD value use .text() of jQuery
+             select_departure_date = $('#departTimeBook'+(i+1)).text();
+              
+              $('#button'+(i+1)).click(function() {
+          window.location = "user_passengers.php?flight_no="+select_flight_no+"&departure_date="+select_departure_date;
+              });
+            } //close for loop
           } //close else call
           //close success call
         }
     });
+   
+    
   }
 
     </script>

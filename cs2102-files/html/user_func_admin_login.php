@@ -1,5 +1,4 @@
 <?php
-session_start();
 if(!empty($_POST)){
 
 	require("config.php");
@@ -18,10 +17,12 @@ if(!empty($_POST)){
 
 	if ($row = oci_fetch_array($stid)) 
 	{
+		session_start();
 		$_SESSION['admin'] = $row;
-		header("location:admin_panel.php");
+		echo 'login';
+		
 	} else {
-		header("location:user_login.php");
+		echo 'error';
 	}
 
 	// to free up the resources
