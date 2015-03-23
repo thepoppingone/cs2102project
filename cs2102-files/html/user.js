@@ -50,6 +50,7 @@ function validatePassenger(){
 		return false;
 	}
 	return true;
+}
 
 
 /*******************************
