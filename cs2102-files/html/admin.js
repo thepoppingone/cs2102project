@@ -118,11 +118,12 @@ function validateFlightRoute() {
 	return false;
 }
 
+
 function handleAddSchedule() {
 	
 	var selectBarF = document.getElementById('schedule-flight');
 	var flightStr = selectBarF.options[selectBarF.selectedIndex].value;
-	
+	var flightNumberStr; // set it to flight number
 	var arrivalStr = document.getElementById('schedule-arrival').value;
 	var departureStr = document.getElementById('schedule-departure').value;
 	var seatStr = document.getElementById('schedule-seats').value;
@@ -135,7 +136,7 @@ function handleAddSchedule() {
 										depart_time: departureStr,
 										num_of_seats_avail: seatStr,
 										price: priceStr,
-										flight_number: flightNumberStr} function(data) {	
+										flight_number: flightNumberStr},  function(data) {	
 				if(data == 'inserted') {
 					disableForm(['schedule-button', 'add-schedule-error-result', 'scheduleTimeError'], ['add-category', 'schedule-flight', 'schedule-aircraft', 'schedule-seats', 'schedule-departure', 'schedule-arrival', 'schedule-price']);
 					displayAddSuccessfulMessage("add","New schedule added successfully.");
