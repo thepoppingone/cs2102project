@@ -68,22 +68,20 @@ function handleAddAirport() {
 }
 
 function handleAddFlight() {
-
-	var designatorStr = document.getElementById('flight-designator').value;
+	
 	var numberStr = document.getElementById('flight-number').value;
-	var selectBarO = document.getElementById('flight-origin');
-	var originStr = selectBarO.options[selectBarO.selectedIndex].value;
+	var durationStr = document.getElementById('flight-duration').value;
 	var selectBarD2 = document.getElementById('flight-destination');
 	var destinationStr = selectBarD2.options[selectBarD2.selectedIndex].value;
-	var durationStr = document.getElementById('flight-duration').value;
+	var selectBarO = document.getElementById('flight-origin');
+	var originStr = selectBarO.options[selectBarO.selectedIndex].value;
 	var seatStr = document.getElementById('flight-seat').value;
 				
-	if(designatorStr && numberStr && originStr && destinationStr && durationStr && seatStr) {		
+	if(numberStr && durationStr && destinationStr && originStr && seatStr) {		
 		if(validateFlightRoute()) {
-			$.post('admin_func_add_flight.php', {designator:designatorStr, number:numberStr, origin:originStr, destination:destinationStr, duration:durationStr, seat:seatStr}, function(data) {
+			$.post('admin_func_add_flight.php', {f_number:numberStr, duration:durationStr, destination:destinationStr, origin:originStr, seat_capacity:seatStr}, function(data) {
 				if(data == 'inserted') {
-					disableForm(['flight-button', 'add-flight-error-result', 'flightDesignatorError'], ['add-category', 'flight-designator', 'flight-number', 'flight-origin', 'flight-destination', 'flight-duration']);
-					disableForm(['#flight-button', '#add-flight-error-result', '#flightDesignatorError'], ['add-category', 'flight-designator', 'flight-number', 'flight-origin', 'flight-destination', 'flight-duration', "flight-seat"]);
+					disableForm(['flight-button', 'add-flight-error-result', 'flightDesignatorError'], ['add-category', 'flight-number', 'flight-duration', 'flight-destination', 'flight-origin', 'flight-seat']);
 					displayAddSuccessfulMessage("add","New Flight added successfully.");
 				}
 				else if(data == 'flight_exists'){
@@ -120,27 +118,25 @@ function validateFlightRoute() {
 	return false;
 }
 
+
 function handleAddSchedule() {
 	
 	var selectBarF = document.getElementById('schedule-flight');
-	var flightStr = selectBarF.options[selectBarF.selectedIndex].value.split(" ");
-	var designatorStr = flightStr[0];
-	var flightNumberStr = flightStr[1];
-	
-	var seatStr = document.getElementById('schedule-seats').value;
-	var departureStr = document.getElementById('schedule-departure').value;
+	var flightStr = selectBarF.options[selectBarF.selectedIndex].value;
+	var flightNumberStr; // set it to flight number
 	var arrivalStr = document.getElementById('schedule-arrival').value;
+	var departureStr = document.getElementById('schedule-departure').value;
+	var seatStr = document.getElementById('schedule-seats').value;
 	var priceStr = document.getElementById('schedule-price').value;
 	
-	if(designatorStr && flightNumberStr && seatStr && departureStr && arrivalStr && priceStr) {
+	if(flightStr && arrivalStr && departureStr && seatStr && priceStr) {
 		if(validateScheduleSeat()) {		
 			$.post('admin_func_add_schedule.php', {
-										designator:designatorStr, 
-										f_number:flightNumberStr, 
-										seatNum:seatStr, 
-										price:priceStr, 
-										departure:departureStr,
-										arrival:arrivalStr}, function(data) {	
+										arrival_time: arrivalStr,
+										depart_time: departureStr,
+										num_of_seats_avail: seatStr,
+										price: priceStr,
+										flight_number: flightNumberStr},  function(data) {	
 				if(data == 'inserted') {
 					disableForm(['schedule-button', 'add-schedule-error-result', 'scheduleTimeError'], ['add-category', 'schedule-flight', 'schedule-aircraft', 'schedule-seats', 'schedule-departure', 'schedule-arrival', 'schedule-price']);
 					displayAddSuccessfulMessage("add","New schedule added successfully.");
@@ -162,11 +158,11 @@ function handleAddSchedule() {
 }
 
 function validateScheduleSeat() {
-	var selectAircraft = document.getElementById('schedule-aircraft');
-    var aircraft =  selectAircraft.options[selectAircraft.selectedIndex].value;
+	var selectBarF = document.getElementById('schedule-flight');
+	var flight = selectBarF.options[selectBarF.selectedIndex].value;
 	var seat = document.getElementById('schedule-seats').value;
-	if(aircraft && seat && !isNaN(seat)) {
-		var totalSeat = parseInt(aircraft.split(" ")[2]);
+	if(flight && seat && !isNaN(seat)) {
+		var totalSeat = parseInt(flight);
 		var seatNum = parseInt(seat);
 		if(seatNum > totalSeat) {
 			document.getElementById("scheduleSeatError").innerHTML = "This plane can only hold a maximum of " + totalSeat + " passengers.";
