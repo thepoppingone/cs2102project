@@ -286,11 +286,11 @@ if(empty($_SESSION['admin'])) {
 		<!-- div box for flight -->
 		<div id = "flight" class = "collapse" data-toggle="false">
 			<form id = "add-flight-form" class="form-horizontal"> 	
-				<div class="form-group">
+				<!--<div class="form-group">
 					<label class="control-label col-xs-3">Designator</label>
 					<div class="col-xs-9">		
 						<input id="flight-designator" type = "text" class = "form-control" placeholder = "Designator" required autofocus=""> 
-					</div>
+					</div> -->
 				</div>				
 				<div class="form-group">
 					<label class="control-label col-xs-3">Number</label>
@@ -336,16 +336,16 @@ if(empty($_SESSION['admin'])) {
 						<p id = "flightRouteError" class = "collapse text-danger"   data-toggle="false">Please do not select same origin and destination.</p>
 					</div>
 				</div>
-				<div class="form-group">
+				<!-- <div class="form-group">
 					<label class="control-label col-xs-3">Duration</label>
 					<div class="col-xs-9">		
 						<input id = "flight-duration" type="text" class="form-control" placeholder="4.5 Hours etc"  required autofocus="">
 					</div>
-				</div>		
+				</div>	-->	
 				<div class="form-group">
 					<label class="control-label col-xs-3">Seat Capacity</label>
 					<div class="col-xs-9">		
-						<input id = "flight-seat" type="number" class="form-control" placeholder="Number of passenger seats"  required autofocus="">
+						<input id = "flight-seat" type="number" class="form-control" placeholder="Number of passenger seats available"  required autofocus="">
 					</div>
 				</div>					
 				<div class="form-group">
