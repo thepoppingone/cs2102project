@@ -1,5 +1,8 @@
 <?php
 session_start();
+$_SESSION['flight_no'] = $_GET['flight_no'];
+$_SESSION['departure_date'] = $_GET['departure_date'];
+//stores the choices that the user has made.
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -71,7 +74,7 @@ session_start();
 <!-- Select Basic -->
 <table class="table">
   <tr>
-  <form class="form-inline">
+  <form class="form-inline" action="user_confirmation&payment.php" method="post">
   <td id="passenger_title_box">
   <label for="passenger_title">Title</label>
     <select id="passenger_title" name="passenger_title" class="form-control input-sm">

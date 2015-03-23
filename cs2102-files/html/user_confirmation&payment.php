@@ -64,14 +64,47 @@ session_start();
       <div class="jumbotron">
         
  <label class="lead control-label col-sm-9"><strong>Passenger 1 Details:</strong></label>
-<br/>
+<br/> <!--some how the CSS needs to be put in reverse order-->
 <div class="row">
-  <div class="col-md-9 col-md-push-3">First Name: </div>
-  <div class="col-md-3 col-md-pull-9">field</div>
+  <div class="col-md-9 col-md-push-3"><?php echo $_POST['passenger_title']?></div>
+  <div class="col-md-3 col-md-pull-9">Title:</div>
 </div>
-<!-- Form Name -->
-<!-- Select Basic -->
-
+<div class="row">
+  <div class="col-md-9 col-md-push-3"><?php echo $_POST['passenger_first_name']?></div>
+  <div class="col-md-3 col-md-pull-9">First Name:</div>
+</div>
+<div class="row">
+  <div class="col-md-9 col-md-push-3"><?php echo $_POST['passenger_last_name']?></div>
+  <div class="col-md-3 col-md-pull-9">Last Name:</div>
+</div>
+<div class="row">
+  <div class="col-md-9 col-md-push-3"><?php echo $_POST['DOB']?></div>
+  <div class="col-md-3 col-md-pull-9">DOB:</div>
+</div>
+<div class="row">
+  <div class="col-md-9 col-md-push-3"><?php echo $_POST['passenger_passport_no']?></div>
+  <div class="col-md-3 col-md-pull-9">Passport No.:</div>
+</div><div class="row">
+  <div class="col-md-9 col-md-push-3"><?php echo $_POST['passenger_email']?></div>
+  <div class="col-md-3 col-md-pull-9">Email Address:</div>
+</div>
+<div class="row">
+  <div class="col-md-9 col-md-push-3"><?php echo $_POST['passenger_contact']?></div>
+  <div class="col-md-3 col-md-pull-9">Contact No.:</div>
+</div><div class="row">
+  <div class="col-md-9 col-md-push-3"><?php echo $_POST['passenger_booker']?></div>
+  <div class="col-md-3 col-md-pull-9">Booker name:</div>
+</div>
+</br>
+ <label class="lead control-label col-sm-9">Flight Details:</label>
+<div class="row">
+  <div class="col-md-9 col-md-push-3"><?php echo $_SESSION['flight_no'] ?></div>
+  <div class="col-md-3 col-md-pull-9">Flight No.:</div>
+</div>
+<div class="row">
+  <div class="col-md-9 col-md-push-3"><?php echo $_SESSION['departure_date'] ?></div>
+  <div class="col-md-3 col-md-pull-9">Departure Time & Date:</div>
+</div>
 
     </div>
  
