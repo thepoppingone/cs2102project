@@ -229,10 +229,11 @@
 					  <option selected = "true" disabled>
 					  <?php 
 						require("config.php");
-						$sql = "SELECT a.name, a.designator FROM airport a WHERE a.designator='.$row['ORIGIN'].'";
+						$sql = "SELECT a.name FROM airport a WHERE a.designator='".$row['ORIGIN']."'";
 						$stid = oci_parse($dbh, $sql);
 						oci_execute($stid, OCI_DEFAULT);
-						echo $row["NAME"]." ("$row['ORIGIN']")"; 
+						$row2 = oci_fetch_array($stid);
+						echo $row2["NAME"]." (".$row['ORIGIN'].")"; 
 					  ?>
 					  </option>
 					  <?php
@@ -252,8 +253,17 @@
 				<div class="form-group">
 					<label class="control-label col-xs-3">Destination</label>
 					<div class="col-xs-9">  
-					  <select  id="flight-dest" class = "form-control input-sm"  onchange = "validateFlightRoute()" selected= ""> 
-					  <option selected = "true" disabled><?php echo $row['DESTINATION']; ?></option>
+					  <select  id="flight-dest" class = "form-control input-sm"  onchange = "validateFlightRoute()"> 
+					  <option selected = "true" disabled>
+					  <?php 
+						require("config.php");
+						$sql = "SELECT a.name FROM airport a WHERE a.designator='".$row['DESTINATION']."'";
+						$stid = oci_parse($dbh, $sql);
+						oci_execute($stid, OCI_DEFAULT);
+						$row2 = oci_fetch_array($stid);
+						echo $row2["NAME"]." (".$row['DESTINATION'].")"; 
+					  ?>
+					  </option>
 					  <?php
 					   require("config.php");
 					   $sql = "SELECT a.name, a.designator FROM airport a";
