@@ -91,7 +91,7 @@ if(empty($_SESSION['admin'])) {
 	    <div id = "edit-options" class = "collapse" data-toggle="false">
 	    </div>	  
 		
-		<div class="modal fade" id="loadingModal" data-toggle="false">
+		<div class="modal fade" id="loadingModal" data-toggle="false" data-keyboard = "false" data-backdrop = "static"> 
 		  <div class="modal-dialog">
 			<div class="modal-content">
 			  <div align="center" class="modal-body">
