@@ -48,7 +48,7 @@ if(!empty($_GET)){
 				echo "<td>".$row['ARRIVAL_TIME']."</td>";
 				echo "<td>$".$row['PRICE']."</td>";
 				echo "<td>".$row['DURATION']."</td>";
-				echo "<td><button id='button".$index."'' class='btn btn-primary' type='submit'>Select</button></td>";
+				echo "<td><button id=\"button".$index."\" onclick=\"createButtonLink(".$index.")\" class='btn btn-primary'>Select</button></td>";
 			echo "</tr>";
 
 			$i++;
@@ -69,7 +69,7 @@ if(!empty($_GET)){
 		session_start();
 		$_SESSION['adult'] = $numAdults;
 		$_SESSION['child'] = $numChilds;
-		$_SESSION['numOfRows'] = $i; //because ++ records the exact number of rows
+		//$_SESSION['numOfRows'] = $i; //because ++ records the exact number of rows
 		}
 
 

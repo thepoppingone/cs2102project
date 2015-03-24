@@ -2,7 +2,6 @@
 * functions related to SEARCH 
 ********************************/
 function validateUserSearchForm() {
-	
 	var returnVal = false;
 	returnVal = validateOrigin();
 	var valDate = false;
@@ -102,22 +101,3 @@ function validate_user_retrieve_booking_inputs() {
 /*******************************
 * functions related to BOOKING
 ********************************/
-
-//get query string using javascript
-//use jquery assign each SELECT button by ID value
-
-// Read a page's GET URL variables and return them as an associative array.
-// the above function is to make it easy to retrieve values from GET
-
-function getUrlVars()
-{
-    var vars = [], hash;
-    var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
-    for(var i = 0; i < hashes.length; i++)
-    {
-        hash = hashes[i].split('=');
-        vars.push(hash[0]);
-        vars[hash[0]] = hash[1];
-    }
-    return vars;
-}

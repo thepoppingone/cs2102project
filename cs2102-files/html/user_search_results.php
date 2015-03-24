@@ -16,7 +16,7 @@
 
     <!-- Custom styles for this template -->
     <link href="user.css" rel="stylesheet">
-  <script src="user.js"></script>
+  <script type="text/javascript" src="user.js"></script>
 
 
     <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
@@ -94,28 +94,21 @@
     <script type="text/javascript">
 //use jquery assign each SELECT button by ID value
 
-function getUrlVars()
-{
-    var vars = [], hash;
-    var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
-    for(var i = 0; i < hashes.length; i++)
-    {
-        hash = hashes[i].split('=');
-        vars.push(hash[0]);
-        vars[hash[0]] = hash[1];
-    }
-    return vars;
-}
     window.onload = function() {
  makeAjaxRequest();
 };
+
+function createButtonLink(index) {
+   
+    window.location= "user_passengers.php?flight_no="+$('#fNumBook'+index).text()+"&departure_date="+$('#departTimeBook'+index).text()+"";
+   }
   function makeAjaxRequest() {
 
-  var originStr = getUrlVars()["origin"];
-  var destinationStr = getUrlVars()["destination"];
-  var departure_dateStr = getUrlVars()["departure_date"];
-  var numAdultsStr = getUrlVars()["adult"];
-  var numChildsStr = getUrlVars()["child"];
+  var originStr = '<?php echo $_GET['origin']; ?>';
+  var destinationStr =  '<?php echo $_GET['destination']; ?>';
+  var departure_dateStr =  '<?php echo $_GET['departure_date']; ?>';
+  var numAdultsStr =  '<?php echo $_GET['adult']; ?>';
+  var numChildsStr =  '<?php echo $_GET['child']; ?>';
   //above variables work!
 
     $.ajax({
@@ -134,20 +127,16 @@ function getUrlVars()
          
             var select_flight_no;
             var select_departure_date;
-
-            numOfRows =1  ;
-            for(i = 0; i < numOfRows; i++) {
-             select_flight_no = $('#fNumBook'+(i+1)).text(); //to get the TD value use .text() of jQuery
-             select_departure_date = $('#departTimeBook'+(i+1)).text();
-              
-              $('#button'+(i+1)).click(function() {
-          window.location = "user_passengers.php?flight_no="+select_flight_no+"&departure_date="+select_departure_date;
-              });
-            } //close for loop
+     
+            //  $('#button'+(i+1)).click(function() {
+          //window.location = "user_passengers.php?flight_no="+select_flight_no+"&departure_date="+select_departure_date;
+            
+             //close for loop
           } //close else call
           //close success call
         }
     });
+   
    
     
   }
