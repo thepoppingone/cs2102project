@@ -94,7 +94,6 @@
     <script type="text/javascript">
 //use jquery assign each SELECT button by ID value
 
-// Read a page's GET URL variables and return them as an associative array.
 function getUrlVars()
 {
     var vars = [], hash;
@@ -107,8 +106,6 @@ function getUrlVars()
     }
     return vars;
 }
-// the above function is to make it easy to retrieve values from GET
-
     window.onload = function() {
  makeAjaxRequest();
 };
@@ -138,7 +135,7 @@ function getUrlVars()
             var select_flight_no;
             var select_departure_date;
 
-            numOfRows = <?php echo $_SESSION['numOfRows']; ?>;
+            numOfRows =1  ;
             for(i = 0; i < numOfRows; i++) {
              select_flight_no = $('#fNumBook'+(i+1)).text(); //to get the TD value use .text() of jQuery
              select_departure_date = $('#departTimeBook'+(i+1)).text();
