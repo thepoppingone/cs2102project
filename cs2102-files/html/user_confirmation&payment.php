@@ -109,7 +109,7 @@ session_start();
     <br/>
     <button id='confirmBooking' class="btn btn-primary" data-toggle="modal" data-target="#loadingModal" type="submit">Confirm Booking</button>
 
-    <div class="modal fade" id="loadingModal">
+    <div class="modal fade " data-keyboard = "false" data-backdrop = "static" id="loadingModal">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
