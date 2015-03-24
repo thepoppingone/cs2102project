@@ -187,6 +187,7 @@ function deleteCategoryChange() {
 	//var options = ["administrator", "passenger", "reservation", "airport", "flight", "schedule"];
 	document.getElementById("delete-options").innerHTML = "";
 	disableForm(['delete-error-result'], []);
+	$("#loadingModal").modal('show');
 	if(option == "administrator") {
 		loadAdminOptions("delete");
 	} else if(option == "passenger") {
@@ -384,6 +385,7 @@ function loadAdminOptions(choice) {
 		} else {
 			handleEmptyOptions(choice + '-options'); 		
 		}
+		$("#loadingModal").modal('hide');
 	});		
 }
 
@@ -391,6 +393,7 @@ function loadAirportOptions(choice) {
 	var editStr = choice;
 	if(choice == "delete") editStr = "";
 	$.post('admin_func_retrieve_airport.php',{edit:editStr}, function(data) {
+		
 		if(data) {
 			// headers in array, rows, function to call when delete/edit button is clicked, words in the button
 			document.getElementById(choice + '-options').innerHTML = createTableFormHtml(["Name","Location", "Designator"], data, "", "");
@@ -398,6 +401,7 @@ function loadAirportOptions(choice) {
 		} else {
 			handleEmptyOptions(choice + '-options'); 	
 		}
+		$("#loadingModal").modal('hide');
 	});
 }
 
@@ -412,6 +416,7 @@ function loadPassengerOptions(choice) {
 		} else {
 			handleEmptyOptions(choice + '-options'); 	
 		}
+		$("#loadingModal").modal('hide');
 	});	
 }
 
@@ -426,6 +431,7 @@ function loadReservationOptions(choice) {
 		} else {
 			handleEmptyOptions(choice + '-options'); 	
 		}
+		$("#loadingModal").modal('hide');
 	});	
 }
 
@@ -440,6 +446,7 @@ function loadFlightOptions(choice) {
 		} else {
 			handleEmptyOptions(choice + '-options'); 
 		}
+		$("#loadingModal").modal('hide');
 	});	
 }
 
