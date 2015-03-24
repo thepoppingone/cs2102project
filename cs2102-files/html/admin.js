@@ -214,6 +214,14 @@ function handleDeleteAdmin(id, emailStr) {
 }
 
 function handleDeletePassenger(id, passportStr) {
+	$.post('admin_func_check_delete_passenger.php', {passport:passportStr}, function(data) {
+			document.getElementById("confirm-modal-content").innerHTML = '<p>' + data + '</p>';
+			$("#confirm-delete-btn").attr("onclick", "confirmDeletePassenger(" + id + ",\"" +  passportStr + "\")");
+			$("#confirm-modal").modal('show');	
+	});	
+}
+
+function confirmDeletePassenger(id, passportStr) {
 	$.post('admin_func_delete_passenger.php', {passport:passportStr}, function(data) {	
 		if(data == "successful") {
 			disableForm([id],[]);
@@ -221,8 +229,8 @@ function handleDeletePassenger(id, passportStr) {
 			document.getElementById("delete-error-msg").innerHTML = "Error message:" + resultMsg;
 			$('#delete-error-result').collapse('show');
 		}
-	});	
-	return false;
+		$("#confirm-modal").modal('hide');	
+	});
 }
 
 function handleDeleteAirport(id, designatorStr) {
