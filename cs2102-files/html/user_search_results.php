@@ -124,9 +124,6 @@ function makeAjaxRequest() {
         $('table#resultTable tbody').html(response);
         $('#tableDis').collapse('show');
 
-        var select_flight_no;
-        var select_departure_date;
-
             //  $('#button'+(i+1)).click(function() {
           //window.location = "user_passengers.php?flight_no="+select_flight_no+"&departure_date="+select_departure_date;
 

@@ -118,7 +118,8 @@ session_start();
           <div align="center" class="modal-body">
             <img class='img-responsive' src='../../assets/img/loading1.gif'></img>
           </div>
-          <div class="modal-footer">
+          <div id='phpReply' class="modal-footer">
+
           </div>
         </div><!-- /.modal-content -->
       </div><!-- /.modal-dialog -->
@@ -143,17 +144,19 @@ window.onload = function() {
     //flight details variable
     var flightNoStr = $('#p_flight_no').text();
     var departure_dateStr = $('#p_departure_date').text();
-/*
+
     $.ajax({
       url: 'user_func_insert_booking.php',
       type: 'post',
-      data: {destination: destinationStr,departure_date: departure_dateStr,},
+      data: {title: titleStr, firstName: firstNameStr, lastName: lastNameStr, dob: dobStr, passportNo: passportNoStr, 
+       email: emailStr, contact: contactStr, booker: bookerStr, flightNo: flightNoStr , departure_date: departure_dateStr,},
       success: function(response) {
+        $('#phpReply').html(response);
 
   } //close success call
 
 }); //close ajax
-*/
+
   
   }); //close click
 }; //close onload
