@@ -90,6 +90,17 @@ if(empty($_SESSION['admin'])) {
 		</form>
 	    <div id = "edit-options" class = "collapse" data-toggle="false">
 	    </div>	  
+		
+		<div class="modal fade" id="loadingModal" data-toggle="false">
+		  <div class="modal-dialog">
+			<div class="modal-content">
+			  <div align="center" class="modal-body">
+				<img class='img-responsive' src='../../assets/img/loading1.gif'></img>
+			  </div>
+			</div><!-- /.modal-content -->
+		  </div><!-- /.modal-dialog -->
+		</div><!-- /.modal-->
+		
       </div>
 
     </div> <!-- /container -->
