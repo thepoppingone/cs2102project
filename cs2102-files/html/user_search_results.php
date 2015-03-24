@@ -92,10 +92,11 @@
 
 
     <script type="text/javascript">
+
 //use jquery assign each SELECT button by ID value
 
 window.onload = function() {
- makeAjaxRequest();
+  makeAjaxRequest();
 };
 
 function createButtonLink(index) {
@@ -127,9 +128,9 @@ function makeAjaxRequest() {
             //  $('#button'+(i+1)).click(function() {
           //window.location = "user_passengers.php?flight_no="+select_flight_no+"&departure_date="+select_departure_date;
 
-             
+          
           } //close else call
-         
+          
         } //close success call
       });
 
