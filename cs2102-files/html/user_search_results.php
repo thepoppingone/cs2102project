@@ -112,7 +112,7 @@ function createButtonLink(index) {
   //above variables work!
 
     $.ajax({
-        url: 'user_searchFlightSchedule.php',
+        url: 'user_func_searchFlightSchedule.php',
         type: 'get',
         data: {origin: originStr,destination: destinationStr,departure_date: departure_dateStr, numAdults: numAdultsStr, numChilds: numChildsStr},
         success: function(response) {
