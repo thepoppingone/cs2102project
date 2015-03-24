@@ -66,70 +66,98 @@ session_start();
          <label class="lead control-label col-sm-9"><strong>Passenger 1 Details:</strong></label>
          <br/> <!--some how the CSS needs to be put in reverse order-->
          <div class="row">
-          <div class="col-md-9 col-md-push-3"><?php echo $_POST['passenger_title']?></div>
+          <div id='p_title' class="col-md-9 col-md-push-3"><?php echo $_POST['passenger_title']?></div>
           <div class="col-md-3 col-md-pull-9">Title:</div>
         </div>
         <div class="row">
-          <div class="col-md-9 col-md-push-3"><?php echo $_POST['passenger_first_name']?></div>
+          <div id='p_first_name' class="col-md-9 col-md-push-3"><?php echo $_POST['passenger_first_name']?></div>
           <div class="col-md-3 col-md-pull-9">First Name:</div>
         </div>
         <div class="row">
-          <div class="col-md-9 col-md-push-3"><?php echo $_POST['passenger_last_name']?></div>
+          <div id='p_last_name' class="col-md-9 col-md-push-3"><?php echo $_POST['passenger_last_name']?></div>
           <div class="col-md-3 col-md-pull-9">Last Name:</div>
         </div>
         <div class="row">
-          <div class="col-md-9 col-md-push-3"><?php echo $_POST['DOB']?></div>
+          <div id='p_dob' class="col-md-9 col-md-push-3"><?php echo $_POST['DOB']?></div>
           <div class="col-md-3 col-md-pull-9">DOB:</div>
         </div>
         <div class="row">
-          <div class="col-md-9 col-md-push-3"><?php echo $_POST['passenger_passport_no']?></div>
+          <div id='p_passport_no' class="col-md-9 col-md-push-3"><?php echo $_POST['passenger_passport_no']?></div>
           <div class="col-md-3 col-md-pull-9">Passport No.:</div>
+        </div>
+        <div class="row">
+          <div id='p_email' class="col-md-9 col-md-push-3"><?php echo $_POST['passenger_email']?></div>
+          <div class="col-md-3 col-md-pull-9">Email Address:</div>
+        </div>
+        <div class="row">
+          <div id='p_contact' class="col-md-9 col-md-push-3"><?php echo $_POST['passenger_contact']?></div>
+          <div class="col-md-3 col-md-pull-9">Contact No.:</div>
         </div><div class="row">
-        <div class="col-md-9 col-md-push-3"><?php echo $_POST['passenger_email']?></div>
-        <div class="col-md-3 col-md-pull-9">Email Address:</div>
+        <div id='p_booker' class="col-md-9 col-md-push-3"><?php echo $_POST['passenger_booker']?></div>
+        <div class="col-md-3 col-md-pull-9">Booker name:</div>
       </div>
-      <div class="row">
-        <div class="col-md-9 col-md-push-3"><?php echo $_POST['passenger_contact']?></div>
-        <div class="col-md-3 col-md-pull-9">Contact No.:</div>
-      </div><div class="row">
-      <div class="col-md-9 col-md-push-3"><?php echo $_POST['passenger_booker']?></div>
-      <div class="col-md-3 col-md-pull-9">Booker name:</div>
+    </br>
+    <label class="lead control-label col-sm-9">Flight Details:</label>
+    <div class="row">
+      <div id='p_flight_no' class="col-md-9 col-md-push-3"><?php echo $_SESSION['flight_no'] ?></div>
+      <div class="col-md-3 col-md-pull-9">Flight No.:</div>
     </div>
-  </br>
-  <label class="lead control-label col-sm-9">Flight Details:</label>
-  <div class="row">
-    <div class="col-md-9 col-md-push-3"><?php echo $_SESSION['flight_no'] ?></div>
-    <div class="col-md-3 col-md-pull-9">Flight No.:</div>
-  </div>
-  <div class="row">
-    <div class="col-md-9 col-md-push-3"><?php echo $_SESSION['departure_date'] ?></div>
-    <div class="col-md-3 col-md-pull-9">Departure Time & Date:</div>
-  </div>
-  <br/>
-  <button id='confirmBooking' class="btn btn-primary" data-toggle="modal" data-target="#loadingModal" type="submit">Confirm Booking</button>
+    <div class="row">
+      <div id='p_departure_date' class="col-md-9 col-md-push-3"><?php echo $_SESSION['departure_date'] ?></div>
+      <div class="col-md-3 col-md-pull-9">Departure Time & Date:</div>
+    </div>
+    <br/>
+    <button id='confirmBooking' class="btn btn-primary" data-toggle="modal" data-target="#loadingModal" type="submit">Confirm Booking</button>
 
-  <div class="modal fade" id="loadingModal">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h4 class="modal-title">Please hold on while the booking is being made...</h4>
-        </div>
-        <div align="center" class="modal-body">
-          <img class='img-responsive' src='../../assets/img/loading1.gif'></img>
-        </div>
-        <div class="modal-footer">
-        </div>
-      </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-  </div><!-- /.modal-->
+    <div class="modal fade" id="loadingModal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">Please hold on while the booking is being made...</h4>
+          </div>
+          <div align="center" class="modal-body">
+            <img class='img-responsive' src='../../assets/img/loading1.gif'></img>
+          </div>
+          <div class="modal-footer">
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal-->
 
-<script type="text/javascript">
+    <script type="text/javascript">
+//important for window onload 
+//in order to ensure the functions all run when page is done loading
 window.onload = function() {
-$('#confirmBooking').click(function() {
+  $('#confirmBooking').click(function() {
 
-});
-};
-  </script>
+    //passenger details variables
+    var titleStr = $('#p_title').text();
+    var firstNameStr = $('#p_first_name').text();
+    var lastNameStr = $('#p_last_name').text();
+    var dobStr = $('#p_dob').text();
+    var passportNoStr = $('#p_passport_no').text();
+    var emailStr = $('#p_email').text();
+    var contactStr = $('#p_contact').text();
+    var bookerStr = $('#p_booker').text();
+
+    //flight details variable
+    var flightNoStr = $('#p_flight_no').text();
+    var departure_dateStr = $('#p_departure_date').text();
+/*
+    $.ajax({
+      url: 'user_func_insert_booking.php',
+      type: 'post',
+      data: {destination: destinationStr,departure_date: departure_dateStr,},
+      success: function(response) {
+
+  } //close success call
+
+}); //close ajax
+*/
+  
+  }); //close click
+}; //close onload
+</script>
 
 </div><!-- /jumbotron -->
 
