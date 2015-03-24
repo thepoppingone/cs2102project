@@ -28,7 +28,7 @@
 			<td>".$row['ORIGIN']."</td>
 			<td>".$row['DESTINATION']."</td>
 			<td>".$row['SEAT_CAPACITY']."</td>
-			<td><span class=\"glyphicon glyphicon-pencil \" value=\"".$row['EMAIL']."\" onclick = \"return forwardToFlightEditDetails('".$row['F_NUMBER']."')\"></span></td></tr>";
+			<td><span class=\"glyphicon glyphicon-pencil \" value=\"".$row['F_NUMBER']."\" onclick = \"return forwardToFlightEditDetails('".$row['F_NUMBER']."')\"></span></td></tr>";
 			$index++;
 		}	
 	}

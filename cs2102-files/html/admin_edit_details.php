@@ -17,6 +17,8 @@ if(empty($_POST['selected'])) {
 		$sql = "SELECT * FROM airport a WHERE a.designator = '".$_POST['designator']."'";
 	} else if ($_POST['selected'] == "passenger") {
 		$sql = "SELECT * FROM passenger p WHERE p.passport_number = '".$_POST['num']."'";
+	} else if ($_POST['selected'] == "flight") {
+		$sql = "SELECT * FROM flight f WHERE f.f_number = '".$_POST['num']."'";
 	} else{
 	}
 	if(!empty($sql)) {
@@ -227,7 +229,54 @@ if(empty($_POST['selected'])) {
 				</div>
 				<!-- end for passenger stuffs -->
 				';
-		}		
+		}
+		else if ($_POST['selected'] == "flight") {
+			
+
+			// to keep track of primary key original values, put it as input name
+			echo '
+				<!-- div box for flight -->
+				<div id = "flight" >
+					<form id = "edit-flight-form" class="form-horizontal"> 			
+						<div class="form-group">
+							<label for="inputNum" class="control-label col-xs-3" >Flight Number</label>
+							<div class="col-xs-9">		
+								<input id = "flight-num" type="text" id="inputNum" class="form-control" placeholder="Flight Number"  required autofocus="" name = "'.$row['F_NUMBER'].'" value = "'.$row['F_NUMBER'].'">
+								<p id = "flightNumError" class = "collapse" class="text-danger" data-toggle="false">Oops! A flight with this flight number already exists.</p>
+							</div>
+						</div>	
+						<div class="form-group">
+							<label class="control-label col-xs-3">Origin</label>
+							<div class="col-xs-9">		
+								<input id = "flight-origin" type="text" class="form-control" placeholder="Origin" required autofocus="" value = "'.$row['ORIGIN'].'">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="control-label col-xs-3">Destination</label>
+							<div class="col-xs-9">
+								<input id = "flight-dest" class="form-control" placeholder="Destination"  required autofocus="" value = "'.$row['DESTINATION'].'">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="control-label col-xs-3">Seat Capacity</label>
+							<div class="col-xs-9">
+								<input id = "flight-seatcapacity" class="form-control" placeholder="Seat Capacity"  required autofocus="" value = "'.$row['SEAT_CAPACITY'].'">
+							</div>
+						</div>
+						<div class="form-group">
+							<div id = "flight-button"  class="col-xs-offset-3 col-xs-9 collapse in " data-toggle="false">
+								<button type="reset" class="btn btn-primary">Reset</button>
+								<button type="submit" class="btn btn-primary" onclick = "return handleEditFlight()">Edit Flight</button>
+							</div>
+						</div>
+					</form>
+					<div id = "edit-flight-error-result" class = "collapse" data-toggle="false">
+						<p id = "edit-flight-error-msg"></p>
+					</div>
+				</div>
+				<!-- end for flight stuffs -->
+				';
+		}
 		?>
 		
 		<div id = "edit-successful-result" class ="col-xs-offset-3 collapse" data-toggle="false" >
