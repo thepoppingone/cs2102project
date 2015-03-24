@@ -245,6 +245,7 @@ function editCategoryChange() {
 	var selectBar = document.getElementById('edit-category');
     var option =  selectBar.options[selectBar.selectedIndex].value;
 	document.getElementById("edit-options").innerHTML = "";
+	$("#loadingModal").modal('show');
 	if(option == "administrator") {
 		loadAdminOptions("edit");
 	} else if(option == "airport") {
@@ -469,7 +470,9 @@ function searchCategoryChange() {
 }
 
 function handleSearchAdmin() {
-
+	
+	$("#loadingModal").modal('show');
+	
 	var emailStr = document.getElementById('admin-email').value;
 	var nameStr = document.getElementById('admin-name').value;
 	var pwdStr = document.getElementById('admin-pwd').value;
@@ -487,11 +490,14 @@ function handleSearchAdmin() {
 		} else {
 			handleEmptyOptions("search-results");		
 		}
+		$("#loadingModal").modal('hide');
 	});
 	return false;
 }
 
 function handleSearchPassenger() {
+
+	$("#loadingModal").modal('show');
 
 	var titleStr = document.getElementById('passenger-title').value;
 	var firstNameStr = document.getElementById('passenger-first-name').value;
@@ -514,11 +520,14 @@ function handleSearchPassenger() {
 		} else {
 			handleEmptyOptions("search-results");		
 		}
+		$("#loadingModal").modal('hide');
 	});
 	return false;
 }
 
 function handleSearchAirport() {
+
+	$("#loadingModal").modal('show');
 
 	var nameStr = document.getElementById('airport-name').value;
 	var designatorStr = document.getElementById('airport-designator').value;
@@ -537,11 +546,14 @@ function handleSearchAirport() {
 		} else {
 			handleEmptyOptions("search-results");		
 		}
+		$("#loadingModal").modal('hide');
 	});
 	return false;
 }
 
 function handleSearchReservation() {
+
+	$("#loadingModal").modal('show');
 
 	var reservationIdStr = document.getElementById('reservation-id').value;
 	var contactPersonStr =  document.getElementById('reservation-name').value;
@@ -571,11 +583,14 @@ function handleSearchReservation() {
 		} else {
 			handleEmptyOptions("search-results");		
 		}
+		$("#loadingModal").modal('hide');
 	});
 	return false;
 }
 
 function handleSearchFlight() {
+
+	$("#loadingModal").modal('show');
 
 	var flightStr = document.getElementById('flight-number').value;
 	var originStr = document.getElementById('flight-origin').value;
@@ -603,11 +618,14 @@ function handleSearchFlight() {
 		} else {
 			handleEmptyOptions("search-results");	
 		}
+		$("#loadingModal").modal('hide');
 	});
 	return false;
 }
 
 function handleSearchSchedule() {
+
+	$("#loadingModal").modal('show');
 
 	var flightStr = document.getElementById('schedule-flight-number').value;
 	var originStr = document.getElementById('schedule-origin').value;
@@ -646,6 +664,7 @@ function handleSearchSchedule() {
 		} else {
 			handleEmptyOptions("search-results");		
 		}
+		$("#loadingModal").modal('hide');
 	});
 	return false;
 }
