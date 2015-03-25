@@ -119,7 +119,7 @@ session_start();
             <img id='bookingStatus' class='img-responsive' src='../../assets/img/loading1.gif'></img>
           </div>
           <div id='phpReply' class="modal-footer">
-
+            
           </div>
         </div><!-- /.modal-content -->
       </div><!-- /.modal-dialog -->
@@ -153,8 +153,12 @@ window.onload = function() {
       success: function(response) {
         $('#phpReply').html(response);
       $('#bookingStatus').attr('src','../../assets/img/confirmed.png');
-        
-  
+         
+        $('#returnHome').click(function() {
+            window.location= "user_index.php";
+        });
+
+      
 
   } //close success call
 

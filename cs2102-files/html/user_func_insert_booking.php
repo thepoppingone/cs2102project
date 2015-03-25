@@ -136,6 +136,7 @@ if(!empty($_POST)){
 			//echo oci_num_rows($stid) . " rows updated";
 			echo "number of seats now updated. ".($updatedSeats);
 
+			echo "<br/><button id='returnHome' class='btn btn-primary'>Return to Home</button>";
 				}
 			}
 		
