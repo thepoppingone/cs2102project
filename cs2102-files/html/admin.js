@@ -206,8 +206,8 @@ function handleDeleteAdmin(id, emailStr) {
 		if(data == "successful") {
 			disableForm([id],[]);
 		} else {
-			document.getElementById("delete-error-msg").innerHTML = "Error message:" + resultMsg;
-			$('#delete-error-result').collapse('show');
+			document.getElementById("delete-msg").innerHTML = "Error message:" + data;
+			$('#delete-msg').collapse('show');
 		}
 	});	
 	return false;
@@ -219,31 +219,99 @@ function handleDeletePassenger(id, passportStr) {
 			$("#confirm-delete-btn").attr("onclick", "confirmDeletePassenger(" + id + ",\"" +  passportStr + "\")");
 			$("#confirm-modal").modal('show');	
 	});	
+	return false;
 }
 
 function confirmDeletePassenger(id, passportStr) {
+
 	$.post('admin_func_delete_passenger.php', {passport:passportStr}, function(data) {	
 		if(data == "successful") {
 			disableForm([id],[]);
 		} else {
-			document.getElementById("delete-error-msg").innerHTML = "Error message:" + resultMsg;
-			$('#delete-error-result').collapse('show');
+			document.getElementById("delete-msg").innerHTML = "Error message:" + data;
+			$('#delete-msg').collapse('show');
+		}
+		$("#confirm-modal").modal('hide');	
+	});
+}
+
+function handleDeleteReservation(id, idStr) {
+	$.post('admin_func_check_delete_booking.php', {booking_id:idStr}, function(data) {
+		if(data == "not_affected") {
+			confirmDeleteBooking(id, idStr);
+		} else {	
+			document.getElementById("confirm-modal-content").innerHTML = '<p>' + data + '</p>';
+			$("#confirm-delete-btn").attr("onclick", "confirmDeleteBooking(" + id + ",\"" +  idStr + "\")");
+			$("#confirm-modal").modal('show');	
+		}
+	});	
+	return false;
+}
+
+function confirmDeleteBooking(id, idStr) {
+	alert("enter");
+	$.post('admin_func_delete_booking.php', {booking_id:idStr}, function(data) {
+		alert(data);
+		if(data == "successful") {
+			disableForm([id],[]);
+		} else {
+			document.getElementById("delete-msg").innerHTML = "Error message:" + data;
+			$('#delete-msg').collapse('show');
 		}
 		$("#confirm-modal").modal('hide');	
 	});
 }
 
 function handleDeleteAirport(id, designatorStr) {
+	$.post('admin_func_check_delete_airport.php', {designator:designatorStr}, function(data) {
+		if(data == "not_affected") {
+			confirmDeleteAirport(id, designatorStr);
+		} else {
+			document.getElementById("confirm-modal-content").innerHTML = '<p>' + data + '</p>';
+			$("#confirm-delete-btn").attr("onclick", "confirmDeleteAirport(" + id + ",\"" +  designatorStr + "\")");
+			$("#confirm-modal").modal('show');	
+		}
+	});		
+	return false;
+}
+
+function confirmDeleteAirport(id, designatorStr) {
 	$.post('admin_func_delete_airport.php', {designator:designatorStr}, function(data) {	
 		if(data == "successful") {
 			disableForm([id],[]);
 		} else {
-			document.getElementById("delete-error-msg").innerHTML = "Error message:" + resultMsg;
-			$('#delete-error-result').collapse('show');
+			document.getElementById("delete-msg").innerHTML = "Error message:" + data;
+			$('#delete-msg').collapse('show');
 		}
-	});	
+		$("#confirm-modal").modal('hide');	
+	});
+}
+
+function handleDeleteFlight(id, f_numberStr) {
+	$.post('admin_func_check_delete_flight.php', {f_number:f_numberStr}, function(data) {
+		if(data == "not_affected") {
+			confirmDeleteFlight(id, f_numberStr);
+		} else {
+			document.getElementById("confirm-modal-content").innerHTML = '<p>' + data + '</p>';
+			$("#confirm-delete-btn").attr("onclick", "confirmDeleteFlight(" + id + ",\"" +  f_numberStr + "\")");
+			$("#confirm-modal").modal('show');	
+		}
+	});		
 	return false;
 }
+
+function confirmDeleteFlight(id, f_numberStr) {
+	$.post('admin_func_delete_flight.php', {f_number:f_numberStr}, function(data) {	
+		if(data == "successful") {
+			disableForm([id],[]);
+		} else {
+			document.getElementById("delete-msg").innerHTML = "Error message:" + data;
+			$('#delete-msg').collapse('show');
+		}
+		$("#confirm-modal").modal('hide');	
+	});
+}
+
 
 /********************************
 * functions related to EDIT
@@ -711,12 +779,6 @@ function handleSearchSchedule() {
 		$("#loadingModal").modal('hide');
 	});
 	return false;
-}
-
-
-function handleEmptySearchResults() {
-	document.getElementById("search-results").innerHTML = "<div class=\"col-xs-offset-3 col-xs-9 alert alert-info\" role = \"alert\" >No records found.</div></br>";
-	$("#search-results").collapse('show');
 }
 
 /********************************
