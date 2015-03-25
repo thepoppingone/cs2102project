@@ -79,6 +79,7 @@
             <th>Arrival Time</th>
             <th>Price</th>
             <th>Duration</th>
+            <th>No. of Seats Left</th>
             <th></th>
           </thead>
           <tbody></tbody>
@@ -90,12 +91,28 @@
       </div>
     </div>
 
+    <div class="modal fade " data-keyboard = "false" data-backdrop = "static" id="loadingModal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">Please hold on while the flights are being searched...</h4>
+          </div>
+          <div align="center" class="modal-body">
+            <img id='bookingStatus' class='img-responsive' src='../../assets/img/loading1.gif'></img>
+          </div>
+          <div id='phpReply' class="modal-footer">
+            
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal-->
 
     <script type="text/javascript">
 
 //use jquery assign each SELECT button by ID value
 
 window.onload = function() {
+  $('#loadingModal').modal('toggle');
   makeAjaxRequest();
 };
 
@@ -124,6 +141,7 @@ function makeAjaxRequest() {
       else{
         $('table#resultTable tbody').html(response);
         $('#tableDis').collapse('show');
+        $('#loadingModal').modal('toggle');
 
             //  $('#button'+(i+1)).click(function() {
           //window.location = "user_passengers.php?flight_no="+select_flight_no+"&departure_date="+select_departure_date;

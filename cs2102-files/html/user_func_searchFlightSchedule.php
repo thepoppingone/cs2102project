@@ -58,6 +58,7 @@ if(!empty($_GET)){
 				echo "<td>".$arrival_time24."</td>";
 				echo "<td>$".$row['PRICE']."</td>";
 				echo "<td>".$durationHours." hours ".$durationMins." mins </td>";
+				echo "<td>".$row['NUM_OF_SEATS_AVAIL']."</td>";
 				echo "<td><button id=\"button".$index."\" onclick=\"createButtonLink(".$index.")\" class='btn btn-primary'>Select</button></td>";
 			echo "</tr>";
 
