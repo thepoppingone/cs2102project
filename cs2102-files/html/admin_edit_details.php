@@ -19,6 +19,8 @@
 	  $sql = "SELECT * FROM passenger p WHERE p.passport_number = '".$_POST['num']."'";
 	 } else if ($_POST['selected'] == "flight") {
 	  $sql = "SELECT * FROM flight f WHERE f.f_number = '".$_POST['num']."'";
+	 } else if ($_POST['selected'] == "schedule") {
+	  $sql = "SELECT * FROM schedule s WHERE s.flight_number = '".$_POST['flight']."'AND s.depart_time = '".$_POST['departure']."'";
 	 } else{
 	 }
 	 if(!empty($sql)) {
@@ -297,12 +299,25 @@
 		</div>
 		<!-- end for flight stuffs -->
 				
-		
-	
-		<div id = "edit-successful-result" class ="col-xs-offset-3 collapse" data-toggle="false" >
-			<p id = "edit-successful-msg" class = "alert alert-success" role = "alert"></p>
-			<a href = "admin_panel_edit.php"><button class="btn btn-primary">Edit another record</button></a>
-		</div>
+		<!-- edit schedule stuffs -->
+		<!-- div box for schedule -->
+		<div id = "schedule" <?php if ($_POST['selected'] != "schedule") { echo 'class = "collapse" data-toggle = "false"';}?> >
+			<form id = "edit-schedule-form" class="form-horizontal"> 			
+				<div class="form-group">
+					<label for="inputFlight" class="control-label col-xs-3" >Flight Number</label>
+					<div class="col-xs-9">		
+						<input id = "schedule-flight" id="inputFlight" type="text" class="form-control" placeholder="Flight Number" required autofocus="" name = "<?php echo $row['FLIGHT_NUMBER']; ?>" value = "<?php echo $row['FLIGHT_NUMBER']; ?>">
+					</div>
+				</div>
+			
+				<div class="form-group">
+					<label class="control-label col-xs-3">Price</label>
+					<div class="col-xs-9">
+						<input id = "schedule-price" type="text" class="form-control" placeholder="Price"  required autofocus="" value = "<?php echo $row['PRICE']; ?>">
+					</div>
+				</div>
+				
+			</form>
       </div>
 
     </div> 
