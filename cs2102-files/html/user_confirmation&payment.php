@@ -116,7 +116,7 @@ session_start();
             <h4 class="modal-title">Please hold on while the booking is being made...</h4>
           </div>
           <div align="center" class="modal-body">
-            <img class='img-responsive' src='../../assets/img/loading1.gif'></img>
+            <img id='bookingStatus' class='img-responsive' src='../../assets/img/loading1.gif'></img>
           </div>
           <div id='phpReply' class="modal-footer">
 
@@ -152,6 +152,9 @@ window.onload = function() {
        email: emailStr, contact: contactStr, booker: bookerStr, flightNo: flightNoStr , departure_date: departure_dateStr,},
       success: function(response) {
         $('#phpReply').html(response);
+      $('#bookingStatus').attr('src','../../assets/img/confirmed.png');
+        
+  
 
   } //close success call
 
