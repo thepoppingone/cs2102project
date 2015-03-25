@@ -18,8 +18,7 @@ if(!empty($_POST)){
 	date_default_timezone_set('Asia/Singapore'); 
 	
 	//$departure_time12 = substr_replace($departure_date, '', -10).substr($departure_date, -3) ; // format: yyyy-mm-dd
-	//$today_date = date('Y-m-d');
-	//	$departure_time24 = date("d/m/Y H:i",strtotime($departure_time12));
+	//	$departure_time24 = date("d/m/y H:i",strtotime($departure_time12));
 	// TRIED ALMOST A 100 TIMES DEBUGGING TO REALIZE THE ORIGINAL STRING WORKS
 	//echo '</br>'.$departure_time24;
 
