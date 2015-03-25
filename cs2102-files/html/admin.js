@@ -381,9 +381,11 @@ function forwardToFlightEditDetails(numStr) {
 function handleEditFlight() {
 	var originalNumStr = document.getElementById('flight-num').name;
 	var numStr = document.getElementById('flight-num').value;
-	var originStr = document.getElementById('flight-origin').value;
-	var destStr = document.getElementById('flight-dest').value;
-	var seatCapacityStr = document.getElementById('flight-seatcapacity').value;
+	var selectBarD = document.getElementById('flight-dest');
+	var destStr = selectBarD.options[selectBarD.selectedIndex].value;
+	var selectBarO = document.getElementById('flight-origin');
+	var originStr = selectBarO.options[selectBarO.selectedIndex].value;
+		var seatCapacityStr = document.getElementById('flight-seatcapacity').value;
 
 	if(numStr && originStr && destStr && seatCapacityStr) {		
 		$.post('admin_func_edit_flight.php', {originalNum: originalNumStr, num:numStr, origin:originStr, dest:destStr, seatCapacity:seatCapacityStr}, function(data) {
