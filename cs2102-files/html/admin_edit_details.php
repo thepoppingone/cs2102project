@@ -317,6 +317,13 @@
 					</div>
 				</div>
 				
+				<div class="form-group">
+					<label class="control-label col-xs-3">Number Of Seats Available</label>
+					<div class="col-xs-9">
+						<input id = "schedule-seats" type="text" class="form-control" placeholder="Number Of Seats Available"  required autofocus="" value = "<?php echo $row['NUM_OF_SEATS_AVAIL']; ?>">
+					</div>
+				</div>
+				
 			</form>
       </div>
 

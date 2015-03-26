@@ -415,15 +415,14 @@ function forwardToPassengerEditDetails(numStr) {
 function handleEditPassenger() {
 	var originalNumStr = document.getElementById('passenger-num').name;
 	var numStr = document.getElementById('passenger-num').value;
-	var typeStr = document.getElementById('passenger-type').value;
 	var titleStr = document.getElementById('passenger-title').value;
 	var firstNameStr = document.getElementById('passenger-firstname').value;
 	var lastNameStr = document.getElementById('passenger-lastname').value;
 
 	if(numStr && typeStr && titleStr && firstNameStr && lastNameStr) {		
-		$.post('admin_func_edit_passenger.php', {originalNum: originalNumStr, num:numStr, type:typeStr, title:titleStr, firstName:firstNameStr, lastName: lastNameStr}, function(data) {
+		$.post('admin_func_edit_passenger.php', {originalNum: originalNumStr, num:numStr, title:titleStr, firstName:firstNameStr, lastName: lastNameStr}, function(data) {
 			if(data == 'edited') {
-				disableForm(['passenger-button', 'edit-passenger-error-result', 'passengerNumError'], ['passenger-num', 'passenger-type', 'passenger-title', 'passenger-firstname', 'passenger-lastname']);
+				disableForm(['passenger-button', 'edit-passenger-error-result', 'passengerNumError'], ['passenger-num', 'passenger-title', 'passenger-firstname', 'passenger-lastname']);
 				displayAddSuccessfulMessage("edit","Passenger information updated!");
 			}
 			else if(data == 'passenger_exists'){
@@ -478,9 +477,9 @@ function handleEditFlight() {
 	}
 }
 
-function forwardToScheduleEditDetails(flightStr, departStr) {
+function forwardToScheduleEditDetails1(flightStr) {
 	document.getElementById('result-form').action = "admin_edit_details.php";
-	appendToForm('result-form', ["selected", "flight", "departure"],["schedule", flightStr, departStr]);
+	appendToForm('result-form', ["selected", "flight"],["schedule", flightStr]);
 	document.getElementById('result-form').submit();
 	return true;
 }
