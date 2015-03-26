@@ -11,4 +11,8 @@
 	} else {
 		echo "successful";
 	}			
+	
+	oci_free_statement($stid);
+	ocilogoff($dbh);
+	
 ?>

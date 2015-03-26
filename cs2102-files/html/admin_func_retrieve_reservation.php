@@ -36,4 +36,7 @@
 	}
 		
 	echo $output;
+	
+	oci_free_statement($stid);
+	ocilogoff($dbh);	
 ?>

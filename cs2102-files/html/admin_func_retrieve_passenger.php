@@ -36,6 +36,9 @@
 			$index++;
 		}	
 	}
+	
+	oci_free_statement($stid);
+	ocilogoff($dbh);		
 		
 	echo $output;
 ?>
