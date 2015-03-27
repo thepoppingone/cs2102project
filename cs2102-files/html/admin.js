@@ -5,7 +5,7 @@
 function addCategoryChange() {
 	var selectBar = document.getElementById('add-category');
     var option =  selectBar.options[selectBar.selectedIndex].value;
-	var options = ["administrator", "passenger", "reservation", "airport", "flight", "schedule"];
+	var options = ["administrator", "passenger", "booking", "airport", "flight", "schedule"];
 	for(i = 0; i < options.length; i++) {
 		if(option == options[i]) {
 			$('#' + options[i]).collapse('show');	
@@ -15,41 +15,110 @@ function addCategoryChange() {
 	}
 }
 
+
+// Add Administrator
 function handleAddAdmin() {
-	var emailStr = document.getElementById('admin-email').value;
-	var nameStr = document.getElementById('admin-name').value;
-	var pwdStr = document.getElementById('admin-pwd').value;
+
+	// retrieve the field values
+	var emailStr = document.getElementById('admin-email').value.trim();
+	var nameStr = document.getElementById('admin-name').value.trim();
+	var pwdStr = document.getElementById('admin-pwd').value.trim();
 				
 	if(emailStr && nameStr && pwdStr) {		
-		$.post('admin_func_add_admin.php', {email:emailStr, name:nameStr, pwd:pwdStr}, function(data) {
-			if(data == 'inserted') {
-				disableForm(['admin-button', 'add-admin-error-result', 'adminEmailError'], ['add-category', 'admin-email', 'admin-name', 'admin-pwd']);
-				displayAddSuccessfulMessage("add","New administrator added successfully.");
-			}
-			else if(data == 'admin_exists'){
-				$('#add-admin-error-result').collapse('hide');
-				$('#adminEmailError').collapse('show');
-			} else {
-				$('#adminEmailError').collapse('hide'); 
-				document.getElementById("add-admin-error-msg").innerHTML = "Error message:" + data;
-				$('#add-admin-error-result').collapse('show');
-			}
-		});
+		if(validateEmail(emailStr)) {
+			$.post('admin_func_add_admin.php', {email:emailStr, name:nameStr, pwd:pwdStr}, function(data) {
+				if(data == 'inserted') {
+					disableForm(['admin-button', 'add-admin-error-result', 'adminEmailError'], ['add-category', 'admin-email', 'admin-name', 'admin-pwd']);
+					displayAddSuccessfulMessage("add","New administrator added successfully.");
+				}
+				else if(data == 'admin_exists'){
+					$('#add-admin-error-result').collapse('hide');
+					document.getElementById("adminEmailError").innerHTML = "Oops! The owner of the email is already an administrator.";
+					$('#adminEmailError').collapse('show');
+				} else {
+					$('#adminEmailError').collapse('hide'); 
+					document.getElementById("add-admin-error-msg").innerHTML = "Error message:" + data;
+					$('#add-admin-error-result').collapse('show');
+				}
+			});
+		} else {
+			$('#add-admin-error-result').collapse('hide');
+			document.getElementById("adminEmailError").innerHTML = "Invalid email format";
+			$('#adminEmailError').collapse('show');		
+		}
 		return false;
 	} else {
+		disableForm(['adminEmailError', 'add-admin-error-result'],[]);
+		document.getElementById('admin-email').value = emailStr;
+		document.getElementById('admin-name').value = nameStr;
+		document.getElementById('admin-pwd').value = pwdStr;		
 		return true;
 	}
 }
 
+// Add Passenger
+// empty checkStr means no checking of passenger details done, go ahead and insert/update
+// non-empty checkStr means check passenger details first and inform if the passenger exists. else continue
+function handleAddPassenger(checkStr) {
+
+	$("#confirm-modal").modal('hide');	
+	
+	// retrieve the field values
+	var selectTitle = document.getElementById('passenger-title');
+    var titleStr =  selectTitle.options[selectTitle.selectedIndex].value;
+	var firstNameStr = document.getElementById('passenger-first-name').value.trim();
+	var lastNameStr = document.getElementById('passenger-last-name').value.trim();
+	var passportStr = document.getElementById('passenger-passport').value.trim();
+	var selectBooking = document.getElementById('passenger-booking-id');
+    var bookingStr =  selectBooking.options[selectBooking.selectedIndex].value;
+
+	if(titleStr && firstNameStr && lastNameStr && passportStr && bookingStr) {	
+		$.post('admin_func_add_passenger.php', {title:titleStr, firstName:firstNameStr, lastName:lastNameStr, passport:passportStr, id:bookingStr, check:checkStr}, function(data) {
+			data = data.trim();			
+			if (data == 'passenger_exists') {
+				// set modal for informing
+				document.getElementById("confirm-modal-content").innerHTML = '<p>' + "The passenger is already recorded in the database. Any discrepancies will be updated. Continue?" + '</p>';
+				$("#confirm-add-btn").attr("onclick", "handleAddPassenger('')");
+				// display modal
+				$("#confirm-modal").modal('show');
+			} else if (data == 'passenger_booking_exists') {
+				// booking already contains the passenger
+				$('#add-passenger-error-result').collapse('hide');
+				document.getElementById("passengerPassportError").innerHTML = "This passenger is already registered under the selected booking.";
+				$('#passengerPassportError').collapse('show');		
+			} else if (data == 'new_passenger') {
+				handleAddPassenger("");
+			} else if (data == 'successful') {
+				disableForm(['passenger-button', 'add-passenger-error-result', 'passengerPassportError'], ['add-category', 'passenger-title', 'passenger-first-name', 'passenger-last-name', 'passenger-passport', 'passenger-booking-id']);
+				displayAddSuccessfulMessage("add","New passenger added successfully.");
+			} else if(!checkStr) {
+				$('#passengerPassportError').collapse('hide'); 
+				document.getElementById("add-passenger-error-msg").innerHTML = "Error message:" + data;
+				$('#add-passenger-error-result').collapse('show');
+			}
+		});
+		return false;
+	} else {
+		disableForm(['passengerPassportError', 'add-passenger-error-result'],[]);
+		document.getElementById('passenger-first-name').value = firstNameStr;
+		document.getElementById('passenger-last-name').value = lastNameStr;
+		document.getElementById('passenger-passport').value = passportStr;
+		return true;
+	}
+}
+
+// Add Airport
 function handleAddAirport() {
-	var nameStr = document.getElementById('airport-name').value;
-	var locationStr = document.getElementById('airport-location').value;
-	var designatorStr = document.getElementById('airport-designator').value;
+
+	// retrieve the field values
+	var nameStr = document.getElementById('airport-name').value.trim();
+	var locationStr = document.getElementById('airport-location').value.trim();
+	var designatorStr = document.getElementById('airport-designator').value.trim();
 				
 	if(nameStr && locationStr && designatorStr) {		
 		$.post('admin_func_add_airport.php', {name:nameStr, location:locationStr, designator:designatorStr}, function(data) {
 			if(data == 'inserted') {
-				disableForm(['airport-button', 'add-airport-error-result', 'airportDesignatorError'], ['add-category', 'airport-name', 'airport-designator', 'airport-designator']);
+				disableForm(['airport-button', 'add-airport-error-result', 'airportDesignatorError'], ['add-category', 'airport-name', 'airport-location', 'airport-designator']);
 				displayAddSuccessfulMessage("add","New airport added successfully.");
 			}
 			else if(data == 'airport_exists'){
@@ -63,26 +132,31 @@ function handleAddAirport() {
 		});
 		return false;
 	} else {
+		disableForm(['airportDesignatorError', 'add-airport-error-result'],[]);
+		document.getElementById('airport-name').value = nameStr;
+		document.getElementById('airport-location').value = locationStr;
+		document.getElementById('airport-designator').value = designatorStr;		
 		return true;
 	}
 }
 
+// Add Flight
 function handleAddFlight() {
 	
-	var numberStr = document.getElementById('flight-number').value;
-	var durationStr = document.getElementById('flight-duration').value;
-	var selectBarD2 = document.getElementById('flight-destination');
-	var destinationStr = selectBarD2.options[selectBarD2.selectedIndex].value;
-	var selectBarO = document.getElementById('flight-origin');
-	var originStr = selectBarO.options[selectBarO.selectedIndex].value;
-	var seatStr = document.getElementById('flight-seat').value;
+	// retrieve the field values
+	var numberStr = document.getElementById('flight-number').value.trim();
+	var destinationBar = document.getElementById('flight-destination');
+	var destinationStr = destinationBar.options[destinationBar.selectedIndex].value;
+	var originBar = document.getElementById('flight-origin');
+	var originStr = originBar.options[originBar.selectedIndex].value;
+	var seatStr = document.getElementById('flight-seat').value.trim();
 				
-	if(numberStr && durationStr && destinationStr && originStr && seatStr) {		
-		if(validateFlightRoute()) {
-			$.post('admin_func_add_flight.php', {f_number:numberStr, duration:durationStr, destination:destinationStr, origin:originStr, seat_capacity:seatStr}, function(data) {
+	if(numberStr && destinationStr && originStr && seatStr) {		
+		if(validateFlightRoute() && validateSeatCapacity()) {
+			$.post('admin_func_add_flight.php', {f_number:numberStr, destination:destinationStr, origin:originStr, seat_capacity:seatStr}, function(data) {
 				if(data == 'inserted') {
-					disableForm(['flight-button', 'add-flight-error-result', 'flightDesignatorError'], ['add-category', 'flight-number', 'flight-duration', 'flight-destination', 'flight-origin', 'flight-seat']);
-					displayAddSuccessfulMessage("add","New Flight added successfully.");
+					disableForm(['flight-button', 'add-flight-error-result', 'flightDesignatorError'], ['add-category', 'flight-number', 'flight-destination', 'flight-origin', 'flight-seat']);
+					displayAddSuccessfulMessage("add","New flight added successfully.");
 				}
 				else if(data == 'flight_exists'){
 					$('#add-flight-error-result').collapse('hide');
@@ -96,47 +170,29 @@ function handleAddFlight() {
 		}
 		return false;
 	} else {
+		disableForm(['flightDesignatorError', 'add-flight-error-result'],[]);
+		document.getElementById('flight-number').value = numberStr;
+		document.getElementById('flight-seat').value = seatStr;	
 		return true;
 	}
 }
 
-function validateFlightRoute() {
-	var selectOrigin = document.getElementById('flight-origin');
-    var origin =  selectOrigin.options[selectOrigin.selectedIndex].value;
-	
-	var selectDestination = document.getElementById('flight-destination');
-    var destination =  selectDestination.options[selectDestination.selectedIndex].value;
-	
-	if(origin && destination) {
-		if(origin == destination) {
-			$('#flightRouteError').collapse('show');
-		} else {
-			$('#flightRouteError').collapse('hide');
-			return true;
-		}
-	}
-	return false;
-}
-
-
+// Add Schedule
 function handleAddSchedule() {
 	
 	var selectBarF = document.getElementById('schedule-flight');
 	var flightStr = selectBarF.options[selectBarF.selectedIndex].value;
-	var flightNumberStr; // set it to flight number
 	var arrivalStr = document.getElementById('schedule-arrival').value;
 	var departureStr = document.getElementById('schedule-departure').value;
-	var seatStr = document.getElementById('schedule-seats').value;
 	var priceStr = document.getElementById('schedule-price').value;
 	
 	if(flightStr && arrivalStr && departureStr && seatStr && priceStr) {
 		if(validateScheduleSeat()) {		
 			$.post('admin_func_add_schedule.php', {
+										flight_number: flightStr,
 										arrival_time: arrivalStr,
 										depart_time: departureStr,
-										num_of_seats_avail: seatStr,
-										price: priceStr,
-										flight_number: flightNumberStr},  function(data) {	
+										price: priceStr,},  function(data) {	
 				if(data == 'inserted') {
 					disableForm(['schedule-button', 'add-schedule-error-result', 'scheduleTimeError'], ['add-category', 'schedule-flight', 'schedule-aircraft', 'schedule-seats', 'schedule-departure', 'schedule-arrival', 'schedule-price']);
 					displayAddSuccessfulMessage("add","New schedule added successfully.");
@@ -157,22 +213,56 @@ function handleAddSchedule() {
 	}
 }
 
-function validateScheduleSeat() {
-	var selectBarF = document.getElementById('schedule-flight');
-	var flight = selectBarF.options[selectBarF.selectedIndex].value;
-	var seat = document.getElementById('schedule-seats').value;
-	if(flight && seat && !isNaN(seat)) {
-		var totalSeat = parseInt(flight);
-		var seatNum = parseInt(seat);
-		if(seatNum > totalSeat) {
-			document.getElementById("scheduleSeatError").innerHTML = "This plane can only hold a maximum of " + totalSeat + " passengers.";
-			$('#scheduleSeatError').collapse('show');
+// a email at least have this format - string@string
+// returns false if given email string does not match that format
+function validateEmail(emailStr) {
+	var tokens = emailStr.split("@");
+	if(tokens.length == 2 && tokens[0].length > 0  && tokens[1].length > 0) {
+		return true; 
+	} else {
+		return false;
+	}
+}
+
+// a flight route should have different origin and destination
+// requires two select bar with id 'flight-origin' and 'flight-destination'
+// and a id 'flightRouteError' for collapse show/hide
+// returns true of the selected values are equal, else false
+function validateFlightRoute() {
+
+	// retrieve field values
+	var selectOrigin = document.getElementById('flight-origin');
+    var origin =  selectOrigin.options[selectOrigin.selectedIndex].value;
+	var selectDestination = document.getElementById('flight-destination');
+    var destination =  selectDestination.options[selectDestination.selectedIndex].value;
+	
+	if(origin && destination) {
+		if(origin == destination) {
+			$('#flightRouteError').collapse('show');
 		} else {
-			$('#scheduleSeatError').collapse('hide');
+			$('#flightRouteError').collapse('hide');
 			return true;
 		}
-	} else {
-			$('#scheduleSeatError').collapse('hide');
+	}
+	return false;
+}
+
+// a flight should have minimum of 1 passenger seat
+// requires a number field with id 'flight-seat'
+// and a id 'seatCapacityError' for collapse show/hide
+// returns true if the values is > 0,  else false
+function validateSeatCapacity() {
+
+	// retrieve field values
+	var seatStr = document.getElementById('flight-seat').value.trim();
+	
+	if(seatStr) {
+		if(seatStr < 1) {
+			$('#seatCapacityError').collapse('show');
+		} else {
+			$('#seatCapacityError').collapse('hide');
+			return true;
+		}
 	}
 	return false;
 }
@@ -567,7 +657,7 @@ function loadPassengerOptions(choice) {
 	$.post('admin_func_retrieve_passenger.php',{edit:editStr}, function(data) {
 		if(data) {
 			// headers in array, rows, function to call when delete/edit button is clicked, words in the button
-			document.getElementById(choice + '-options').innerHTML = createTableFormHtml(["Passenger Number", "Type", "Title", "First Name", "Last Name"], data, "", "");
+			document.getElementById(choice + '-options').innerHTML = createTableFormHtml(["Passenger Number", "Title", "First Name", "Last Name"], data, "", "");
 			$('#' + choice + '-options').collapse('show');
 		} else {
 			handleEmptyOptions(choice + '-options'); 	
