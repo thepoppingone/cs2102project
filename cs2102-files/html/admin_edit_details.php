@@ -306,10 +306,26 @@
 				<div class="form-group">
 					<label for="inputFlight" class="control-label col-xs-3" >Flight Number</label>
 					<div class="col-xs-9">		
-						<input id = "schedule-flight" id="inputFlight" type="text" class="form-control" placeholder="Flight Number" required autofocus="" name = "<?php echo $row['FLIGHT_NUMBER']; ?>" value = "<?php echo $row['FLIGHT_NUMBER']; ?>">
+						<input id = "schedule-flight" id="inputFlight" type="text" class="form-control" placeholder="Flight Number" required autofocus="" name = "<?php echo $row['FLIGHT_NUMBER']; ?>" disabled value = "<?php echo $row['FLIGHT_NUMBER']; ?>">
 					</div>
 				</div>
-			
+				<div class="form-group">
+					<label class="control-label col-xs-3">Departure Time</label>
+					<div class="col-xs-9">		
+						<input id = "schedule-departure" type="datetime-local" value = "<?php echo $row['DEPARTURE_TIME'] ?>" class="form-control" placeholder="Departure Time"  required autofocus=""name = "<?php echo strftime('%Y-%m-%dT%H:%M:%S', $row['DEPARTURE_TIME']); ?>">
+						<p id = "scheduleTimeError" class = "collapse text-danger"   data-toggle="false">Oops! This flight has already been scheduled for this departure time!</p>
+						</select>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-xs-3">Arrival Time</label>
+					<div class="col-xs-9">		
+						<input id = "schedule-arrival" type="datetime-local" value = 
+						"<?php echo strftime('%Y-%m-%dT%H:%M:%S', $row["ARRIVAL_TIME"]); ?>" 
+						class="form-control" placeholder="Arrival Time"  required autofocus="">
+						</select>
+					</div>
+				</div>
 				<div class="form-group">
 					<label class="control-label col-xs-3">Price</label>
 					<div class="col-xs-9">
@@ -323,7 +339,16 @@
 						<input id = "schedule-seats" type="text" class="form-control" placeholder="Number Of Seats Available"  required autofocus="" value = "<?php echo $row['NUM_OF_SEATS_AVAIL']; ?>">
 					</div>
 				</div>
-				
+			<div class="form-group">
+					<div id = "schedule-button"  class="col-xs-offset-3 col-xs-9 collapse in " data-toggle="false">
+						<button type="reset" class="btn btn-primary">Reset</button>
+						<button type="submit" class="btn btn-primary" onclick = "return handleEditSchedule()">Edit Flight</button>
+					</div>
+				</div>
+			</form>
+			<div id = "edit-schedule-error-result" class = "collapse" data-toggle="false">
+				<p id = "edit-schedule-error-msg"></p>
+			</div>	
 			</form>
       </div>
 

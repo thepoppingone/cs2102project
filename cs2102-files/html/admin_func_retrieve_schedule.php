@@ -32,7 +32,7 @@
 			<td>".$row['DEPART_TIME']."</td>
 			<td>".$row['NUM_OF_SEATS_AVAIL']."</td>
 			<td>".$row['PRICE']."</td>
-			<td><span class=\"glyphicon glyphicon-pencil \" value=\"".$row['FLIGHT_NUMBER']."\" onclick = \"return forwardToScheduleEditDetails('".$row['FLIGHT_NUMBER'].", ".$row['DEPART_TIME']."')\"></span></td></tr>";
+			<td><span class=\"glyphicon glyphicon-pencil \" value=\"".$row['FLIGHT_NUMBER']."\" onclick = \"return forwardToScheduleEditDetails('".$row['FLIGHT_NUMBER']."','".$row['DEPART_TIME']."')\"></span></td></tr>";
 			$index++;
 		}	
 	}

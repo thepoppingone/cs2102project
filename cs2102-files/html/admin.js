@@ -477,9 +477,9 @@ function handleEditFlight() {
 	}
 }
 
-function forwardToScheduleEditDetails1(flightStr) {
+function forwardToScheduleEditDetails(flightStr, departStr) {
 	document.getElementById('result-form').action = "admin_edit_details.php";
-	appendToForm('result-form', ["selected", "flight"],["schedule", flightStr]);
+	appendToForm('result-form', ["selected", "flight", "departure"],["schedule", flightStr, departStr]);
 	document.getElementById('result-form').submit();
 	return true;
 }
