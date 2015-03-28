@@ -20,7 +20,7 @@ if(!empty($_GET)){
 		require("config.php");
 		
 		// carry out sql command
-		$sql = "SELECT * FROM schedule s, flight f 
+		$sql = "SELECT TO_CHAR(s.DEPART_TIME, 'DD MON YYYY HH24:MI') AS DEPART_TIME_DISPLAY, TO_CHAR(s.ARRIVAL_TIME, 'DD MON YYYY HH24:MI') AS ARRIVAL_TIME_DISPLAY, s.flight_number, f.origin, f.destination, s.price, s.NUM_OF_SEATS_AVAIL FROM schedule s, flight f 
 				WHERE s.depart_time >= TO_TIMESTAMP('".$departure_date."', 'YYYY-MM-DD')
 				AND s.depart_time < TO_TIMESTAMP('".$departure_date."', 'YYYY-MM-DD')+1
 				AND f.origin LIKE '%".$origin."%'
@@ -41,21 +41,21 @@ if(!empty($_GET)){
 		{
 			//NOTE THE ASSOCIATIVE ARRAY REACTS ONLY TO CAPITAL LETTERS
 			// window.location is compliant to all browsers rather than using document
-			$departure_time12 = substr_replace($row['DEPART_TIME'], '', -10).substr($row['DEPART_TIME'], -3) ; // remove the excessive numbers
-			$departure_time24 = date("d-M-Y H:i",strtotime($departure_time12));									// convert to 24hours	
+			//$departure_time12 = substr_replace($row['DEPART_TIME'], '', -10).substr($row['DEPART_TIME'], -3) ; // remove the excessive numbers
+			//$departure_time24 = date("d-M-Y H:i",strtotime($departure_time12));									// convert to 24hours	
 
-			$arrival_time12 = substr_replace($row['ARRIVAL_TIME'], '', -10).substr($row['ARRIVAL_TIME'], -3) ; // remove the excessive numbers
-			$arrival_time24 = date("d-M-Y H:i",strtotime($arrival_time12));										// convert to 24hours	
+			//$arrival_time12 = substr_replace($row['ARRIVAL_TIME'], '', -10).substr($row['ARRIVAL_TIME'], -3) ; // remove the excessive numbers
+			//$arrival_time24 = date("d-M-Y H:i",strtotime($arrival_time12));										// convert to 24hours	
 
-			$time_difference = strtotime($arrival_time12)-strtotime($departure_time12);
+			$time_difference = strtotime($row['ARRIVAL_TIME_DISPLAY'])-strtotime($row['DEPART_TIME_DISPLAY']);
 			$durationHours = date("H", $time_difference - 60*60*7.5); //7.5 as there is a 7.5 hours time difference of database due to unix timestamp
 			$durationMins = date("i", $time_difference - 60*60*7.5); // evaluate the minutes and hours separately
 
 			echo "<tr>";
 				echo "<td>".$index."</td>";
 				echo "<td id='fNumBook".$index."'>".$row['FLIGHT_NUMBER']."</td>";
-				echo "<td id='departTimeBook".$index."'>".$departure_time24."</td>";
-				echo "<td>".$arrival_time24."</td>";
+				echo "<td id='departTimeBook".$index."'>".$row['DEPART_TIME_DISPLAY']."</td>";
+				echo "<td>".$row['ARRIVAL_TIME_DISPLAY']."</td>";
 				echo "<td>$".$row['PRICE']."</td>";
 				echo "<td>".$durationHours." hours ".$durationMins." mins </td>";
 				echo "<td>".$row['NUM_OF_SEATS_AVAIL']."</td>";

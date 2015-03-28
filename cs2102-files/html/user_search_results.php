@@ -137,6 +137,7 @@ function makeAjaxRequest() {
       if(response=='no_existing_flights')
       { 
         $('#no_existing_flights').collapse('show');
+        $('#loadingModal').modal('toggle');
       }
       else{
         $('table#resultTable tbody').html(response);
@@ -149,7 +150,7 @@ function makeAjaxRequest() {
           
           } //close else call
           
-        } //close success call
+        } //close su ccess call
       });
 
 
