@@ -15,7 +15,7 @@
 	$seat_capacity = $_POST['seat_capacity'];		
 	
 	require("config.php");
-	$sql = "SELECT * FROM flight f WHERE f.f_number='".$f_number."'";
+	$sql = "SELECT * FROM flight f WHERE f.F_NUMBER ='".$f_number."'";
 	$stid = oci_parse($dbh, $sql);
 	oci_execute($stid, OCI_DEFAULT);
 	

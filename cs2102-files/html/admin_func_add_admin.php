@@ -1,13 +1,13 @@
 <?php 
 
-	/******************************************************************************************************
+	/*********************************************************************************
 	* admin_func_add_admin.php 
 	* function : to add an administrator
 	* results  : adds a non-existing new administrator record into the database. 
 	* echo "inserted" implies the expected results are satisfy
 	* echo "admin_exists" implies an existing record
 	* else an error message is echoed.
-	******************************************************************************************************/
+	**********************************************************************************/
 	
 	
 	/******************
@@ -58,8 +58,7 @@
 			/**************
 			* Unsuccessful
 			***************/	
-			$error_message = oci_error($stid);
-			echo $error_message;
+			echo oci_error($stid);
 		}
 	}
 	

@@ -195,33 +195,37 @@ if(empty($_SESSION['admin'])) {
 				<div class="form-group">
 					<label class="control-label col-xs-3">Contact Email</label>
 					<div class="col-xs-9">		
-						<input id = "booking-email" type="email" class="form-control" placeholder="Email address"  required autofocus="">
+						<input id = "booking-email" type="text" class="form-control" placeholder="Email address" required autofocus="">
+						<p id = "bookingEmailError" class = "collapse text-danger"  data-toggle="false"></p>
 					</div>
 				</div>	
 				<div class="form-group">
 					<label class="control-label col-xs-3">Contact Name</label>
 					<div class="col-xs-9">		
-						<input id = "booking-name" type="text" class="form-control" placeholder="Contact Name"  required autofocus="">
+						<input id = "booking-name" type="text" class="form-control" placeholder="Contact Name" required autofocus="">
 					</div>
 				</div>			
 				<div class="form-group">
 					<label class="control-label col-xs-3">Contact Number</label>
 					<div class="col-xs-9">		
-						<input id = "booking-number" type="number" class="form-control" placeholder="Contact Number"  required autofocus="">
+						<input id = "booking-number" type="number" class="form-control" placeholder="Contact Number" required autofocus="">
 					</div>
 				</div>	
 				<div class="form-group">
 					<label class="control-label col-xs-3">Flight Schedule</label>
 					<div class="col-xs-9">		
-						<!-- uncompleted work: validateSeatCapacity for onchange is not written yet. it is to check the no of seats selected can be satisfy-->
-						<select  id="booking-schedule" class = "form-control input-sm" onchange = "validateSeatCapacity()"  required >
+						<select  id="booking-schedule" class = "form-control input-sm" onchange = "validateSeatRequest()" required >
 							<?php
 								require("config.php");
-								$sql = "SELECT s.FLIGHT_NUMBER, s.DEPART_TIME, f.ORIGIN, f.DESTINATION FROM flight f, schedule s WHERE s.FLIGHT_NUMBER = f.F_NUMBER AND s.NUM_OF_SEATS_AVAIL > 0 ORDER BY s.FLIGHT_NUMBER, s.DEPART_TIME ASC";
+								$sql = "SELECT s.*, f.ORIGIN, f.DESTINATION, TO_CHAR(s.DEPART_TIME, 'DD MON YYYY HH24:MI:SS') AS DEPART_TIME_DISPLAY FROM flight f, schedule s WHERE s.FLIGHT_NUMBER = f.F_NUMBER AND s.NUM_OF_SEATS_AVAIL > 0 ORDER BY s.FLIGHT_NUMBER, s.DEPART_TIME ASC";
 								$stid = oci_parse($dbh, $sql);
 								oci_execute($stid, OCI_DEFAULT);
+								$first_value ;
 								while($row = oci_fetch_array($stid)){
-									echo "<option value=\"".$row["FLIGHT_NUMBER"].",".$row["DEPART_TIME"]."\">".$row["FLIGHT_NUMBER"]." (".$row["ORIGIN"]." to ".$row["DESTINATION"]." departing on ".$row["DEPART_TIME"].")</option><br>";
+									if(empty($first_value)) {
+										$first_value = $row["NUM_OF_SEATS_AVAIL"];
+									}
+									echo "<option value=\"".$row["FLIGHT_NUMBER"].";".$row["DEPART_TIME"].";".$row["NUM_OF_SEATS_AVAIL"]."\">".$row["FLIGHT_NUMBER"]." (".$row["ORIGIN"]." to ".$row["DESTINATION"]." departing on ".$row["DEPART_TIME_DISPLAY"].")</option><br>";
 								}
 								oci_free_statement($stid);
 								ocilogoff($dbh);	
@@ -231,21 +235,160 @@ if(empty($_SESSION['admin'])) {
 				</div>				
 				<div class="form-group">
 					<label class="control-label col-xs-3">Number of Passengers</label>
-					<div class="col-xs-9">		
-						<!-- uncompleted work: loadFlightScheduleBar for onchange is not written yet. it is to reload the options for the flight schedule bar-->
-						<select  id="booking-schedule" class = "form-control input-sm" onchange = "loadFlightScheduleBar()"  required > 
+					<div class="col-xs-9">
+						<select  id="booking-passenger-num" class = "form-control input-sm" onchange = "loadPassengerFields()" required > 
 							<?php
-								for ($x = 1; $x <= 4; $x++) {
+								for ($x = 1; $x <= 4 && $x <= $first_value; $x++) {
 									echo "<option value=\"".$x."\">".$x."</option><br>";
 								}
 							?>
 						</select>
 					</div>
 				</div>	
+				<!-- passenger 1-->
+				<div id = "passenger-1" class = "collapse in" data-toggle = "false">
+					<br/>
+					<div class="form-group"><label class="control-label col-xs-offset-3 col-xs-9">Passenger 1 Details</label></div>
+					<div class="form-group">
+						<label class="control-label col-xs-3">Passport Number</label>
+						<div class="col-xs-9">		
+							<input id = "passenger-passport-1" type="text" class="form-control" placeholder="Passport Number"  required autofocus="">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-xs-3">Title</label>
+						<div class="col-xs-9">		
+							<select id="passenger-title-1" class = "form-control input-sm" required>
+								<option value="Mr" selected = "true">Mr</option>
+								<option value="Ms">Ms</option>
+								<option value="Mrs">Mrs</option>
+								<option value="airport">Mdm</option>
+							</select>
+						</div>
+					</div>	
+					<div class="form-group">
+						<label class="control-label col-xs-3">First Name</label>
+						<div class="col-xs-9">		
+							<input id = "passenger-first-name-1" type="text" class="form-control" placeholder="First Name"  required autofocus="">
+						</div>
+					</div>	
+					<div class="form-group">
+						<label class="control-label col-xs-3">Last Name</label>
+						<div class="col-xs-9">		
+							<input id = "passenger-last-name-1" type="text" class="form-control" placeholder="Last Name"  required autofocus="">
+						</div>
+					</div>
+				</div>		
+				<!-- end of passenger 1-->
+				<!-- passenger 2-->
+				<div id = "passenger-2" class = "collapse" data-toggle = "false">
+					<br/>
+					<div class="form-group"><label class="control-label col-xs-offset-3 col-xs-9">Passenger 2 Details</label></div>
+					<div class="form-group">
+						<label class="control-label col-xs-3">Passport Number</label>
+						<div class="col-xs-9">		
+							<input id = "passenger-passport-2" type="text" class="form-control" placeholder="Passport Number"  required autofocus="">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-xs-3">Title</label>
+						<div class="col-xs-9">		
+							<select id="passenger-title-2" class = "form-control input-sm" required>
+								<option value="Mr" selected = "true">Mr</option>
+								<option value="Ms">Ms</option>
+								<option value="Mrs">Mrs</option>
+								<option value="airport">Mdm</option>
+							</select>
+						</div>
+					</div>	
+					<div class="form-group">
+						<label class="control-label col-xs-3">First Name</label>
+						<div class="col-xs-9">		
+							<input id = "passenger-first-name-2" type="text" class="form-control" placeholder="First Name"  required autofocus="">
+						</div>
+					</div>	
+					<div class="form-group">
+						<label class="control-label col-xs-3">Last Name</label>
+						<div class="col-xs-9">		
+							<input id = "passenger-last-name-2" type="text" class="form-control" placeholder="Last Name"  required autofocus="">
+						</div>
+					</div>
+				</div>	
+				<!-- end of passenger 2-->
+				<!-- passenger 3-->
+				<div id = "passenger-3" class = "collapse" data-toggle = "false">
+					<br/>
+					<div class="form-group"><label class="control-label col-xs-offset-3 col-xs-9">Passenger 3 Details</label></div>
+					<div class="form-group">
+						<label class="control-label col-xs-3">Passport Number</label>
+						<div class="col-xs-9">		
+							<input id = "passenger-passport-3" type="text" class="form-control" placeholder="Passport Number"  required autofocus="">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-xs-3">Title</label>
+						<div class="col-xs-9">		
+							<select id="passenger-title-3" class = "form-control input-sm" required>
+								<option value="Mr" selected = "true">Mr</option>
+								<option value="Ms">Ms</option>
+								<option value="Mrs">Mrs</option>
+								<option value="airport">Mdm</option>
+							</select>
+						</div>
+					</div>	
+					<div class="form-group">
+						<label class="control-label col-xs-3">First Name</label>
+						<div class="col-xs-9">		
+							<input id = "passenger-first-name-3" type="text" class="form-control" placeholder="First Name"  required autofocus="">
+						</div>
+					</div>	
+					<div class="form-group">
+						<label class="control-label col-xs-3">Last Name</label>
+						<div class="col-xs-9">		
+							<input id = "passenger-last-name-3" type="text" class="form-control" placeholder="Last Name"  required autofocus="">
+						</div>
+					</div>
+				</div>	
+				<!-- end of passenger 3-->
+				<!-- passenger 4-->
+				<div id = "passenger-4" class = "collapse" data-toggle = "false">
+					<br/>
+					<div class="form-group"><label class="control-label col-xs-offset-3 col-xs-9">Passenger 4 Details</label></div>
+					<div class="form-group">
+						<label class="control-label col-xs-3">Passport Number</label>
+						<div class="col-xs-9">		
+							<input id = "passenger-passport-4" type="text" class="form-control" placeholder="Passport Number"  required autofocus="">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-xs-3">Title</label>
+						<div class="col-xs-9">		
+							<select id="passenger-title-4" class = "form-control input-sm" required>
+								<option value="Mr" selected = "true">Mr</option>
+								<option value="Ms">Ms</option>
+								<option value="Mrs">Mrs</option>
+								<option value="airport">Mdm</option>
+							</select>
+						</div>
+					</div>	
+					<div class="form-group">
+						<label class="control-label col-xs-3">First Name</label>
+						<div class="col-xs-9">		
+							<input id = "passenger-first-name-4" type="text" class="form-control" placeholder="First Name"  required autofocus="">
+						</div>
+					</div>	
+					<div class="form-group">
+						<label class="control-label col-xs-3">Last Name</label>
+						<div class="col-xs-9">		
+							<input id = "passenger-last-name-4" type="text" class="form-control" placeholder="Last Name"  required autofocus="">
+						</div>
+					</div>
+				</div>			
+				<!-- end of passenger 4-->
 				<div class="form-group">
 					<div id = "booking-button"  class="col-xs-offset-3 col-xs-9 collapse in" data-toggle="false">
 						<!-- uncompleted work : handleAddReservation() should add the booking and then continue to update the html so that it ask for passenger info -->
-						<button type="submit" class="btn btn-primary" onclick = "return handleAddReservation()">Add Booking</button>
+						<button type="submit" class="btn btn-primary" onclick = "return handleAddBooking('check')">Add Booking</button>
 					</div>
 				</div>
 			</form>
@@ -384,13 +527,14 @@ if(empty($_SESSION['admin'])) {
 					<label class="control-label col-xs-3">Departure Time</label>
 					<div class="col-xs-9">		
 						<input id = "schedule-departure" type="datetime-local" value = "<?php date_default_timezone_set('Asia/Singapore'); $today_date = date('Y-m-d'); echo strftime('%Y-%m-%dT%H:%M:%S', strtotime($today_date)) ?>" class="form-control" placeholder="Departure Time"  required autofocus="">
-						<p id = "scheduleTimeError" class = "collapse text-danger"   data-toggle="false">Oops! This flight has already been scheduled for this departure time!</p>
+						<p id = "scheduleExistsError" class = "collapse text-danger"  data-toggle="false">This schedule is already recorded. </p>
 					</div>
 				</div>		
 				<div class="form-group">
 					<label class="control-label col-xs-3">Arrival Time</label>
 					<div class="col-xs-9">		
 						<input id = "schedule-arrival" type="datetime-local" value = "<?php date_default_timezone_set('Asia/Singapore'); $today_date = date('Y-m-d'); echo strftime('%Y-%m-%dT%H:%M:%S', strtotime($today_date)) ?>" class="form-control" placeholder="Arrival Time"  required autofocus="">
+						<p id = "scheduleTimeError" class = "collapse text-danger"  data-toggle="false"></p>
 					</div>
 				</div>					
 				<div class="form-group">
@@ -415,6 +559,20 @@ if(empty($_SESSION['admin'])) {
 			<p id = "add-successful-msg" class = "alert alert-success" role = "alert"></p>
 			<a href = "admin_panel_add.php"><button class="btn btn-primary">Add another record</button></a>
 		</div>		
+		
+		<div class="modal fade" id="error-modal" data-toggle="false" data-keyboard = "false" data-backdrop = "static">
+		  <div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h3 class="modal-title">Invalid Input</h3>
+				</div>
+				<div class="modal-body" id="error-modal-content"><!-- contents to be populated by js & php --></div>
+				<div class="modal-footer">
+					<button class="btn" data-dismiss="modal" aria-hidden="true">Okay</button>
+				</div>
+			</div><!-- /.modal-content -->
+		  </div><!-- /.modal-dialog -->
+		</div><!-- /.modal-->			
 
 		<div class="modal fade" id="confirm-modal" data-toggle="false" data-keyboard = "false" data-backdrop = "static">
 		  <div class="modal-dialog">
