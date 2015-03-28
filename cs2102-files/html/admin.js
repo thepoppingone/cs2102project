@@ -945,7 +945,7 @@ function loadFlightOptions(choice) {
 function searchCategoryChange() {
 	var selectBar = document.getElementById('search-category');
     var option =  selectBar.options[selectBar.selectedIndex].value;
-	var options = ["administrator", "passenger", "reservation", "airport", "flight", "schedule"];
+	var options = ["administrator", "passenger", "booking", "airport", "flight", "schedule"];
 	$("#search-results").collapse('hide');
 	for(i = 0; i < options.length; i++) {
 		if(option == options[i]) {
@@ -960,9 +960,9 @@ function handleSearchAdmin() {
 	
 	$("#loadingModal").modal('show');
 	
-	var emailStr = document.getElementById('admin-email').value;
-	var nameStr = document.getElementById('admin-name').value;
-	var pwdStr = document.getElementById('admin-pwd').value;
+	var emailStr = document.getElementById('admin-email').value.trim();
+	var nameStr = document.getElementById('admin-name').value.trim();
+	var pwdStr = document.getElementById('admin-pwd').value.trim();
 	
 	$.post('admin_func_search_admin.php', {email:emailStr, name:nameStr, password:pwdStr}, function(data) {
 		if(data) {
@@ -986,10 +986,10 @@ function handleSearchPassenger() {
 
 	$("#loadingModal").modal('show');
 
-	var titleStr = document.getElementById('passenger-title').value;
-	var firstNameStr = document.getElementById('passenger-first-name').value;
-	var lastNameStr = document.getElementById('passenger-last-name').value;
-	var passportStr = document.getElementById('passenger-passport').value;
+	var titleStr = document.getElementById('passenger-title').value.trim();
+	var firstNameStr = document.getElementById('passenger-first-name').value.trim();
+	var lastNameStr = document.getElementById('passenger-last-name').value.trim();
+	var passportStr = document.getElementById('passenger-passport').value.trim();
 	
 	//var selectBar = document.getElementById('passenger-reservation-id');
     //var reservationId =  selectBar.options[selectBar.selectedIndex].value;
@@ -1016,9 +1016,9 @@ function handleSearchAirport() {
 
 	$("#loadingModal").modal('show');
 
-	var nameStr = document.getElementById('airport-name').value;
-	var designatorStr = document.getElementById('airport-designator').value;
-	var locationStr = document.getElementById('airport-location').value;
+	var nameStr = document.getElementById('airport-name').value.trim();
+	var designatorStr = document.getElementById('airport-designator').value.trim();
+	var locationStr = document.getElementById('airport-location').value.trim();
 	
 	$.post('admin_func_search_airport.php', {name:nameStr, location:locationStr, designator:designatorStr}, function(data) {
 		if(data) {
@@ -1038,19 +1038,19 @@ function handleSearchAirport() {
 	return false;
 }
 
-function handleSearchReservation() {
+function handleSearchBooking() {
 
 	$("#loadingModal").modal('show');
 
-	var reservationIdStr = document.getElementById('reservation-id').value;
-	var contactPersonStr =  document.getElementById('reservation-name').value;
-	var contactNumberStr =  document.getElementById('reservation-number').value;
-	var contactEmailStr =  document.getElementById('reservation-email').value;
-	var flightNumberStr =  document.getElementById('reservation-flight-number').value;
-	var departTimeMin = document.getElementById('reservation-departure-start').value;
-	var departTimeMax = document.getElementById('reservation-departure-end').value;
+	var bookingIdStr = document.getElementById('booking-id').value.trim();
+	var contactPersonStr =  document.getElementById('booking-name').value.trim();
+	var contactNumberStr =  document.getElementById('booking-number').value.trim();
+	var contactEmailStr =  document.getElementById('booking-email').value.trim();
+	var flightNumberStr =  document.getElementById('booking-flight-number').value.trim();
+	var departTimeMin = document.getElementById('booking-departure-start').value.trim();
+	var departTimeMax = document.getElementById('booking-departure-end').value.trim();
 	
-	$.post('admin_func_search_reservation.php', { id: reservationIdStr,
+	$.post('admin_func_search_booking.php', { id: bookingIdStr,
 											 c_person: contactPersonStr,
 											 c_number: contactNumberStr,
 											 c_email: contactEmailStr,
@@ -1061,7 +1061,7 @@ function handleSearchReservation() {
 		if(data) {
 			var message = data.split(" ");
 			if(message[0] != "Error") {
-				document.getElementById("search-results").innerHTML = createTableFormHtml(["Reservation Id", "Contact Person", "Contact Number", "Contact Email", "Flight Number", "Departure Time"], data, "", "");
+				document.getElementById("search-results").innerHTML = createTableFormHtml(["Booking Id", "Contact Person", "Contact Number", "Contact Email", "Flight Number", "Departure Time"], data, "", "");
 				$("#search-results").collapse('show');
 			} else {
 				// error
@@ -1079,19 +1079,17 @@ function handleSearchFlight() {
 
 	$("#loadingModal").modal('show');
 
-	var flightStr = document.getElementById('flight-number').value;
-	var originStr = document.getElementById('flight-origin').value;
-	var destinationStr = document.getElementById('flight-destination').value;
-	var seatMin = document.getElementById('flight-seat-min').value;
-	var seatMax = document.getElementById('flight-seat-max').value;
-	var durationStr = document.getElementById('flight-duration').value;
+	var flightStr = document.getElementById('flight-number').value.trim();
+	var originStr = document.getElementById('flight-origin').value.trim();
+	var destinationStr = document.getElementById('flight-destination').value.trim();
+	var seatMin = document.getElementById('flight-seat-min').value.trim();
+	var seatMax = document.getElementById('flight-seat-max').value.trim();
 	
 	$.post('admin_func_search_flight.php', { f_number: flightStr,
 											 origin: originStr,
 											 destination: destinationStr,
 											 seat_min: seatMin,
-											 seat_max: seatMax,
-											 duration: durationStr
+											 seat_max: seatMax
 											}, function(data) {
 		if(data) {
 			var message = data.split(" ");
@@ -1114,20 +1112,20 @@ function handleSearchSchedule() {
 
 	$("#loadingModal").modal('show');
 
-	var flightStr = document.getElementById('schedule-flight-number').value;
-	var originStr = document.getElementById('schedule-origin').value;
-	var destinationStr = document.getElementById('schedule-destination').value;
-	var departTimeMin = document.getElementById('schedule-departure-start').value;
-	var departTimeMax = document.getElementById('schedule-departure-end').value;
-	var arrivalTimeMin = document.getElementById('schedule-arrival-start').value;
-	var arrivalTimeMax = document.getElementById('schedule-arrival-end').value;
-	var seatMin = document.getElementById('schedule-seat-min').value;
-	var seatMax = document.getElementById('schedule-seat-max').value;
-	var priceMin = document.getElementById('schedule-price-lowest').value;
-	var priceMax = document.getElementById('schedule-price-highest').value;
+	var flightStr = document.getElementById('schedule-flight-number').value.trim();
+	var originStr = document.getElementById('schedule-origin').value.trim();
+	var destinationStr = document.getElementById('schedule-destination').value.trim();
+	var departTimeMin = document.getElementById('schedule-departure-start').value.trim();
+	var departTimeMax = document.getElementById('schedule-departure-end').value.trim();
+	var arrivalTimeMin = document.getElementById('schedule-arrival-start').value.trim();
+	var arrivalTimeMax = document.getElementById('schedule-arrival-end').value.trim();
+	var seatMin = document.getElementById('schedule-seat-min').value.trim();
+	var seatMax = document.getElementById('schedule-seat-max').value.trim();
+	var priceMin = document.getElementById('schedule-price-lowest').value.trim();
+	var priceMax = document.getElementById('schedule-price-highest').value.trim();
 	
 	
-	$.post('admin_func_search_schedule.php', { flight_number: flightStr,
+	$.post('admin_func_search_schedule.php', { f_number: flightStr,
 											 origin: originStr,
 											 destination: destinationStr,
 											 depart_time_min: departTimeMin,
@@ -1142,7 +1140,7 @@ function handleSearchSchedule() {
 		if(data) {
 			var message = data.split(" ");
 			if(message[0] != "Error") {
-				document.getElementById("search-results").innerHTML = createTableFormHtml(["Flight Number", "Origin", "Departure Time", "Arrival Time", "Available Seats", "Price" ], data, "", "");
+				document.getElementById("search-results").innerHTML = createTableFormHtml(["Flight Number", "Origin", "Destination", "Departure Time", "Arrival Time", "Available Seats", "Price" ], data, "", "");
 				$("#search-results").collapse('show');
 			} else {
 				// error

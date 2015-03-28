@@ -1,5 +1,12 @@
 <?php 
 
+	/***************************************************************
+	* admin_func_search_passenger.php 
+	* function : to search through the passengers in the database
+	* results  : search results
+	* echo back rows of data or error messages
+	****************************************************************/
+
 	$sql = "SELECT * FROM passenger p";
 	$attributes = array("title", "first_name", "last_name", "passport_number");
 	$values = array($_POST['title'], $_POST['first_name'], $_POST['last_name'], $_POST['passport_number']);
@@ -36,5 +43,7 @@
 		}
 		echo $output;
 	}
+	
 	oci_free_statement($stid);
+	ocilogoff($dbh);	
 ?>
