@@ -43,6 +43,7 @@
 		$sql = $sql."depart_time <= TO_TIMESTAMP('".$_POST['depart_time_max']."', 'YYYY-MM-DD\"T\"HH24:MI:SS')";
 	}
 
+	$sql = $sql." ORDER BY r.ID";
 	require("config.php");
 	$stid = oci_parse($dbh, $sql);
 	$result = oci_execute($stid, OCI_DEFAULT);
@@ -57,8 +58,8 @@
 			$output = $output."<td>".$row['C_EMAIL']."</td>";
 			$output = $output."<td>".$row['FLIGHT_NUMBER']."</td>";
 			$output = $output."<td>".$row['DEPART_TIME_DISPLAY']."</td>";
-            $output = $output."<td><span class=\"glyphicon glyphicon-pencil \" value=\"".$row['ID']."\" onclick = \"return forwardToReservationEditDetails('".$row['ID']."','".$row['DEPART_TIME']."')\"></span></td>";
-            $output = $output."<td><span class=\"glyphicon glyphicon-remove \" onclick = \"return handleDeleteReservation('".$index."','".$row['ID']."')\"></span></td></tr>";
+            $output = $output."<td><span class=\"glyphicon glyphicon-pencil \" value=\"".$row['ID']."\" onclick = \"return forwardToBookingEditDetails('".$row['ID']."')\"></span></td>";
+            $output = $output."<td><span class=\"glyphicon glyphicon-remove \" onclick = \"return handleDeleteBooking('".$index."','".$row['ID']."')\"></span></td></tr>";
 			$index++;
 		}
 		echo $output;	

@@ -427,6 +427,11 @@
 			</div>
 		</div>
 		<!-- end for booking -->	
+		
+		<div id = "edit-successful-result" class = "col-xs-offset-3 collapse" data-toggle="false">
+			<p id = "edit-successful-msg" class = "alert alert-success" role = "alert"></p>
+			<a href = "admin_panel_edit.php"><button class="btn btn-primary">Edit another record</button></a>
+		</div>	
 
 		<!-- alert modal -->
 		<div class="modal fade" id="alert-modal" data-toggle="false" data-keyboard = "false" data-backdrop = "static">

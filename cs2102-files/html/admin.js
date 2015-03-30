@@ -526,10 +526,12 @@ function deleteCategoryChange() {
 		loadPassengerOptions("delete");
 	} else if(option == "airport") {
 		loadAirportOptions("delete");
-	} else if(option == "reservation") {
+	} else if(option == "booking") {
 		loadBookingOptions("delete");
 	} else if(option == "flight") {
 		loadFlightOptions("delete");
+	} else if(option == "schedule") {
+		loadScheduleOptions("delete");
 	}
 }
 
@@ -567,7 +569,7 @@ function confirmDeletePassenger(id, passportStr) {
 	});
 }
 
-function handleDeleteReservation(id, idStr) {
+function handleDeleteBooking(id, idStr) {
 	$.post('admin_func_check_delete_booking.php', {booking_id:idStr}, function(data) {
 		if(data == "not_affected") {
 			confirmDeleteBooking(id, idStr);
@@ -581,9 +583,7 @@ function handleDeleteReservation(id, idStr) {
 }
 
 function confirmDeleteBooking(id, idStr) {
-	alert("enter");
 	$.post('admin_func_delete_booking.php', {booking_id:idStr}, function(data) {
-		alert(data);
 		if(data == "successful") {
 			disableForm([id],[]);
 		} else {
@@ -644,6 +644,34 @@ function confirmDeleteFlight(id, f_numberStr) {
 	});
 }
 
+function handleDeleteSchedule(id, flight_numberStr, depart_timeStr) {
+	$.post('admin_func_check_delete_schedule.php', {flight_number:flight_numberStr, depart_time:depart_timeStr}, function(data) {
+		if(data == "not_affected") {
+			confirmDeleteSchedule(id, flight_numberStr, depart_timeStr);
+		} else {
+			document.getElementById("confirm-modal-content").innerHTML = '<p>' + data + '</p>';
+			$("#confirm-delete-btn").attr("onclick", "confirmDeleteSchedule(" + id + ",\"" +  flight_numberStr + "\", \"" +  depart_timeStr + "\")");
+			$("#confirm-modal").modal('show');	
+		}
+	});		
+	return false;
+}
+
+function confirmDeleteSchedule(id, flight_numberStr, depart_timeStr) {
+	console.log("confirm delete");
+	
+	$.post('admin_func_delete_schedule.php', {flight_number:flight_numberStr, depart_time:depart_timeStr}, function(data) {	
+		if(data == "successful") {
+			disableForm([id],[]);
+		} else {
+			document.getElementById("delete-msg").innerHTML = "Error message:" + data;
+			$('#delete-msg').collapse('show');
+		}
+		$("#confirm-modal").modal('hide');	
+	});
+	
+}
+
 
 /********************************
 * functions related to EDIT
@@ -679,27 +707,37 @@ function forwardToAdminEditDetails(emailStr) {
 
 function handleEditAdmin() {
 	var originalEmailStr = document.getElementById('admin-email').name;
-	var emailStr = document.getElementById('admin-email').value;
-	var nameStr = document.getElementById('admin-name').value;
-	var pwdStr = document.getElementById('admin-pwd').value;
+	var emailStr = document.getElementById('admin-email').value.trim();
+	var nameStr = document.getElementById('admin-name').value.trim();
+	var pwdStr = document.getElementById('admin-pwd').value.trim();
 
 	if(emailStr && nameStr && pwdStr) {		
-		$.post('admin_func_edit_admin.php', {originalEmail: originalEmailStr, email:emailStr, name:nameStr, pwd:pwdStr}, function(data) {
-			if(data == 'edited') {
-				disableForm(['admin-button', 'edit-admin-error-result', 'adminEmailError'], ['admin-email', 'admin-name', 'admin-pwd']);
-				displayAddSuccessfulMessage("edit","Administrator information updated!");
-			}
-			else if(data == 'admin_exists'){
-				$('#edit-admin-error-result').collapse('hide');
-				$('#adminEmailError').collapse('show');
-			} else {
-				$('#adminEmailError').collapse('hide'); 
-				document.getElementById("edit-admin-error-msg").innerHTML = "Error message:" + data;
-				$('#edit-admin-error-result').collapse('show');
-			}
-		});
+		if(validateEmail(emailStr)) {
+			$.post('admin_func_edit_admin.php', {originalEmail: originalEmailStr, email:emailStr, name:nameStr, pwd:pwdStr}, function(data) {
+				if(data == 'edited') {
+					disableForm(['admin-button', 'edit-admin-error-result', 'adminEmailError'], ['admin-email', 'admin-name', 'admin-pwd']);
+					displayAddSuccessfulMessage("edit","Administrator information updated!");
+				}
+				else if(data == 'admin_exists') {
+					$('#edit-admin-error-result').collapse('hide');
+					$('#adminEmailError').collapse('show');
+				} else {
+					$('#adminEmailError').collapse('hide'); 
+					document.getElementById("edit-admin-error-msg").innerHTML = "Error message:" + data;
+					$('#edit-admin-error-result').collapse('show');
+				}
+			});
+		}  else {
+			$('#edit-admin-error-result').collapse('hide');
+			document.getElementById("adminEmailError").innerHTML = "Invalid email format";
+			$('#adminEmailError').collapse('show');		
+		}
 		return false;
-	} else {
+	} else {		
+		disableForm(['adminEmailError', 'edit-admin-error-result'],[]);
+		document.getElementById('admin-email').value = emailStr;
+		document.getElementById('admin-name').value = nameStr;
+		document.getElementById('admin-pwd').value = pwdStr;	
 		return true;
 	}
 }
@@ -856,17 +894,14 @@ function handleEditSchedule() {
 }
 
 function forwardToBookingEditDetails(idStr) {
-	console.log(idStr);
 	document.getElementById('result-form').action = "admin_edit_details.php";
 	appendToForm('result-form', ["selected", "id"],["booking", idStr]);
 	document.getElementById('result-form').submit();
-	console.log("submitted");
 	return true;
 }
 
 function handleDeletePassengerFromBooking(id, bookingIdStr, passportStr, flightNumStr, departTimeStr) {
 	var passengerNum = document.getElementById("passenger-table").getElementsByTagName("tbody")[0].getElementsByTagName("tr").length;
-	console.log("passenger-table: " + passengerNum);
 	if(passengerNum > 1) {
 		// delete passenger
 		$.post('admin_func_delete_passenger_from_booking.php', {

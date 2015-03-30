@@ -403,6 +403,21 @@ if(empty($_SESSION['admin'])) {
 		<div id = "search-results" class = "collapse" data-toggle="false">
 		</div>
 		
+		<div class="modal fade" id="confirm-modal" data-toggle="false" data-keyboard = "false" data-backdrop = "static">
+		  <div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h3 class="modal-title">Confirm Delete?</h3>
+				</div>
+				<div class="modal-body" id="confirm-modal-content"><!-- contents to be populated by js & php --></div>
+				<div class="modal-footer">
+					<button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+					<button id = "confirm-delete-btn" class="btn btn-primary">Delete</button>
+				</div>
+			</div><!-- /.modal-content -->
+		  </div><!-- /.modal-dialog -->
+		</div><!-- /.modal-->	
+		
 		<div class="modal fade" id="loadingModal" data-toggle="false" data-keyboard = "false" data-backdrop = "static">
 		  <div class="modal-dialog">
 			<div class="modal-content">

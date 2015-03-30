@@ -77,8 +77,8 @@ if(empty($_SESSION['admin'])) {
 						<option class="select-dash" disabled="disabled">----</option>
 						<option value="administrator">Administrator</option>
 						<option class="select-dash" disabled="disabled">----</option>
+						<option value="booking">Booking</option>
 						<option value="passenger">Passenger</option>
-						<option value="reservation">Reservation</option>
 						<option class="select-dash" disabled="disabled">----</option>
 						<option value="airport">Airport</option>
 						<option value="flight">Flight</option>

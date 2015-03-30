@@ -4,7 +4,7 @@
 	$edit =  $_POST['edit'];
 
 	require("config.php");
-	$sql = "SELECT s.*, TO_CHAR(s.DEPART_TIME, 'DD MON YYYY HH24:MI') AS DEPART_TIME_DISPLAY, TO_CHAR(s.ARRIVAL_TIME, 'DD MON YYYY HH24:MI:SS') AS ARRIVAL_TIME_DISPLAY FROM schedule s";
+	$sql = "SELECT s.*, TO_CHAR(s.DEPART_TIME, 'DD MON YYYY HH24:MI') AS DEPART_TIME_DISPLAY, TO_CHAR(s.ARRIVAL_TIME, 'DD MON YYYY HH24:MI') AS ARRIVAL_TIME_DISPLAY FROM schedule s";
 	$stid = oci_parse($dbh, $sql);
 	oci_execute($stid, OCI_DEFAULT);
 	
