@@ -24,7 +24,7 @@
 	
 	if($continue) {
 		// update the record 
-		$sql = "UPDATE booking SET c_person = '".$bookingName."', c_number = '".$bookingNumber."', c_email = '".$bookingEmail."' where id = '".$bookingID"'";
+		$sql = "UPDATE booking SET c_person = '".$bookingName."', c_number = '".$bookingNumber."', c_email = '".$bookingEmail."' where id = '".$bookingID."'";
 		
 		$stid = oci_parse($dbh, $sql);
 		$result = oci_execute($stid);
