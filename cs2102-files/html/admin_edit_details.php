@@ -178,12 +178,6 @@
 					</div>
 				</div>	
 				<div class="form-group">
-					<label class="control-label col-xs-3">Type</label>
-					<div class="col-xs-9">		
-						<input id = "passenger-type" type="text" class="form-control" placeholder="Type" required autofocus="" value = "<?php echo $row['TYPE']; ?>">
-					</div>
-				</div>
-				<div class="form-group">
 					<label class="control-label col-xs-3">Title</label>
 					<div class="col-xs-9">
 						<input id = "passenger-title" class="form-control" placeholder="Title"  required autofocus="" value = "<?php echo $row['TITLE']; ?>">

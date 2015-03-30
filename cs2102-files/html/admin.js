@@ -789,7 +789,7 @@ function handleEditPassenger() {
 	var firstNameStr = document.getElementById('passenger-firstname').value;
 	var lastNameStr = document.getElementById('passenger-lastname').value;
 
-	if(numStr && typeStr && titleStr && firstNameStr && lastNameStr) {		
+	if(numStr && titleStr && firstNameStr && lastNameStr) {		
 		$.post('admin_func_edit_passenger.php', {originalNum: originalNumStr, num:numStr, title:titleStr, firstName:firstNameStr, lastName: lastNameStr}, function(data) {
 			if(data == 'edited') {
 				disableForm(['passenger-button', 'edit-passenger-error-result', 'passengerNumError'], ['passenger-num', 'passenger-title', 'passenger-firstname', 'passenger-lastname']);
@@ -855,10 +855,7 @@ function forwardToScheduleEditDetails(flightStr, departStr) {
 }
 
 function handleEditSchedule() {
-	var selectBarOF = document.getElementById('schedule-flight');
-	var originalFlightStr = selectBarOF.options[selectBarOF.selectedIndex].value;
-	var selectBarF = document.getElementById('schedule-flight');
-	var flightStr = selectBarF.options[selectBarF.selectedIndex].value;
+	var originalFlightStr = document.getElementById('schedule-flight').name;
 	var arrivalStr = document.getElementById('schedule-arrival').value;
 	var originalDepartureStr = document.getElementById('schedule-departure').name;
 	var departureStr = document.getElementById('schedule-departure').value;
@@ -866,14 +863,14 @@ function handleEditSchedule() {
 	var priceStr = document.getElementById('schedule-price').value;
 
 	if(flightStr && arrivalStr && departureStr && seatStr && priceStr) {		
-		$.post('admin_func_edit_flight.php', {
+		$.post('admin_func_edit_schedule.php', {
 										originalFlight: originalFlightStr,
 										originalDeparture: originalDepartureStr,
 										arrival_time: arrivalStr,
 										depart_time: departureStr,
 										num_of_seats_avail: seatStr,
 										price: priceStr,
-										flight_number: flightNumberStr}, function(data) {
+										}, function(data) {
 			if(data == 'edited') {
 				disableForm(['schedule-button', 'edit-schedule-error-result', 'scheduleNumError'], ['schedule-flight', 'schedule-arrival', 'schedule-departure', 'schedule-seats', 'schedule-price']);
 				displayAddSuccessfulMessage("edit","Schedule information updated!");

@@ -2,7 +2,6 @@
 	
 	$originalNum = $_POST['originalNum'];
 	$num = $_POST['num'];
-	$type = $_POST['type'];
 	$title = $_POST['title'];
 	$firstName = $_POST['firstName'];
 	$lastName = $_POST['lastName'];
@@ -24,7 +23,7 @@
 	
 	if($continue) {
 		// update the record 
-		$sql = "UPDATE passenger SET passport_number = '".$num."', type = '".$type."', title = '".$title."', first_name = '".$firstName."', last_name = '".$lastName."' WHERE passport_number = '".$originalNum."'";
+		$sql = "UPDATE passenger SET passport_number = '".$num."', title = '".$title."', first_name = '".$firstName."', last_name = '".$lastName."' WHERE passport_number = '".$originalNum."'";
 		
 		$stid = oci_parse($dbh, $sql);
 		$result = oci_execute($stid);
