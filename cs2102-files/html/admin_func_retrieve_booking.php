@@ -4,7 +4,7 @@
 	$edit =  $_POST['edit'];
 
 	require("config.php");
-	$sql = "SELECT b.id, b.c_person, b.c_number, b.c_email, b.flight_number FROM booking b";
+	$sql = "SELECT b.*, TO_CHAR(b.DEPART_TIME, 'DD MON YYYY HH24:MI') AS DEPART_TIME_DISPLAY FROM booking b ORDER BY b.ID";
 	$stid = oci_parse($dbh, $sql);
 	oci_execute($stid, OCI_DEFAULT);
 	$output = "";
@@ -18,7 +18,8 @@
 			<td>".$row['C_NUMBER']."</td>
 			<td>".$row['C_EMAIL']."</td>
 			<td>".$row['FLIGHT_NUMBER']."</td>
-			<td><span class=\"glyphicon glyphicon-remove \" onclick = \"return handleDeleteReservation('".$index."','".$row['ID']."')\"></span></td></tr>";
+			<td>".$row['DEPART_TIME_DISPLAY']."</td>
+			<td><span class=\"glyphicon glyphicon-remove \" onclick = \"return handleDeleteBooking('".$index."','".$row['ID']."')\"></span></td></tr>";
 			$index++;
 		}
 	} else {
@@ -30,10 +31,14 @@
 			<td>".$row['C_NUMBER']."</td>
 			<td>".$row['C_EMAIL']."</td>
 			<td>".$row['FLIGHT_NUMBER']."</td>
-			<td><span class=\"glyphicon glyphicon-pencil \" value=\"".$row['EMAIL']."\" onclick = \"return forwardToReservationEditDetails('".$row['ID']."')\"></span></td></tr>";
+			<td>".$row['DEPART_TIME_DISPLAY']."</td>
+			<td><span class=\"glyphicon glyphicon-pencil \" value=\"".$row['EMAIL']."\" onclick = \"return forwardToBookingEditDetails('".$row['ID']."')\"></span></td></tr>";
 			$index++;
 		}	
 	}
 		
 	echo $output;
+	
+	oci_free_statement($stid);
+	ocilogoff($dbh);	
 ?>
