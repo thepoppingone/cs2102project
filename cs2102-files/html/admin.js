@@ -195,7 +195,7 @@ function deleteCategoryChange() {
 	} else if(option == "airport") {
 		loadAirportOptions("delete");
 	} else if(option == "reservation") {
-		loadReservationOptions("delete");
+		loadBookingOptions("delete");
 	} else if(option == "flight") {
 		loadFlightOptions("delete");
 	}
@@ -328,8 +328,8 @@ function editCategoryChange() {
 		loadAirportOptions("edit");
 	} else if(option == "passenger") {
 		loadPassengerOptions("edit");
-	} else if(option == "reservation") {
-		loadReservationOptions("edit");
+	} else if(option == "booking") {
+		loadBookingOptions("edit");
 	} else if(option == "flight") {
 		loadFlightOptions("edit");
 	} else if(option == "schedule") {
@@ -523,6 +523,42 @@ function handleEditSchedule() {
 	}
 }
 
+function forwardToBookingEditDetails(idStr) {
+	console.log(idStr);
+	document.getElementById('result-form').action = "admin_edit_details.php";
+	appendToForm('result-form', ["selected", "id"],["booking", idStr]);
+	document.getElementById('result-form').submit();
+	console.log("submitted");
+	return true;
+}
+
+function handleDeletePassengerFromBooking(id, bookingIdStr, passportStr, flightNumStr, departTimeStr) {
+	var passengerNum = document.getElementById("passenger-table").getElementsByTagName("tbody")[0].getElementsByTagName("tr").length;
+	console.log("passenger-table: " + passengerNum);
+	if(passengerNum > 1) {
+		// delete passenger
+		$.post('admin_func_delete_passenger_from_booking.php', {
+										id: bookingIdStr,
+										passport: passportStr,
+										flight_number: flightNumStr,
+										depart_time: departTimeStr}, function(data) {
+			if(data == 'edited') {
+				var row = document.getElementById(id);
+				row.parentNode.removeChild(row);
+			} else {
+				document.getElementById("alert-modal-title").innerHTML = "Error in deleting passenger from booking";	
+				document.getElementById("alert-modal-content").innerHTML = data;		
+				$("#alert-modal").modal('show');	
+			}
+		});				
+	} else {
+		document.getElementById("alert-modal-title").innerHTML = "Invalid Action";	
+		document.getElementById("alert-modal-content").innerHTML = "A booking must consists of minimum 1 passenger.";		
+		$("#alert-modal").modal('show');	
+	}
+	return false;
+}
+
 function appendToForm(formName, names, values) {
 	for(i = 0; i < names.length; i++) {
 		var input = $("<input>")
@@ -573,7 +609,7 @@ function loadPassengerOptions(choice) {
 	$.post('admin_func_retrieve_passenger.php',{edit:editStr}, function(data) {
 		if(data) {
 			// headers in array, rows, function to call when delete/edit button is clicked, words in the button
-			document.getElementById(choice + '-options').innerHTML = createTableFormHtml(["Passenger Number", "Type", "Title", "First Name", "Last Name"], data, "", "");
+			document.getElementById(choice + '-options').innerHTML = createTableFormHtml(["Passenger Number", "Title", "First Name", "Last Name"], data, "", "");
 			$('#' + choice + '-options').collapse('show');
 		} else {
 			handleEmptyOptions(choice + '-options'); 	
@@ -582,13 +618,13 @@ function loadPassengerOptions(choice) {
 	});	
 }
 
-function loadReservationOptions(choice) {
+function loadBookingOptions(choice) {
 	var editStr = choice;
 	if(choice == "delete") editStr = "";
-	$.post('admin_func_retrieve_reservation.php',{edit:editStr}, function(data) {
+	$.post('admin_func_retrieve_booking.php',{edit:editStr}, function(data) {
 		if(data) {
 			// headers in array, rows, function to call when delete/edit button is clicked, words in the button
-			document.getElementById(choice + '-options').innerHTML = createTableFormHtml(["Reservation Id", "Contact Person", "Contact Number", "Contact Email", "Flight Number", "Departure Time"], data, "", "");
+			document.getElementById(choice + '-options').innerHTML = createTableFormHtml(["Booking Id", "Contact Person", "Contact Number", "Contact Email", "Flight Number", "Departure Time"], data, "", "");
 			$('#' + choice + '-options').collapse('show');
 		} else {
 			handleEmptyOptions(choice + '-options'); 	

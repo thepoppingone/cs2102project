@@ -20,8 +20,9 @@
 	 } else if ($_POST['selected'] == "flight") {
 	  $sql = "SELECT * FROM flight f WHERE f.f_number = '".$_POST['num']."'";
 	 } else if ($_POST['selected'] == "schedule") {
-	  $sql = "SELECT * FROM schedule s WHERE s.flight_number = '".$_POST['flight']."'AND s.depart_time = '".$_POST['departure']."'";
-	 } else{
+	  $sql = "SELECT s.*, TO_CHAR(s.DEPART_TIME, 'YYYY-MM-DD\"T\"HH24:MI:SS') AS DEPART_TIME_VAL, TO_CHAR(s.ARRIVAL_TIME, 'YYYY-MM-DD\"T\"HH24:MI:SS') AS ARRIVAL_TIME_VAL FROM schedule s WHERE s.flight_number = '".$_POST['flight']."'AND s.depart_time = '".$_POST['departure']."'";
+	 } else if ($_POST['selected'] == "booking"){
+	  $sql = "SELECT b.*, TO_CHAR(b.DEPART_TIME, 'DD MON YYYY HH24:MI') AS DEPART_TIME_DISPLAY FROM booking b WHERE b.ID = '".$_POST['id']."'";
 	 }
 	 if(!empty($sql)) {
 	  $stid = oci_parse($dbh, $sql);
@@ -312,18 +313,14 @@
 				<div class="form-group">
 					<label class="control-label col-xs-3">Departure Time</label>
 					<div class="col-xs-9">		
-						<input id = "schedule-departure" type="datetime-local" value = "<?php echo $row['DEPARTURE_TIME'] ?>" class="form-control" placeholder="Departure Time"  required autofocus=""name = "<?php echo strftime('%Y-%m-%dT%H:%M:%S', $row['DEPARTURE_TIME']); ?>">
+						<input id = "schedule-departure" type="datetime-local" value = "<?php echo $row['DEPART_TIME_VAL'] ?>" class="form-control" placeholder="Departure Time"  required autofocus=""name = "<?php echo strftime('%Y-%m-%dT%H:%M:%S', $row['DEPARTURE_TIME']); ?>">
 						<p id = "scheduleTimeError" class = "collapse text-danger"   data-toggle="false">Oops! This flight has already been scheduled for this departure time!</p>
-						</select>
 					</div>
 				</div>
 				<div class="form-group">
 					<label class="control-label col-xs-3">Arrival Time</label>
 					<div class="col-xs-9">		
-						<input id = "schedule-arrival" type="datetime-local" value = 
-						"<?php echo strftime('%Y-%m-%dT%H:%M:%S', $row["ARRIVAL_TIME"]); ?>" 
-						class="form-control" placeholder="Arrival Time"  required autofocus="">
-						</select>
+						<input id = "schedule-arrival" type="datetime-local" value = "<?php echo $row['ARRIVAL_TIME_VAL'] ?>" class="form-control" placeholder="Arrival Time"  required autofocus="">
 					</div>
 				</div>
 				<div class="form-group">
@@ -339,7 +336,7 @@
 						<input id = "schedule-seats" type="text" class="form-control" placeholder="Number Of Seats Available"  required autofocus="" value = "<?php echo $row['NUM_OF_SEATS_AVAIL']; ?>">
 					</div>
 				</div>
-			<div class="form-group">
+				<div class="form-group">
 					<div id = "schedule-button"  class="col-xs-offset-3 col-xs-9 collapse in " data-toggle="false">
 						<button type="reset" class="btn btn-primary">Reset</button>
 						<button type="submit" class="btn btn-primary" onclick = "return handleEditSchedule()">Edit Flight</button>
@@ -351,7 +348,102 @@
 			</div>	
 			</form>
       </div>
+	  
+		<!-- edit booking stuffs -->
+		<!-- div box for booking -->
+		<div id = "booking" <?php if ($_POST['selected'] != "booking") { echo 'class = "collapse" data-toggle = "false"';}?> >
+			<form id = "add-booking-form" class="form-horizontal"> 
+				<div class="form-group">
+					<label class="control-label col-xs-3">Booking Id</label>
+					<div class="col-xs-9">		
+						<input id = "booking-id" type="text" class="form-control" value = "<?php echo $_POST['id']; ?>" disabled>
+					</div>
+				</div>				
+				<div class="form-group">
+					<label class="control-label col-xs-3">Flight</label>
+					<div class="col-xs-9">		
+						<input id = "booking-flight" type="text" class="form-control" value = "<?php echo $row['FLIGHT_NUMBER']; ?>" disabled>
+					</div>
+				</div>	
+				<div class="form-group">
+					<label class="control-label col-xs-3">Departure Time</label>
+					<div class="col-xs-9">		
+						<input id = "booking-depart-time" type="text" class="form-control" name = "<?php echo $row['DEPART_TIME']; ?>" value = "<?php echo $row['DEPART_TIME_DISPLAY']; ?>" disabled>
+					</div>
+				</div>					
+				<div class="form-group">
+					<label class="control-label col-xs-3">Contact Email</label>
+					<div class="col-xs-9">		
+						<input id = "booking-email" type="text" class="form-control" placeholder="Email address" name = "<?php echo $row['C_EMAIL']; ?>" value = "<?php echo $row['C_EMAIL']; ?>" required autofocus="">
+						<p id = "bookingEmailError" class = "collapse text-danger"  data-toggle="false"></p>
+					</div>
+				</div>	
+				<div class="form-group">
+					<label class="control-label col-xs-3">Contact Name</label>
+					<div class="col-xs-9">		
+						<input id = "booking-name" type="text" class="form-control" placeholder="Contact Name" value = "<?php echo $row['C_PERSON']; ?>" required autofocus="">
+					</div>
+				</div>			
+				<div class="form-group">
+					<label class="control-label col-xs-3">Contact Number</label>
+					<div class="col-xs-9">		
+						<input id = "booking-number" type="number" class="form-control" placeholder="Contact Number" value = "<?php echo $row['C_NUMBER']; ?>" required autofocus="">
+					</div>
+				</div>					
+				<div class="form-group">
+					<div id = "schedule-button"  class="col-xs-offset-3 col-xs-9 collapse in " data-toggle="false">
+						<button type="reset" class="btn btn-primary">Reset</button>
+						<button type="submit" class="btn btn-primary" onclick = "return handleEditBooking()">Edit Booking</button>
+					</div>
+				</div>	
+				<?php
+					if ($_POST['selected'] == "booking") {
+						echo '<br/><br/>';
+						// retrieve the passengers for this booking
+						$sql = "SELECT p.* FROM passenger p, booking_passenger bp WHERE p.PASSPORT_NUMBER = bp.PASSENGER AND bp.BOOKING_ID = '".$_POST['id']."'";
+						$stid = oci_parse($dbh, $sql);
+						oci_execute($stid, OCI_DEFAULT);
+						
+						$rowData = "";
+						$index = 0;
+						while($passenger = oci_fetch_array($stid)) {
+							// put a checkbox and if the box is tick, delete this passenger from this booking	
+							$rowData = $rowData."<tr id = \"".$index."\" class = \"collapse in\" data-toggle = \"false\">
+							<td>".$passenger['PASSPORT_NUMBER']."</td>
+							<td>".$passenger['TITLE']."</td>
+							<td>".$passenger['FIRST_NAME']."</td>
+							<td>".$passenger['LAST_NAME']."</td>
+							<td><span class=\"glyphicon glyphicon-remove \" value=\"".$row['PASSPORT_NUMBER']."\" onclick = \"return handleDeletePassengerFromBooking('".$index."','".$_POST['id']."','".$passenger['PASSPORT_NUMBER']."','".$row['FLIGHT_NUMBER']."','".$row['DEPART_TIME']."')\"></span></td>
+							</tr>";	
+							$index++;		
+						}
+						echo '<table id="passenger-table" class="table table-striped table-hover"><thead><th>Passport</th><th>Title</th><th>First Name</th><th>Last Name</th></thead><tbody>'.$rowData.'</tbody></table>';
+						echo '<div class="form-group"><label class="control-label col-xs-offset-3 col-xs-9">To remove passenger(s) from the booking, click on the delete icon.<br/> Note: The last remaining passenger cannot be removed.</label></div>';
+					}
+				?>			
+			</form>
+			<div id = "add-booking-error-result"  class = "collapse text-danger"   data-toggle="false">
+				<p id = "add-booking-error-msg"></p>
+			</div>
+		</div>
+		<!-- end for booking -->	
 
+		<!-- alert modal -->
+		<div class="modal fade" id="alert-modal" data-toggle="false" data-keyboard = "false" data-backdrop = "static">
+		  <div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h3 class="modal-title" id = "alert-modal-title"></h3>
+				</div>
+				<div class="modal-body" id="alert-modal-content"></div>
+				<div class="modal-footer">
+					<button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+				</div>
+			</div><!-- /.modal-content -->
+		  </div><!-- /.modal-dialog -->
+		</div><!-- /.modal-->
+		<!-- end of alert modal -->
+		
     </div> 
 	<!-- /container -->
 
