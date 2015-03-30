@@ -1,5 +1,12 @@
 <?php 
 
+	/***************************************************************
+	* admin_func_search_admin.php 
+	* function : to search through the admins in the database
+	* results  : search results
+	* echo back rows of data or error messages
+	****************************************************************/
+
 	$sql = "SELECT * FROM admin a";
 	$attributes = array("email", "name", "password");
 	$values = array($_POST['email'], $_POST['name'], $_POST['password']);
@@ -33,5 +40,7 @@
 		}
 		echo $output;
 	}
+	
 	oci_free_statement($stid);
+	ocilogoff($dbh);	
 ?>

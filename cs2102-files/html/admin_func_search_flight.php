@@ -1,7 +1,15 @@
 <?php 
 
+
+	/***************************************************************
+	* admin_func_search_flight.php 
+	* function : to search through the flights in the database
+	* results  : search results
+	* echo back rows of data or error messages
+	****************************************************************/
+	
 	$sql = "SELECT * FROM flight f";
-	$attributes = array("f.f_number", "f.origin", "f.destination"); // seat_capacity gets separated handling
+	$attributes = array("f.F_NUMBER", "f.ORIGIN", "f.DESTINATION"); // seat_capacity gets separated handling
 	$values = array($_POST['f_number'], $_POST['origin'], $_POST['destination']); //, $_POST['seat_min'], $_POST['seat_max'])
 	$firstTime = true;
 	for ($x = 0; $x < count($attributes); $x++) {
@@ -24,7 +32,7 @@
 		} else {
 			$sql = $sql." AND ";
 		}
-		$sql = $sql."seat_capacity >= ".$_POST['seat_min'];
+		$sql = $sql."SEAT_CAPACITY >= ".$_POST['seat_min'];
 	}
 	if(!empty($_POST['seat_max'])) {
 		if($firstTime) {
@@ -33,7 +41,7 @@
 		} else {
 			$sql = $sql." AND ";
 		} 
-		$sql = $sql."seat_capacity <= ".$_POST['seat_max'];
+		$sql = $sql."SEAT_CAPACITY <= ".$_POST['seat_max'];
 	}
 	
 	require("config.php");
@@ -53,5 +61,7 @@
 		}
 		echo $output;
 	}
+	
 	oci_free_statement($stid);
+	ocilogoff($dbh);	
 ?>
