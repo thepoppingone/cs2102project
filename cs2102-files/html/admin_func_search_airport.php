@@ -1,5 +1,12 @@
 <?php 
 
+	/***************************************************************
+	* admin_func_search_airport.php 
+	* function : to search through the airport in the database
+	* results  : search results
+	* echo back rows of data or error messages
+	****************************************************************/
+	
 	$sql = "SELECT * FROM airport a";
 	$attributes = array("name", "location", "designator");
 	$values = array($_POST['name'], $_POST['location'], $_POST['designator']);
@@ -33,5 +40,7 @@
 		}
 		echo $output;
 	}
+	
 	oci_free_statement($stid);
+	ocilogoff($dbh);	
 ?>

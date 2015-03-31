@@ -6,7 +6,6 @@ designator VARCHAR(10) PRIMARY KEY
 
 CREATE TABLE flight (
 f_number VARCHAR(256) PRIMARY KEY,
-duration VARCHAR(256),
 destination VARCHAR(10) REFERENCES airport(designator),
 origin VARCHAR(10) REFERENCES airport(designator),
 seat_capacity INT CHECK(seat_capacity > 0)
@@ -34,7 +33,6 @@ FOREIGN KEY (flight_number, depart_time) REFERENCES schedule(flight_number, depa
 
 CREATE TABLE passenger (
 passport_number VARCHAR(256) PRIMARY KEY,
-type VARCHAR(8) DEFAULT 'Adult',
 title VARCHAR(20),
 first_name VARCHAR (64)NOT NULL,
 last_name VARCHAR (64) NOT NULL

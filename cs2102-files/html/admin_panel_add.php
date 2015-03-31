@@ -77,8 +77,8 @@ if(empty($_SESSION['admin'])) {
 						<option class="select-dash" disabled="disabled">----</option>
 						<option value="administrator">Administrator</option>
 						<option class="select-dash" disabled="disabled">----</option>
-						<option value="passenger">Passenger</option>
-						<option value="reservation">Reservation</option>
+						<option value="booking">Booking</option>
+						<option value="passenger">Passenger (add to existing booking)</option>
 						<option class="select-dash" disabled="disabled">----</option>
 						<option value="airport">Airport</option>
 						<option value="flight">Flight</option>
@@ -95,20 +95,20 @@ if(empty($_SESSION['admin'])) {
 				<div class="form-group">
 					<label class="control-label col-xs-3">Name</label>
 					<div class="col-xs-9">		
-						<input id = "admin-name" type="text" class="form-control" placeholder="Name"  required autofocus="">
+						<input id = "admin-name" type="text" class="form-control" placeholder="Name" required autofocus="">
 					</div>
 				</div>			
 				<div class="form-group">
-					<label for="inputEmail" class="control-label col-xs-3">Email Address</label>
+					<label class="control-label col-xs-3">Email Address</label>
 					<div class="col-xs-9">		
-						<input id = "admin-email" type="email" class="form-control" placeholder="Email address"  required autofocus="">
-						<p id = "adminEmailError" class = "collapse text-danger"  data-toggle="false">Oops! The owner of the email is already an administrator.</p>
+						<input id = "admin-email" type="text" class="form-control" placeholder="Email address" required autofocus="">
+						<p id = "adminEmailError" class = "collapse text-danger"  data-toggle="false"></p>
 					</div>
 				</div>	
 				<div class="form-group">
 					<label class="control-label col-xs-3">Password</label>
 					<div class="col-xs-9">
-						<input id = "admin-pwd" class="form-control" placeholder="Password"  required autofocus="">
+						<input id = "admin-pwd" class="form-control" placeholder="Password" required autofocus="">
 					</div>
 				</div>
 				<div class="form-group">
@@ -123,14 +123,45 @@ if(empty($_SESSION['admin'])) {
 		</div>
 		<!-- end for add new admin stuffs -->
 		
-		<!-- add new passenger into existing reservation -->
+		<!-- add new passenger into existing booking -->
 		<!-- div box for passenger -->
 		<div id = "passenger" class = "collapse" data-toggle="false">
 			<form id = "add-passenger-form" class="form-horizontal"> 
 				<div class="form-group">
+					<label class="control-label col-xs-3">Booking Id</label>
+					<div class="col-xs-9">
+						<select  id = "passenger-booking-id" class = "form-control input-sm" required>
+							<?php
+								require("config.php");
+								$sql = "SELECT b.ID, s.FLIGHT_NUMBER, s.DEPART_TIME FROM booking b, schedule s WHERE b.FLIGHT_NUMBER = s.FLIGHT_NUMBER AND b.DEPART_TIME = s.DEPART_TIME AND s.NUM_OF_SEATS_AVAIL > 0".
+										"AND 4 > (SELECT COUNT(*) FROM booking_passenger bp WHERE bp.BOOKING_ID = b.ID)";
+								$stid = oci_parse($dbh, $sql);
+								oci_execute($stid, OCI_DEFAULT);
+								while($row = oci_fetch_array($stid)){
+									echo "<option value=\"".$row["ID"]."\">".$row["ID"]." - ".$row["FLIGHT_NUMBER"]." (departing on ".$row["DEPART_TIME"].")</option><br>";
+								}
+								oci_free_statement($stid);
+								ocilogoff($dbh);
+							?>
+						</select>
+					</div>
+				</div>			
+				<div class="form-group">
+					<label class="control-label col-xs-3">Passport Number</label>
+					<div class="col-xs-9">		
+						<input id = "passenger-passport" type="text" class="form-control" placeholder="Passport Number"  required autofocus="">
+						<p id = "passengerPassportError" class = "collapse text-danger"  data-toggle="false"></p>
+					</div>
+				</div>					
+				<div class="form-group">
 					<label class="control-label col-xs-3">Title</label>
 					<div class="col-xs-9">		
-						<input id = "passenger-title" type="text" class="form-control" placeholder="Title (Mr/Ms/Mdm etc)"  required autofocus="">
+						<select id="passenger-title" class = "form-control input-sm" required>
+							<option value="Mr" selected = "true">Mr</option>
+							<option value="Ms">Ms</option>
+							<option value="Mrs">Mrs</option>
+							<option value="airport">Mdm</option>
+						</select>
 					</div>
 				</div>	
 				<div class="form-group">
@@ -146,32 +177,8 @@ if(empty($_SESSION['admin'])) {
 					</div>
 				</div>					
 				<div class="form-group">
-					<label class="control-label col-xs-3">Passport Number</label>
-					<div class="col-xs-9">		
-						<input id = "passenger-passport" type="text" class="form-control" placeholder="Passport Number"  required autofocus="">
-					</div>
-				</div>	
-				<div class="form-group">
-					<label class="control-label col-xs-3">Reservation Id</label>
-					<div class="col-xs-9">
-						<select  id = "passenger-reservation-id" class = "form-control input-sm"  onchange = "validateFlightRoute()" required> 
-							<option selected = "true" disabled>Select Reservation Id</option>
-							<?php
-								require("config.php");
-								$sql = "SELECT b.id FROM booking b";
-								$stid = oci_parse($dbh, $sql);
-								oci_execute($stid, OCI_DEFAULT);
-								while($row = oci_fetch_array($stid)){
-									echo "<option value=\"".$row["ID"]."\">".$row["ID"]."</option><br>";
-								}
-								oci_free_statement($stid);
-							?>
-						</select>
-					</div>
-				</div>
-				<div class="form-group">
 					<div id = "passenger-button"  class="col-xs-offset-3 col-xs-9 collapse in" data-toggle="false">
-						<button type="submit" class="btn btn-primary" onclick = "return handleAddPassenger()">Add Passenger</button>
+						<button type="submit" class="btn btn-primary" onclick = "return handleAddPassenger('check')">Add Passenger</button>
 					</div>
 				</div>
 			</form>
@@ -181,70 +188,215 @@ if(empty($_SESSION['admin'])) {
 		</div>
 		<!-- end for passenger -->		
 		
-		<!-- add new reservation -->
-		<!-- div box for reservation -->
-		<div id = "reservation" class = "collapse" data-toggle="false">
-			<form id = "add-reservation-form" class="form-horizontal"> 
+		<!-- add new booking -->
+		<!-- div box for booking -->
+		<div id = "booking" class = "collapse" data-toggle="false">
+			<form id = "add-booking-form" class="form-horizontal"> 
 				<div class="form-group">
-					<label for="inputEmail" class="control-label col-xs-3">Email Address</label>
+					<label class="control-label col-xs-3">Contact Email</label>
 					<div class="col-xs-9">		
-						<input id = "admin-email" type="email" class="form-control" placeholder="Email address"  required autofocus="">
+						<input id = "booking-email" type="text" class="form-control" placeholder="Email address" required autofocus="">
+						<p id = "bookingEmailError" class = "collapse text-danger"  data-toggle="false"></p>
 					</div>
 				</div>	
 				<div class="form-group">
-					<label class="control-label col-xs-3">Flight</label>
+					<label class="control-label col-xs-3">Contact Name</label>
 					<div class="col-xs-9">		
-						<!-- uncompleted work: loadFlightScheduleBar for onchange is not written yet. it is to reload the options for the flight schedule bar-->
-						<select  id="reservation-flight" class = "form-control input-sm" onchange = "loadFlightScheduleBar()"  required > 
-						<option selected = "true" value ="" disabled>Select Flight</option>
-						<?php
-							require("config.php");
-							$sql = "SELECT f.f_number, f.origin, f.destination FROM flight f WHERE EXISTS (SELECT * FROM schedule s WHERE f.f_number = s.flight_number)";
-							$stid = oci_parse($dbh, $sql);
-							oci_execute($stid, OCI_DEFAULT);
-							while($row = oci_fetch_array($stid)){
-								echo "<option value=\"".$row["F_NUMBER"]."\">".$row["F_NUMBER"]." (".$row["ORIGIN"]." to ".$row["DESTINATION"].")</option><br>";
-							}
-							oci_free_statement($stid);
-						?>
-						</select>
+						<input id = "booking-name" type="text" class="form-control" placeholder="Contact Name" required autofocus="">
 					</div>
-				</div>
+				</div>			
 				<div class="form-group">
-					<label class="control-label col-xs-3">Schedule</label>
+					<label class="control-label col-xs-3">Contact Number</label>
 					<div class="col-xs-9">		
-						<!-- uncompleted work: validateSeatCapacity for onchange is not written yet. it is to check the no of seats selected can be satisfy-->
-						<select  id="reservation-schedule" class = "form-control input-sm" onchange = "validateSeatCapacity()"  required > 
-							<option selected = "true" value ="" disabled>Select Flight First</option>
+						<input id = "booking-number" type="number" class="form-control" placeholder="Contact Number" required autofocus="">
+					</div>
+				</div>	
+				<div class="form-group">
+					<label class="control-label col-xs-3">Flight Schedule</label>
+					<div class="col-xs-9">		
+						<select  id="booking-schedule" class = "form-control input-sm" onchange = "validateSeatRequest()" required >
+							<?php
+								require("config.php");
+								$sql = "SELECT s.*, f.ORIGIN, f.DESTINATION, TO_CHAR(s.DEPART_TIME, 'DD MON YYYY HH24:MI:SS') AS DEPART_TIME_DISPLAY FROM flight f, schedule s WHERE s.FLIGHT_NUMBER = f.F_NUMBER AND s.NUM_OF_SEATS_AVAIL > 0 ORDER BY s.FLIGHT_NUMBER, s.DEPART_TIME ASC";
+								$stid = oci_parse($dbh, $sql);
+								oci_execute($stid, OCI_DEFAULT);
+								$first_value ;
+								while($row = oci_fetch_array($stid)){
+									if(empty($first_value)) {
+										$first_value = $row["NUM_OF_SEATS_AVAIL"];
+									}
+									echo "<option value=\"".$row["FLIGHT_NUMBER"].";".$row["DEPART_TIME"].";".$row["NUM_OF_SEATS_AVAIL"]."\">".$row["FLIGHT_NUMBER"]." (".$row["ORIGIN"]." to ".$row["DESTINATION"]." departing on ".$row["DEPART_TIME_DISPLAY"].")</option><br>";
+								}
+								oci_free_statement($stid);
+								ocilogoff($dbh);	
+							?>
 						</select>
 					</div>
 				</div>				
 				<div class="form-group">
-					<label class="control-label col-xs-3">Number of Seats</label>
-					<div class="col-xs-9">		
-						<!-- uncompleted work: loadFlightScheduleBar for onchange is not written yet. it is to reload the options for the flight schedule bar-->
-						<select  id="reservation-schedule" class = "form-control input-sm" onchange = "loadFlightScheduleBar()"  required > 
-							<option selected = "true" value ="" disabled>Select Seat Number</option>
+					<label class="control-label col-xs-3">Number of Passengers</label>
+					<div class="col-xs-9">
+						<select  id="booking-passenger-num" class = "form-control input-sm" onchange = "loadPassengerFields()" required > 
 							<?php
-								for ($x = 1; $x <= 4; $x++) {
+								for ($x = 1; $x <= 4 && $x <= $first_value; $x++) {
 									echo "<option value=\"".$x."\">".$x."</option><br>";
 								}
 							?>
 						</select>
 					</div>
 				</div>	
+				<!-- passenger 1-->
+				<div id = "passenger-1" class = "collapse in" data-toggle = "false">
+					<br/>
+					<div class="form-group"><label class="control-label col-xs-offset-3 col-xs-9">Passenger 1 Details</label></div>
+					<div class="form-group">
+						<label class="control-label col-xs-3">Passport Number</label>
+						<div class="col-xs-9">		
+							<input id = "passenger-passport-1" type="text" class="form-control" placeholder="Passport Number"  required autofocus="">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-xs-3">Title</label>
+						<div class="col-xs-9">		
+							<select id="passenger-title-1" class = "form-control input-sm" required>
+								<option value="Mr" selected = "true">Mr</option>
+								<option value="Ms">Ms</option>
+								<option value="Mrs">Mrs</option>
+								<option value="airport">Mdm</option>
+							</select>
+						</div>
+					</div>	
+					<div class="form-group">
+						<label class="control-label col-xs-3">First Name</label>
+						<div class="col-xs-9">		
+							<input id = "passenger-first-name-1" type="text" class="form-control" placeholder="First Name"  required autofocus="">
+						</div>
+					</div>	
+					<div class="form-group">
+						<label class="control-label col-xs-3">Last Name</label>
+						<div class="col-xs-9">		
+							<input id = "passenger-last-name-1" type="text" class="form-control" placeholder="Last Name"  required autofocus="">
+						</div>
+					</div>
+				</div>		
+				<!-- end of passenger 1-->
+				<!-- passenger 2-->
+				<div id = "passenger-2" class = "collapse" data-toggle = "false">
+					<br/>
+					<div class="form-group"><label class="control-label col-xs-offset-3 col-xs-9">Passenger 2 Details</label></div>
+					<div class="form-group">
+						<label class="control-label col-xs-3">Passport Number</label>
+						<div class="col-xs-9">		
+							<input id = "passenger-passport-2" type="text" class="form-control" placeholder="Passport Number"  required autofocus="">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-xs-3">Title</label>
+						<div class="col-xs-9">		
+							<select id="passenger-title-2" class = "form-control input-sm" required>
+								<option value="Mr" selected = "true">Mr</option>
+								<option value="Ms">Ms</option>
+								<option value="Mrs">Mrs</option>
+								<option value="airport">Mdm</option>
+							</select>
+						</div>
+					</div>	
+					<div class="form-group">
+						<label class="control-label col-xs-3">First Name</label>
+						<div class="col-xs-9">		
+							<input id = "passenger-first-name-2" type="text" class="form-control" placeholder="First Name"  required autofocus="">
+						</div>
+					</div>	
+					<div class="form-group">
+						<label class="control-label col-xs-3">Last Name</label>
+						<div class="col-xs-9">		
+							<input id = "passenger-last-name-2" type="text" class="form-control" placeholder="Last Name"  required autofocus="">
+						</div>
+					</div>
+				</div>	
+				<!-- end of passenger 2-->
+				<!-- passenger 3-->
+				<div id = "passenger-3" class = "collapse" data-toggle = "false">
+					<br/>
+					<div class="form-group"><label class="control-label col-xs-offset-3 col-xs-9">Passenger 3 Details</label></div>
+					<div class="form-group">
+						<label class="control-label col-xs-3">Passport Number</label>
+						<div class="col-xs-9">		
+							<input id = "passenger-passport-3" type="text" class="form-control" placeholder="Passport Number"  required autofocus="">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-xs-3">Title</label>
+						<div class="col-xs-9">		
+							<select id="passenger-title-3" class = "form-control input-sm" required>
+								<option value="Mr" selected = "true">Mr</option>
+								<option value="Ms">Ms</option>
+								<option value="Mrs">Mrs</option>
+								<option value="airport">Mdm</option>
+							</select>
+						</div>
+					</div>	
+					<div class="form-group">
+						<label class="control-label col-xs-3">First Name</label>
+						<div class="col-xs-9">		
+							<input id = "passenger-first-name-3" type="text" class="form-control" placeholder="First Name"  required autofocus="">
+						</div>
+					</div>	
+					<div class="form-group">
+						<label class="control-label col-xs-3">Last Name</label>
+						<div class="col-xs-9">		
+							<input id = "passenger-last-name-3" type="text" class="form-control" placeholder="Last Name"  required autofocus="">
+						</div>
+					</div>
+				</div>	
+				<!-- end of passenger 3-->
+				<!-- passenger 4-->
+				<div id = "passenger-4" class = "collapse" data-toggle = "false">
+					<br/>
+					<div class="form-group"><label class="control-label col-xs-offset-3 col-xs-9">Passenger 4 Details</label></div>
+					<div class="form-group">
+						<label class="control-label col-xs-3">Passport Number</label>
+						<div class="col-xs-9">		
+							<input id = "passenger-passport-4" type="text" class="form-control" placeholder="Passport Number"  required autofocus="">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-xs-3">Title</label>
+						<div class="col-xs-9">		
+							<select id="passenger-title-4" class = "form-control input-sm" required>
+								<option value="Mr" selected = "true">Mr</option>
+								<option value="Ms">Ms</option>
+								<option value="Mrs">Mrs</option>
+								<option value="airport">Mdm</option>
+							</select>
+						</div>
+					</div>	
+					<div class="form-group">
+						<label class="control-label col-xs-3">First Name</label>
+						<div class="col-xs-9">		
+							<input id = "passenger-first-name-4" type="text" class="form-control" placeholder="First Name"  required autofocus="">
+						</div>
+					</div>	
+					<div class="form-group">
+						<label class="control-label col-xs-3">Last Name</label>
+						<div class="col-xs-9">		
+							<input id = "passenger-last-name-4" type="text" class="form-control" placeholder="Last Name"  required autofocus="">
+						</div>
+					</div>
+				</div>			
+				<!-- end of passenger 4-->
 				<div class="form-group">
-					<div id = "reservation-button"  class="col-xs-offset-3 col-xs-9 collapse in" data-toggle="false">
-						<!-- uncompleted work : handleAddReservation() should add the reservation and then continue to update the html so that it ask for passenger info -->
-						<button type="submit" class="btn btn-primary" onclick = "return handleAddReservation()">Add Reservation</button>
+					<div id = "booking-button"  class="col-xs-offset-3 col-xs-9 collapse in" data-toggle="false">
+						<!-- uncompleted work : handleAddReservation() should add the booking and then continue to update the html so that it ask for passenger info -->
+						<button type="submit" class="btn btn-primary" onclick = "return handleAddBooking('check')">Add Booking</button>
 					</div>
 				</div>
 			</form>
-			<div id = "add-reservation-error-result"  class = "collapse text-danger"   data-toggle="false">
-				<p id = "add-reservation-error-msg"></p>
+			<div id = "add-booking-error-result"  class = "collapse text-danger"   data-toggle="false">
+				<p id = "add-booking-error-msg"></p>
 			</div>
 		</div>
-		<!-- end for reservation -->				
+		<!-- end for booking -->				
 		
 		
 		<!-- add new airport stuffs -->
@@ -285,34 +437,28 @@ if(empty($_SESSION['admin'])) {
 		<!-- add new flight stuffs -->
 		<!-- div box for flight -->
 		<div id = "flight" class = "collapse" data-toggle="false">
-			<form id = "add-flight-form" class="form-horizontal"> 	
-				<div class="form-group">
-					<label class="control-label col-xs-3">Designator</label>
-					<div class="col-xs-9">		
-						<input id="flight-designator" type = "text" class = "form-control" placeholder = "Designator" required autofocus=""> 
-					</div>
-				</div>				
+			<form id = "add-flight-form" class="form-horizontal"> 			
 				<div class="form-group">
 					<label class="control-label col-xs-3">Number</label>
 					<div class="col-xs-9">		
 						<input id = "flight-number" type="number" class="form-control" placeholder="Flight Number"  required autofocus="">
-						<p id = "flightDesignatorError" class = "collapse text-danger"  data-toggle="false">Oops! This flight is already recorded. </p>
+						<p id = "flightDesignatorError" class = "collapse text-danger"  data-toggle="false">This flight is already recorded. </p>
 					</div>
 				</div>		
 				<div class="form-group">
 					<label class="control-label col-xs-3">Origin</label>
 					<div class="col-xs-9">		
-						<select  id="flight-origin" class = "form-control input-sm"  onchange = "validateFlightRoute()" required> 
-						<option selected = "true" disabled>Select Airport</option>
+						<select  id="flight-origin" class = "form-control input-sm"  onchange = "validateFlightRoute()" required>
 						<?php
 							require("config.php");
 							$sql = "SELECT a.name, a.designator FROM airport a";
 							$stid = oci_parse($dbh, $sql);
 							oci_execute($stid, OCI_DEFAULT);
 							while($row = oci_fetch_array($stid)){
-								echo "<option value=\"".$row["DESIGNATOR"]."\">".$row["NAME"]." (".$row["DESIGNATOR"].")</option><br>";
+								echo "<option value=\"".$row["DESIGNATOR"]."\">".$row["DESIGNATOR"]." (".$row["NAME"].")</option><br>";
 							}
 							oci_free_statement($stid);
+							ocilogoff($dbh);	
 						?>
 						</select>
 					</div>
@@ -321,31 +467,26 @@ if(empty($_SESSION['admin'])) {
 					<label class="control-label col-xs-3">Destination</label>
 					<div class="col-xs-9">		
 						<select  id="flight-destination" class = "form-control input-sm"  onchange = "validateFlightRoute()" required> 
-						<option selected = "true" disabled>Select Airport</option>
 						<?php
 							require("config.php");
 							$sql = "SELECT a.name, a.designator FROM airport a";
 							$stid = oci_parse($dbh, $sql);
 							oci_execute($stid, OCI_DEFAULT);
 							while($row = oci_fetch_array($stid)){
-								echo "<option value=\"".$row["DESIGNATOR"]."\">".$row["NAME"]." (".$row["DESIGNATOR"].")</option><br>";
+								echo "<option value=\"".$row["DESIGNATOR"]."\">".$row["DESIGNATOR"]." (".$row["NAME"].")</option><br>";
 							}
 							oci_free_statement($stid);
+							ocilogoff($dbh);	
 						?>
 						</select>
 						<p id = "flightRouteError" class = "collapse text-danger"   data-toggle="false">Please do not select same origin and destination.</p>
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="control-label col-xs-3">Duration</label>
-					<div class="col-xs-9">		
-						<input id = "flight-duration" type="text" class="form-control" placeholder="4.5 Hours etc"  required autofocus="">
-					</div>
-				</div>		
-				<div class="form-group">
 					<label class="control-label col-xs-3">Seat Capacity</label>
 					<div class="col-xs-9">		
-						<input id = "flight-seat" type="number" class="form-control" placeholder="Number of passenger seats"  required autofocus="">
+						<input id = "flight-seat" type="number" class="form-control" placeholder="Number of passenger seats available" required autofocus="" onchange = "validateSeatCapacity()">
+						<p id = "seatCapacityError" class = "collapse text-danger"  data-toggle="false">Seat capacity should be at least 1</p>
 					</div>
 				</div>					
 				<div class="form-group">
@@ -367,45 +508,39 @@ if(empty($_SESSION['admin'])) {
 				<div class="form-group">
 					<label class="control-label col-xs-3">Flight</label>
 					<div class="col-xs-9">		
-						<select  id="schedule-flight" class = "form-control input-sm" onchange = "validateAircraft()"  required > 
-						<option selected = "true" value ="" disabled>Select Flight</option>
+						<select  id="schedule-flight" class = "form-control input-sm" required > 
 						<?php
 							require("config.php");
-							$sql = "SELECT f.f_number, f.designator, f.origin, f.destination FROM flight f";
+							$sql = "SELECT f.F_NUMBER, f.ORIGIN, f.DESTINATION, f.SEAT_CAPACITY FROM flight f";
 							$stid = oci_parse($dbh, $sql);
 							oci_execute($stid, OCI_DEFAULT);
 							while($row = oci_fetch_array($stid)){
-								echo "<option value=\"".$row["DESIGNATOR"]." ".$row["F_NUMBER"]."\">".$row["DESIGNATOR"].$row["F_NUMBER"]." (".$row["ORIGIN"]." to ".$row["DESTINATION"].")</option><br>";
+								echo "<option value=\"".$row["F_NUMBER"]."\">".$row["F_NUMBER"]." (".$row["ORIGIN"]." to ".$row["DESTINATION"].", ".$row["SEAT_CAPACITY"]." seats)</option><br>";
 							}
 							oci_free_statement($stid);
+							ocilogoff($dbh);	
 						?>
 						</select>
 					</div>
-				</div>				
-				<div class="form-group">
-					<label class="control-label col-xs-3">Seat Availability</label>
-					<div class="col-xs-9">		
-						<input id = "schedule-seats" type="number" class="form-control" placeholder="Number of Seats Available"  required autofocus="" onfocusout="validateScheduleSeat()">
-						<p id = "scheduleSeatError" class = "collapse text-danger"   data-toggle="false"></p>
-					</div>
-				</div>	
+				</div>		
 				<div class="form-group">
 					<label class="control-label col-xs-3">Departure Time</label>
 					<div class="col-xs-9">		
 						<input id = "schedule-departure" type="datetime-local" value = "<?php date_default_timezone_set('Asia/Singapore'); $today_date = date('Y-m-d'); echo strftime('%Y-%m-%dT%H:%M:%S', strtotime($today_date)) ?>" class="form-control" placeholder="Departure Time"  required autofocus="">
-						<p id = "scheduleTimeError" class = "collapse text-danger"   data-toggle="false">Oops! This flight has already been scheduled for this departure time!</p>
+						<p id = "scheduleExistsError" class = "collapse text-danger"  data-toggle="false">This schedule is already recorded. </p>
 					</div>
 				</div>		
 				<div class="form-group">
 					<label class="control-label col-xs-3">Arrival Time</label>
 					<div class="col-xs-9">		
 						<input id = "schedule-arrival" type="datetime-local" value = "<?php date_default_timezone_set('Asia/Singapore'); $today_date = date('Y-m-d'); echo strftime('%Y-%m-%dT%H:%M:%S', strtotime($today_date)) ?>" class="form-control" placeholder="Arrival Time"  required autofocus="">
+						<p id = "scheduleTimeError" class = "collapse text-danger"  data-toggle="false"></p>
 					</div>
-				</div>				
+				</div>					
 				<div class="form-group">
 					<label class="control-label col-xs-3">Price</label>
 					<div class="col-xs-9">		
-						<input id = "schedule-price" type="number" class="form-control" placeholder="Air Ticket Price"  required autofocus="">
+						<input id = "schedule-price" type="number" class="form-control" placeholder="Air Ticket Price" required autofocus="">
 					</div>
 				</div>			
 				<div class="form-group">
@@ -419,10 +554,41 @@ if(empty($_SESSION['admin'])) {
 			</div>
 		</div>
 		<!-- end for add new schedule stuffs -->			
+		
 		<div id = "add-successful-result" class = "col-xs-offset-3 collapse" data-toggle="false">
 			<p id = "add-successful-msg" class = "alert alert-success" role = "alert"></p>
 			<a href = "admin_panel_add.php"><button class="btn btn-primary">Add another record</button></a>
-		</div>			
+		</div>		
+		
+		<div class="modal fade" id="error-modal" data-toggle="false" data-keyboard = "false" data-backdrop = "static">
+		  <div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h3 class="modal-title">Invalid Input</h3>
+				</div>
+				<div class="modal-body" id="error-modal-content"><!-- contents to be populated by js & php --></div>
+				<div class="modal-footer">
+					<button class="btn" data-dismiss="modal" aria-hidden="true">Okay</button>
+				</div>
+			</div><!-- /.modal-content -->
+		  </div><!-- /.modal-dialog -->
+		</div><!-- /.modal-->			
+
+		<div class="modal fade" id="confirm-modal" data-toggle="false" data-keyboard = "false" data-backdrop = "static">
+		  <div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h3 class="modal-title">Continue to add record?</h3>
+				</div>
+				<div class="modal-body" id="confirm-modal-content"><!-- contents to be populated by js & php --></div>
+				<div class="modal-footer">
+					<button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+					<button id = "confirm-add-btn" class="btn btn-primary">Continue</button>
+				</div>
+			</div><!-- /.modal-content -->
+		  </div><!-- /.modal-dialog -->
+		</div><!-- /.modal-->	
+		
 	 </div>
     </div>
 	<!-- /container -->
