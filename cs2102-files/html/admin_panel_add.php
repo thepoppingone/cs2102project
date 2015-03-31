@@ -534,7 +534,7 @@ if(empty($_SESSION['admin'])) {
 					<label class="control-label col-xs-3">Arrival Time</label>
 					<div class="col-xs-9">		
 						<input id = "schedule-arrival" type="datetime-local" value = "<?php date_default_timezone_set('Asia/Singapore'); $today_date = date('Y-m-d'); echo strftime('%Y-%m-%dT%H:%M:%S', strtotime($today_date)) ?>" class="form-control" placeholder="Arrival Time"  required autofocus="">
-						<p id = "scheduleTimeError" class = "collapse text-danger"  data-toggle="false"></p>
+						<p id = "scheduleTimeError" class = "collapse text-danger"  data-toggle="false">Departure time should be before arrival time</p>
 					</div>
 				</div>					
 				<div class="form-group">

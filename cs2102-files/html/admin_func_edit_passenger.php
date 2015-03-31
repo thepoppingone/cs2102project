@@ -2,7 +2,6 @@
 	
 	$originalNum = $_POST['originalNum'];
 	$num = $_POST['num'];
-	$type = $_POST['type'];
 	$title = $_POST['title'];
 	$firstName = $_POST['firstName'];
 	$lastName = $_POST['lastName'];
@@ -23,19 +22,28 @@
 	} 
 	
 	if($continue) {
+		
 		// update the record 
-		$sql = "UPDATE passenger SET passport_number = '".$num."', type = '".$type."', title = '".$title."', first_name = '".$firstName."', last_name = '".$lastName."' WHERE passport_number = '".$originalNum."'";
-		
+		$sql = "UPDATE passenger SET passport_number = '".$num."', title = '".$title."', first_name = '".$firstName."', last_name = '".$lastName."' WHERE passport_number = '".$originalNum."'";
 		$stid = oci_parse($dbh, $sql);
-		$result = oci_execute($stid);
+		$result = oci_execute($stid, OCI_DEFAULT);
 		
-		if(!$result) {
-			$error_message = oci_error($stid);
-			echo $error_message;
-		} else {
+		// update the booking_passenger table
+		
+		if($result) {			
+			/************
+			* Successful
+			*************/
+			oci_commit($dbh);
 			echo "edited";
+		} else {
+			/**************
+			* Unsuccessful
+			***************/
+			echo oci_error($stid);
 		}
 	}
 	
 	oci_free_statement($stid);
+	ocilogoff($dbh);	
 ?>
