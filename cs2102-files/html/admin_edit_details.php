@@ -307,7 +307,7 @@
 					<label class="control-label col-xs-3">Arrival Time</label>
 					<div class="col-xs-9">		
 						<input id = "schedule-arrival" type="datetime-local" class="form-control" placeholder="Arrival Time"  required autofocus="" name = "<?php echo $row['ARRIVAL_TIME']; ?>" value = "<?php echo $row['ARRIVAL_TIME_DISPLAY']; ?>">
-					</div>
+						<p id = "scheduleTimeError" class = "collapse text-danger"  data-toggle="false">Departure time should be before arrival time</p></div>
 				</div>
 				<div class="form-group">
 					<label class="control-label col-xs-3">Price</label>
@@ -317,7 +317,7 @@
 				</div>
 				
 				<div class="form-group">
-					<label class="control-label col-xs-3">Number Of Seats Available</label>
+					<label class="control-label col-xs-3">Number Of Seats Available </label>
 					<div class="col-xs-9">
 						<input id = "schedule-seats" type="text" class="form-control" placeholder="Number Of Seats Available"  required autofocus="" value = "<?php echo $row['NUM_OF_SEATS_AVAIL']; ?>">
 					</div>
@@ -361,7 +361,7 @@
 					<label class="control-label col-xs-3">Contact Email</label>
 					<div class="col-xs-9">		
 						<input id = "booking-email" type="text" class="form-control" placeholder="Email address" name = "<?php echo $row['C_EMAIL']; ?>" value = "<?php echo $row['C_EMAIL']; ?>" required autofocus="">
-						<p id = "bookingEmailError" class = "collapse text-danger"  data-toggle="false"></p>
+						<p id = "bookingEmailError" class = "collapse text-danger"  data-toggle="false">Invalid email format</p>
 					</div>
 				</div>	
 				<div class="form-group">
@@ -381,32 +381,7 @@
 						<button type="reset" class="btn btn-primary">Reset</button>
 						<button type="submit" class="btn btn-primary" onclick = "return handleEditBooking()">Edit Booking</button>
 					</div>
-				</div>	
-				<?php
-					if ($_POST['selected'] == "booking") {
-						echo '<br/><br/>';
-						// retrieve the passengers for this booking
-						$sql = "SELECT p.* FROM passenger p, booking_passenger bp WHERE p.PASSPORT_NUMBER = bp.PASSENGER AND bp.BOOKING_ID = '".$_POST['id']."'";
-						$stid = oci_parse($dbh, $sql);
-						oci_execute($stid, OCI_DEFAULT);
-						
-						$rowData = "";
-						$index = 0;
-						while($passenger = oci_fetch_array($stid)) {
-							// put a checkbox and if the box is tick, delete this passenger from this booking	
-							$rowData = $rowData."<tr id = \"".$index."\" class = \"collapse in\" data-toggle = \"false\">
-							<td>".$passenger['PASSPORT_NUMBER']."</td>
-							<td>".$passenger['TITLE']."</td>
-							<td>".$passenger['FIRST_NAME']."</td>
-							<td>".$passenger['LAST_NAME']."</td>
-							<td><span class=\"glyphicon glyphicon-remove \" value=\"".$row['PASSPORT_NUMBER']."\" onclick = \"return handleDeletePassengerFromBooking('".$index."','".$_POST['id']."','".$passenger['PASSPORT_NUMBER']."','".$row['FLIGHT_NUMBER']."','".$row['DEPART_TIME']."')\"></span></td>
-							</tr>";	
-							$index++;		
-						}
-						echo '<table id="passenger-table" class="table table-striped table-hover"><thead><th>Passport</th><th>Title</th><th>First Name</th><th>Last Name</th></thead><tbody>'.$rowData.'</tbody></table>';
-						echo '<div class="form-group"><label class="control-label col-xs-offset-3 col-xs-9">To remove passenger(s) from the booking, click on the delete icon.<br/> Note: The last remaining passenger cannot be removed.</label></div>';
-					}
-				?>			
+				</div>			
 			</form>
 			<div id = "edit-booking-error-result"  class = "collapse text-danger"   data-toggle="false">
 				<p id = "edit-booking-error-msg"></p>
@@ -418,6 +393,34 @@
 			<p id = "edit-successful-msg" class = "alert alert-success" role = "alert"></p>
 			<a href = "admin_panel_edit.php"><button class="btn btn-primary">Edit another record</button></a>
 		</div>	
+		
+		<!-- passenger table for booking -->
+		<?php
+			if ($_POST['selected'] == "booking") {
+				echo '<br/><br/>';
+				// retrieve the passengers for this booking
+				$sql = "SELECT p.* FROM passenger p, booking_passenger bp WHERE p.PASSPORT_NUMBER = bp.PASSENGER AND bp.BOOKING_ID = '".$_POST['id']."'";
+				$stid = oci_parse($dbh, $sql);
+				oci_execute($stid, OCI_DEFAULT);
+				
+				$rowData = "";
+				$index = 0;
+				while($passenger = oci_fetch_array($stid)) {
+					// put a checkbox and if the box is tick, delete this passenger from this booking	
+					$rowData = $rowData."<tr id = \"".$index."\" class = \"collapse in\" data-toggle = \"false\">
+					<td>".$passenger['PASSPORT_NUMBER']."</td>
+					<td>".$passenger['TITLE']."</td>
+					<td>".$passenger['FIRST_NAME']."</td>
+					<td>".$passenger['LAST_NAME']."</td>
+					<td><span class=\"glyphicon glyphicon-remove \" value=\"".$row['PASSPORT_NUMBER']."\" onclick = \"return handleDeletePassengerFromBooking('".$index."','".$_POST['id']."','".$passenger['PASSPORT_NUMBER']."','".$row['FLIGHT_NUMBER']."','".$row['DEPART_TIME']."')\"></span></td>
+					</tr>";	
+					$index++;		
+				}
+				echo '<table id="passenger-table" class="table table-striped table-hover"><thead><th>Passport</th><th>Title</th><th>First Name</th><th>Last Name</th></thead><tbody>'.$rowData.'</tbody></table>';
+				echo '<form><div class="form-group"><label class="control-label col-xs-offset-3 col-xs-9">To remove passenger(s) from the booking, click on the delete icon.<br/> Note: The last remaining passenger cannot be removed.</label></div></form>';
+			}
+		?>	
+		<!-- end -->
 
 		<!-- alert modal -->
 		<div class="modal fade" id="alert-modal" data-toggle="false" data-keyboard = "false" data-backdrop = "static">

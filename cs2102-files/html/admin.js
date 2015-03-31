@@ -316,7 +316,7 @@ function handleAddFlight() {
 	var originStr = originBar.options[originBar.selectedIndex].value;
 	var seatStr = document.getElementById('flight-seat').value.trim();
 				
-	if(numberStr && destinationStr && originStr && seatStr &&!isNaN(numberStr)) {		
+	if(numberStr && destinationStr && originStr && seatStr && !isNaN(numberStr) && !isNaN(seatStr)) {		
 		if(validateFlightRoute() && validateSeatCapacity()) {
 			$.post('admin_func_add_flight.php', {f_number:numberStr, destination:destinationStr, origin:originStr, seat_capacity:seatStr}, function(data) {
 				if(data == 'inserted') {
@@ -351,8 +351,9 @@ function handleAddSchedule() {
 	var departureStr = document.getElementById('schedule-departure').value;
 	var priceStr = document.getElementById('schedule-price').value.trim();
 	
-	if(flightStr && arrivalStr && departureStr && priceStr) {
-		if(validateScheduleTime()) {		
+	if(flightStr && arrivalStr && departureStr && priceStr && !isNan(priceStr)) {
+		if(validateScheduleTime()) {
+			$('#scheduleTimeError').collapse('hide');		
 			$.post('admin_func_add_schedule.php', {
 										flight_number: flightStr,
 										arrival_time: arrivalStr,
@@ -371,6 +372,10 @@ function handleAddSchedule() {
 					$('#add-schedule-error-result').collapse('show');
 				}
 			});
+		} else {
+			$('#add-schedule-error-result').collapse('hide');
+			$('#scheduleExistsError').collapse('hide'); 
+			$('#scheduleTimeError').collapse('show');
 		}
 		return false;
 	} else {
@@ -830,19 +835,20 @@ function forwardToFlightEditDetails(numStr) {
 function handleEditFlight() {
 	var originalNumStr = document.getElementById('flight-num').name;
 	var numStr = document.getElementById('flight-num').value.trim();
-	var selectBarD = document.getElementById('flight-dest');
+	var selectBarD = document.getElementById('flight-destination');
 	var destStr = selectBarD.options[selectBarD.selectedIndex].value;
 	var selectBarO = document.getElementById('flight-origin');
 	var originStr = selectBarO.options[selectBarO.selectedIndex].value;
 	var seatCapacityStr = document.getElementById('flight-seat-capacity').value.trim();
-
-	if(numStr && originStr && destStr && seatCapacityStr) {		
-		$.post('admin_func_edit_flight.php', {originalNum: originalNumStr, num: "SB" + numStr, origin:originStr, dest:destStr, seatCapacity:seatCapacityStr}, function(data) {
+	
+	if(numStr && originStr && destStr && seatCapacityStr && !isNaN(numStr) && !isNaN(seatCapacityStr)) {		
+		numStr = "SB" + numStr;
+		$.post('admin_func_edit_flight.php', {originalNum: originalNumStr, num: numStr, origin:originStr, dest:destStr, seatCapacity:seatCapacityStr}, function(data) {
 			if(data == 'edited') {
-				disableForm(['flight-button', 'edit-flight-error-result', 'flightNumError'], ['flight-num', 'flight-origin', 'flight-dest', 'flight-seat-capacity']);
+				disableForm(['flight-button', 'edit-flight-error-result', 'flightNumError'], ['flight-num', 'flight-origin', 'flight-destination', 'flight-seat-capacity']);
 				displayAddSuccessfulMessage("edit","Flight information updated!");
 			}
-			else if(data == 'flight_exists'){
+			else if(data == 'flight_exists') {
 				$('#edit-flight-error-result').collapse('hide');
 				$('#flightNumError').collapse('show');
 			} else {
@@ -853,6 +859,9 @@ function handleEditFlight() {
 		});
 		return false;
 	} else {
+		disableForm(['flightNumError', 'edit-flight-error-result'],[]);
+		document.getElementById('flight-num').value = numStr;
+		document.getElementById('flight-seat-capacity').value = seatCapacityStr;
 		return true;
 	}
 }
@@ -869,34 +878,38 @@ function handleEditSchedule() {
 	var arrivalStr = document.getElementById('schedule-arrival').value;
 	var originalDepartureStr = document.getElementById('schedule-departure').name;
 	var departureStr = document.getElementById('schedule-departure').value;
-	var seatStr = document.getElementById('schedule-seats').value;
-	var priceStr = document.getElementById('schedule-price').value;
+	var seatStr = document.getElementById('schedule-seats').value.trim();
+	var priceStr = document.getElementById('schedule-price').value.trim();
 
-	if(originalFlightStr && arrivalStr && departureStr && seatStr && priceStr) {		
-		$.post('admin_func_edit_schedule.php', {
-										originalFlight: originalFlightStr,
-										originalDeparture: originalDepartureStr,
-										arrival_time: arrivalStr,
-										depart_time: departureStr,
-										num_of_seats_avail: seatStr,
-										price: priceStr
-										}, function(data) {
-			console.log(data);
-			if(data == 'edited') {
-				disableForm(['schedule-button', 'edit-schedule-error-result', 'scheduleError'], ['schedule-flight', 'schedule-arrival', 'schedule-departure', 'schedule-seats', 'schedule-price']);
-				displayAddSuccessfulMessage("edit","Schedule information updated!");
-			}
-			else if(data == 'schedule_exists'){
-				$('#edit-schedule-error-result').collapse('hide');
-				$('#scheduleError').collapse('show');
-			} else {
-				$('#scheduleError').collapse('hide'); 
-				document.getElementById("edit-schedule-error-msg").innerHTML = "Error message:" + data;
-				$('#edit-schedule-error-result').collapse('show');
-			}
-		});
+	if(originalFlightStr && arrivalStr && departureStr && priceStr && !isNaN(priceStr) && !isNaN(seatStr)) {		
+		if(validateScheduleTime()) {
+			$.post('admin_func_edit_schedule.php', {
+											originalFlight: originalFlightStr,
+											originalDeparture: originalDepartureStr,
+											arrival_time: arrivalStr,
+											depart_time: departureStr,
+											num_of_seats_avail: seatStr,
+											price: priceStr
+											}, function(data) {
+				if(data == 'edited') {
+					disableForm(['schedule-button', 'edit-schedule-error-result', 'scheduleError'], ['schedule-flight', 'schedule-arrival', 'schedule-departure', 'schedule-seats', 'schedule-price']);
+					displayAddSuccessfulMessage("edit","Schedule information updated!");
+				}
+				else if(data == 'schedule_exists'){
+					$('#edit-schedule-error-result').collapse('hide');
+					$('#scheduleError').collapse('show');
+				} else {
+					$('#scheduleError').collapse('hide'); 
+					document.getElementById("edit-schedule-error-msg").innerHTML = "Error message:" + data;
+					$('#edit-schedule-error-result').collapse('show');
+				}
+			});
+		}
 		return false;
 	} else {
+		disableForm(['scheduleTimeError', 'scheduleError', 'edit-schedule-error-result'],[]);
+		document.getElementById('schedule-price').value = priceStr;		
+		document.getElementById('schedule-seats').value = seatStr;		
 		return true;
 	}
 }
@@ -914,25 +927,36 @@ function handleEditBooking() {
 	var nameStr = document.getElementById('booking-name').value.trim();
 	var numberStr = document.getElementById('booking-number').value.trim();
 
-	if(emailStr && nameStr && numberStr) {		
-		$.post('admin_func_edit_booking.php', {
-										id: idStr,
-										email: emailStr,
-										name: nameStr,
-										number: numberStr
-										}, function(data) {
-			if(data == 'edited') {
-				disableForm(['booking-button', 'edit-booking-error-result', 'bookingError'], ['booking-email', 'booking-name', 'booking-number']);
-				displayAddSuccessfulMessage("edit","Booking information updated!");
-			}
-			else {
-				$('#bookingError').collapse('hide'); 
-				document.getElementById("edit-booking-error-msg").innerHTML = "Error message:" + data;
-				$('#edit-booking-error-result').collapse('show');
-			}
-		});
+	if(emailStr && nameStr && numberStr && !isNaN(numberStr)) {
+		if(validateEmail(emailStr)) {
+			$('#bookingEmailError').collapse('hide'); 
+			$.post('admin_func_edit_booking.php', {
+											id: idStr,
+											email: emailStr,
+											name: nameStr,
+											number: numberStr
+											}, function(data) {
+				if(data == 'edited') {
+					disableForm(['booking-button', 'edit-booking-error-result', 'bookingError'], ['booking-email', 'booking-name', 'booking-number']);
+					displayAddSuccessfulMessage("edit","Booking information updated!");
+				}
+				else {
+					$('#bookingError').collapse('hide'); 
+					document.getElementById("edit-booking-error-msg").innerHTML = "Error message:" + data;
+					$('#edit-booking-error-result').collapse('show');
+				}
+			});
+		} else {
+			$('#edit-booking-error-result').collapse('hide');
+			$('#bookingError').collapse('hide'); 
+			$('#bookingEmailError').collapse('show'); 
+		}
 		return false;
 	} else {
+		disableForm(['bookingEmailError', 'bookingError', 'edit-booking-error-result'],[]);
+		document.getElementById('booking-email').value = emailStr;
+		document.getElementById('booking-name').value = nameStr;
+		document.getElementById('booking-number').value = numberStr;		
 		return true;
 	}
 }
