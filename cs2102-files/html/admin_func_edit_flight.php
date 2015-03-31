@@ -24,7 +24,6 @@
 	if($continue) {
 		// update the record 
 		$sql = "UPDATE flight SET f_number = '".$num."', origin = '".$origin."', destination = '".$dest."', seat_capacity = '".$seatCapacity."' WHERE f_number = '".$originalNum."'";
-		
 		$stid = oci_parse($dbh, $sql);
 		$result = oci_execute($stid);
 		
@@ -37,4 +36,5 @@
 	}
 	
 	oci_free_statement($stid);
+	ocilogoff($dbh);	
 ?>

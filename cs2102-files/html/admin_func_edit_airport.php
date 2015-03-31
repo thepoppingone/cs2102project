@@ -25,15 +25,22 @@
 		$sql = "UPDATE airport SET designator = '".$designator."', location = '".$location."', name = '".$name."' WHERE designator = '".$originalDesignator."'";
 		
 		$stid = oci_parse($dbh, $sql);
-		$result = oci_execute($stid);
+		$result = oci_execute($stid, OCI_DEFAULT);
 		
-		if(!$result) {
-			$error_message = oci_error($stid);
-			echo $error_message;
-		} else {
+		if($result) {			
+			/************
+			* Successful
+			*************/
+			oci_commit($dbh);
 			echo "edited";
+		} else {
+			/**************
+			* Unsuccessful
+			***************/
+			echo oci_error($stid);
 		}
 	}
 	
 	oci_free_statement($stid);
+	ocilogoff($dbh);	
 ?>
