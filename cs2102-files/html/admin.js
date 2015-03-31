@@ -789,7 +789,7 @@ function handleEditPassenger() {
 	var firstNameStr = document.getElementById('passenger-firstname').value;
 	var lastNameStr = document.getElementById('passenger-lastname').value;
 
-	if(numStr && titleStr && firstNameStr && lastNameStr) {		
+	if(numStr && typeStr && titleStr && firstNameStr && lastNameStr) {		
 		$.post('admin_func_edit_passenger.php', {originalNum: originalNumStr, num:numStr, title:titleStr, firstName:firstNameStr, lastName: lastNameStr}, function(data) {
 			if(data == 'edited') {
 				disableForm(['passenger-button', 'edit-passenger-error-result', 'passengerNumError'], ['passenger-num', 'passenger-title', 'passenger-firstname', 'passenger-lastname']);
@@ -855,24 +855,27 @@ function forwardToScheduleEditDetails(flightStr, departStr) {
 }
 
 function handleEditSchedule() {
-	var originalFlightStr = document.getElementById('schedule-flight').value;
-	var arrivalStr = document.getElementById('schedule-arrival').name;
+	var selectBarOF = document.getElementById('schedule-flight');
+	var originalFlightStr = selectBarOF.options[selectBarOF.selectedIndex].value;
+	var selectBarF = document.getElementById('schedule-flight');
+	var flightStr = selectBarF.options[selectBarF.selectedIndex].value;
+	var arrivalStr = document.getElementById('schedule-arrival').value;
 	var originalDepartureStr = document.getElementById('schedule-departure').name;
 	var departureStr = document.getElementById('schedule-departure').value;
 	var seatStr = document.getElementById('schedule-seats').value;
 	var priceStr = document.getElementById('schedule-price').value;
 
-	if(originalFlightStr && arrivalStr && departureStr && seatStr && priceStr) {		
-		$.post('admin_func_edit_schedule.php', {
+	if(flightStr && arrivalStr && departureStr && seatStr && priceStr) {		
+		$.post('admin_func_edit_flight.php', {
 										originalFlight: originalFlightStr,
 										originalDeparture: originalDepartureStr,
 										arrival_time: arrivalStr,
 										depart_time: departureStr,
 										num_of_seats_avail: seatStr,
-										price: priceStr
-										}, function(data) {
+										price: priceStr,
+										flight_number: flightNumberStr}, function(data) {
 			if(data == 'edited') {
-				disableForm(['schedule-button', 'edit-schedule-error-result', 'scheduleError'], ['schedule-flight', 'schedule-arrival', 'schedule-departure', 'schedule-seats', 'schedule-price']);
+				disableForm(['schedule-button', 'edit-schedule-error-result', 'scheduleNumError'], ['schedule-flight', 'schedule-arrival', 'schedule-departure', 'schedule-seats', 'schedule-price']);
 				displayAddSuccessfulMessage("edit","Schedule information updated!");
 			}
 			else if(data == 'schedule_exists'){
@@ -897,36 +900,6 @@ function forwardToBookingEditDetails(idStr) {
 	return true;
 }
 
-function handleEditBooking() {
-	var originalEmailStr = document.getElementById('booking-email').name;
-	var emailStr = document.getElementById('booking-email').value.trim();
-	var nameStr = document.getElementById('booking-name').value;
-	var numberStr = document.getElementById('booking-number').value;
-
-	if(emailStr && nameStr && numberStr) {		
-		$.post('admin_func_edit_booking.php', {
-										originalEmail: originalEmailStr,
-										email: emailStr,
-										name: nameStr,
-										number: numberStr
-										}, function(data) {
-			if(data == 'edited') {
-				disableForm(['booking-button', 'edit-booking-error-result', 'bookingError'], ['booking-email', 'booking-name', 'booking-number']);
-				displayAddSuccessfulMessage("edit","Booking information updated!");
-			}
-			else {
-				$('#bookingError').collapse('hide'); 
-				document.getElementById("edit-booking-error-msg").innerHTML = "Error message:" + data;
-				$('#edit-booking-error-result').collapse('show');
-			}
-		});
-		return false;
-	} else {
-		return true;
-	}
-}
-
-
 function handleDeletePassengerFromBooking(id, bookingIdStr, passportStr, flightNumStr, departTimeStr) {
 	var passengerNum = document.getElementById("passenger-table").getElementsByTagName("tbody")[0].getElementsByTagName("tr").length;
 	if(passengerNum > 1) {
@@ -944,9 +917,7 @@ function handleDeletePassengerFromBooking(id, bookingIdStr, passportStr, flightN
 				document.getElementById("alert-modal-content").innerHTML = data;		
 				$("#alert-modal").modal('show');	
 			}
-		}
-		);	
-console.log("post done");		
+		});				
 	} else {
 		document.getElementById("alert-modal-title").innerHTML = "Invalid Action";	
 		document.getElementById("alert-modal-content").innerHTML = "A booking must consists of minimum 1 passenger.";		
