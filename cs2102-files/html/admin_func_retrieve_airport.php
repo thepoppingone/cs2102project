@@ -16,7 +16,7 @@
 			<td>".$row['NAME']."</td>
 			<td>".$row['LOCATION']."</td>
 			<td>".$row['DESIGNATOR']."</td>
-			<td><span class=\"glyphicon glyphicon-remove \" value=\"".$row['DESIGNATOR']."\" onclick = \"return handleDeleteAdmin('".$index."','".$row['DESIGNATOR']."')\"></span></td>
+			<td><span class=\"glyphicon glyphicon-remove \" value=\"".$row['DESIGNATOR']."\" onclick = \"return handleDeleteAirport('".$index."','".$row['DESIGNATOR']."')\"></span></td>
 			</tr>";
 			$index++;			
 		}
@@ -32,6 +32,9 @@
 			$index++;
 		}	
 	}
-		
+
+	oci_free_statement($stid);
+	ocilogoff($dbh);
+	
 	echo $output;
 ?>
