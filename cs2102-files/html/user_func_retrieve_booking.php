@@ -1,30 +1,20 @@
-<?php 
-	// this file is specific for getting edit/delete options
-	
-	$bookingID =  $_POST['bookingid'];
+ <?php
+ 
+	$id = $_POST['id'];
+	$c_email = $_POST['c_email'];
 
 	require("config.php");
-	$sql = "SELECT b.id, b.c_name, b.C_email, b.c_number FROM booking b where b.id = '".$bookingID"'";
+	
+	$sql = "SELECT * FROM booking b WHERE b.ID = '".$id."' AND b.C_EMAIL = '".$c_email."'";
 	$stid = oci_parse($dbh, $sql);
-	oci_execute($stid, OCI_DEFAULT);
-	$output = "";
-	$index = 0;
+	oci_execute($stid, OCI_DEFAULT); 
 
-		if($row = oci_fetch_array($stid)) {
-			// create a row with num, type, title, first_name, last_name, pencil icon which calls a handleEditPassenger(num)
-			$output = $output." <tr id = \"".$index."\" class = \"collapse in\" data-toggle = \"false\">
-			<td>".$row['Booking_ID']."</td>
-			<td>".$row['Contact_Person']."</td>
-			<td>".$row['Contact_Email']."</td>
-			<td>".$row['Contact_Number']."</td>
-			<td><span class=\"glyphicon glyphicon-pencil \" value=\"".$row['Booking_ID']."\" onclick = \"return forwardToBookingEditDetails()\"></span></td>
-			</tr>";
-			$index++;
-		}	
-	
-	
+	if ($row = oci_fetch_array($stid)) {
+		echo "retrieved";	
+	} else {
+		echo "error";
+	}
+
+	// to free up the resources
 	oci_free_statement($stid);
-	ocilogoff($dbh);		
-		
-	echo $output;
 ?>

@@ -75,74 +75,101 @@ function validate_admin_login() {
 	}
 }
 
-/*******************************
+/*******************************************
 * functions related to Booking Retrieval 
-********************************/
-function validate_user_retrieve_booking_inputs() {
-	var bookingIDStr = document.getElementById('inputBookingID').value;
-        var emailStr = document.getElementById('inputEmail').value;
-				
-	if(emailStr && bookingStr) {		
-		$.post('user_func_validate_retrieve_booking_inputs.php', {email:emailStr, bookingid:bookingIDStr}, function(data) {
-			if(data == 'booking_found') {
-				$.post('user_func_retrieve_booking.php',{bookingid:bookingIDStr}, function(data) {
+********************************************/
 
-					if(data) 
-					// headers in array, rows, function to call when delete/edit button is clicked, words in the button
-					document.getElementById(choice + '-options').innerHTML = createTableFormHtml(["Booking ID", "Contact Person", "Contact Email", "Contact Number"], data, "", "");
-					
-				});	
-			}
-			else {
-				document.getElementById("retrieveBooking-error").innerHTML = "Invalid Credentials.<br/>";
-				$('#retrieveBooking-error').collapse('show');
+function validate_credentials_for_retrieving_booking() {
+	var bookingIdStr = document.getElementById('booking-id').value.trim();
+    var emailStr = document.getElementById('booking-email').value.trim();
+	if(emailStr && bookingIdStr) {		
+		 /*if(validateEmail(emailStr))*/
+		$.post('user_func_retrieve_booking.php', {id:bookingIdStr, c_email:emailStr}, function(data) {
+			data = data.trim();
+			console.log(data);
+			if(data == 'retrieved') {
+				$('#check-booking-error').collapse('hide');
+				document.getElementById('user-manage-booking-form').submit();
+			} else {
+				document.getElementById("check-booking-error").innerHTML = "Invalid Booking.<br/>";
+				$('#check-booking-error').collapse('show');
 			}
 		});
 		return false;
 	} else {
-
+		$('#check-booking-error').collapse('hide');
+		document.getElementById('booking-id').value = bookingIdStr;
+		document.getElementById('booking-email').value = emailStr;	
 		return true;
-	}
-
+	}	
 }
-
-function forwardToBookingEditDetails() {
-	document.getElementById('retrieveBooking-form').action = "user_edit_booking_details.php";
-//	appendToForm('retrieveBooking-form');
-	document.getElementById('retrieveBooking-form').submit();
-	return true;
-}
-
 
 function handleEditBooking() {
-	var bookingIDStr = document.getElementById('booking-id').name;
-	var bookingFlightStr = document.getElementById('booking-flight').value;
-	var bookingDepartTimeStr = document.getElementById('booking-depart-time').value;
-	var bookingEmailStr = document.getElementById('booking-email').value;
-	var bookingNameStr = document.getElementById('booking-name').value;
-	var bookingNumberStr = document.getElementById('booking-number').value;
+	$('#booking-view-details').collapse('hide');
+	$('#edit-booking-details').collapse('show');
+	return false;
+}
 
-	if(bookingIDStr && bookingFlightStr && bookingDepartTimeStr && bookingEmailStr && bookingNameStr && bookingNumberStr) {		
-		$.post('user_func_edit_booking.php', {bookingID: bookingIDStr, bookingFlight:bookingFlightStr, bookingDepartTime:bookingDepartTimeStr, bookingEmail:bookingEmailStr, bookingName: bookingNameStr, bookingNumber: bookingNumberStr}, function(data) {
-			if(data == 'edited') {
-				disableForm(['edit-booking-error-result'], ['booking-id', 'booking-flight', 'booking-depart-time', 'bookingEmail', 'booking-name', 'booking-number']);
-				displayAddSuccessfulMessage("edit","Booking information updated!");
-			}
-		//	else if(data == 'passenger_exists'){
-				//$('#edit-passenger-error-result').collapse('hide');
-			//	$('#passengerNumError').collapse('show');
-			} else {
-				//$('#passengerNumError').collapse('hide'); 
-				document.getElementById("edit-booking-error-msg").innerHTML = "Error message:" + data;
-				$('#edit-booking-error-result').collapse('show');
-			}
-		});
+function editBookingContactDetails() {
+	var idStr = document.getElementById('booking-id').value;
+	var emailStr = document.getElementById('booking-email').value.trim();
+	var nameStr = document.getElementById('booking-name').value.trim();
+	var numberStr = document.getElementById('booking-number').value.trim();
+	
+	if(emailStr && nameStr && numberStr && !isNaN(numberStr)) {
+		if(validateEmail(emailStr)) {
+			$('#loadingModal').collapse('show');
+			$('#bookingEmailError').collapse('hide'); 
+			$.post('admin_func_edit_booking.php', {
+											id: idStr,
+											email: emailStr,
+											name: nameStr,
+											number: numberStr
+											}, function(data) {
+				if(data == 'edited') {
+					appendToForm('edit-booking-form', ["id"],[idStr]);
+					document.getElementById('edit-booking-form').submit();
+					$('#loadingModal').collapse('hide');
+				}
+				else {
+					$('#bookingError').collapse('hide'); 
+					document.getElementById("edit-booking-error-msg").innerHTML = "Error message:" + data;
+					$('#edit-booking-error-result').collapse('show');
+					$('#loadingModal').collapse('hide');
+				}
+			});
+		} else {
+			$('#edit-booking-error-result').collapse('hide');
+			$('#bookingError').collapse('hide'); 
+			$('#bookingEmailError').collapse('show'); 
+		}
 		return false;
 	} else {
+		disableForm(['bookingEmailError', 'bookingError', 'edit-booking-error-result'],[]);
+		document.getElementById('booking-email').value = emailStr;
+		document.getElementById('booking-name').value = nameStr;
+		document.getElementById('booking-number').value = numberStr;		
 		return true;
 	}
 }
 
-/*******************************
-* functions related to BOOKING
-********************************/
+function appendToForm(formName, names, values) {
+	for(i = 0; i < names.length; i++) {
+		var input = $("<input>")
+					   .attr("type", "hidden")
+					   .attr("name", names[i]).val(values[i]);
+		$('#'+ formName).append($(input));		
+	}
+}
+
+// a email at least have this format - string@string
+// returns false if given email string does not match that format
+function validateEmail(emailStr) {
+	var tokens = emailStr.split("@");
+	var space = emailStr.split(" ");
+	if(tokens.length == 2 && tokens[0].length > 0  && tokens[1].length > 0 && space.length == 1) {
+		return true; 
+	} else {
+		return false;
+	}
+}
