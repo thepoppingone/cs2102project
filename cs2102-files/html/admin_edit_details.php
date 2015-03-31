@@ -20,7 +20,7 @@
 	 } else if ($_POST['selected'] == "flight") {
 	  $sql = "SELECT * FROM flight f WHERE f.f_number = '".$_POST['num']."'";
 	 } else if ($_POST['selected'] == "schedule") {
-	  $sql = "SELECT s.*, TO_CHAR(s.DEPART_TIME, 'YYYY-MM-DD\"T\"HH24:MI:SS') AS DEPART_TIME_VAL, TO_CHAR(s.ARRIVAL_TIME, 'YYYY-MM-DD\"T\"HH24:MI:SS') AS ARRIVAL_TIME_VAL FROM schedule s WHERE s.flight_number = '".$_POST['flight']."'AND s.depart_time = '".$_POST['departure']."'";
+	  $sql = "SELECT s.*, TO_CHAR(s.DEPART_TIME, 'DD MON YYYY HH24:MI') AS DEPART_TIME_DISPLAY, TO_CHAR(s.ARRIVAL_TIME, 'DD MON YYYY HH24:MI') AS ARRIVAL_TIME_DISPLAY FROM schedule s WHERE s.flight_number = '".$_POST['flight']."'AND s.depart_time = '".$_POST['departure']."'";
 	 } else if ($_POST['selected'] == "booking"){
 	  $sql = "SELECT b.*, TO_CHAR(b.DEPART_TIME, 'DD MON YYYY HH24:MI') AS DEPART_TIME_DISPLAY FROM booking b WHERE b.ID = '".$_POST['id']."'";
 	 }
@@ -307,14 +307,14 @@
 				<div class="form-group">
 					<label class="control-label col-xs-3">Departure Time</label>
 					<div class="col-xs-9">		
-						<input id = "schedule-departure" type="datetime-local" value = "<?php echo $row['DEPART_TIME_VAL'] ?>" class="form-control" placeholder="Departure Time"  required autofocus=""name = "<?php echo strftime('%Y-%m-%dT%H:%M:%S', $row['DEPARTURE_TIME']); ?>">
+						<input id = "schedule-departure" type="datetime-local" class="form-control" placeholder="Departure Time"  required autofocus=""name = "<?php echo $row['DEPART_TIME']; ?>" value = "<?php echo $row['DEPART_TIME_DISPLAY']; ?>">
 						<p id = "scheduleTimeError" class = "collapse text-danger"   data-toggle="false">Oops! This flight has already been scheduled for this departure time!</p>
 					</div>
 				</div>
 				<div class="form-group">
 					<label class="control-label col-xs-3">Arrival Time</label>
 					<div class="col-xs-9">		
-						<input id = "schedule-arrival" type="datetime-local" value = "<?php echo $row['ARRIVAL_TIME_VAL'] ?>" class="form-control" placeholder="Arrival Time"  required autofocus="">
+						<input id = "schedule-arrival" type="datetime-local" class="form-control" placeholder="Arrival Time"  required autofocus="" name = "<?php echo $row['ARRIVAL_TIME']; ?>" value = "<?php echo $row['ARRIVAL_TIME_DISPLAY']; ?>">
 					</div>
 				</div>
 				<div class="form-group">

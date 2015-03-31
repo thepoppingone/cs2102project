@@ -855,24 +855,24 @@ function forwardToScheduleEditDetails(flightStr, departStr) {
 }
 
 function handleEditSchedule() {
-	var originalFlightStr = document.getElementById('schedule-flight').name;
-	var arrivalStr = document.getElementById('schedule-arrival').value;
+	var originalFlightStr = document.getElementById('schedule-flight').value;
+	var arrivalStr = document.getElementById('schedule-arrival').name;
 	var originalDepartureStr = document.getElementById('schedule-departure').name;
 	var departureStr = document.getElementById('schedule-departure').value;
 	var seatStr = document.getElementById('schedule-seats').value;
 	var priceStr = document.getElementById('schedule-price').value;
 
-	if(flightStr && arrivalStr && departureStr && seatStr && priceStr) {		
+	if(originalFlightStr && arrivalStr && departureStr && seatStr && priceStr) {		
 		$.post('admin_func_edit_schedule.php', {
 										originalFlight: originalFlightStr,
 										originalDeparture: originalDepartureStr,
 										arrival_time: arrivalStr,
 										depart_time: departureStr,
 										num_of_seats_avail: seatStr,
-										price: priceStr,
+										price: priceStr
 										}, function(data) {
 			if(data == 'edited') {
-				disableForm(['schedule-button', 'edit-schedule-error-result', 'scheduleNumError'], ['schedule-flight', 'schedule-arrival', 'schedule-departure', 'schedule-seats', 'schedule-price']);
+				disableForm(['schedule-button', 'edit-schedule-error-result', 'scheduleError'], ['schedule-flight', 'schedule-arrival', 'schedule-departure', 'schedule-seats', 'schedule-price']);
 				displayAddSuccessfulMessage("edit","Schedule information updated!");
 			}
 			else if(data == 'schedule_exists'){
@@ -896,6 +896,40 @@ function forwardToBookingEditDetails(idStr) {
 	document.getElementById('result-form').submit();
 	return true;
 }
+
+function handleEditBooking() {
+	var bookingIDStr = document.getElementById('booking-id').value;
+	var flightStr = document.getElementById('booking-flight').value;
+	var departureStr = document.getElementById('booking-departure').name;
+	var originalEmailStr = document.getElementById('booking-email').name;
+	var emailStr = document.getElementById('booking-email').value.trim();
+	var nameStr = document.getElementById('booking-name').value;
+	var numberStr = document.getElementById('booking-number').value;
+
+	if(bookingIDStr && flightStr && departureStr && emailStr && nameStr && numberStr) {		
+		$.post('admin_func_edit_booking.php', {
+										bookingID: bookingIDStr,
+										flight: flightStr,
+										departure: departureStr,
+										originalEmail: originalEmailStr,
+										email: emailStr,
+										name: nameStr,
+										number: numberStr
+										}, function(data) {
+			if(data == 'edited') {
+				disableForm(['booking-button', 'edit-booking-error-result', 'bookingError'], ['booking-id', 'booking-flight', 'booking-departure', 'booking-email', 'booking-name', 'booking-number']);
+				displayAddSuccessfulMessage("edit","Booking information updated!");
+			}
+			} else {
+				$('#bookingError').collapse('hide'); 
+				document.getElementById("edit-booking-error-msg").innerHTML = "Error message:" + data;
+				$('#edit-booking-error-result').collapse('show');
+			}
+		});
+		return false;
+	} else {
+		return true;
+	}
 
 function handleDeletePassengerFromBooking(id, bookingIdStr, passportStr, flightNumStr, departTimeStr) {
 	var passengerNum = document.getElementById("passenger-table").getElementsByTagName("tbody")[0].getElementsByTagName("tr").length;
