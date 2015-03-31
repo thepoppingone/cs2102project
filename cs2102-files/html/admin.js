@@ -898,29 +898,23 @@ function forwardToBookingEditDetails(idStr) {
 }
 
 function handleEditBooking() {
-	var bookingIDStr = document.getElementById('booking-id').value;
-	var flightStr = document.getElementById('booking-flight').value;
-	var departureStr = document.getElementById('booking-departure').name;
 	var originalEmailStr = document.getElementById('booking-email').name;
 	var emailStr = document.getElementById('booking-email').value.trim();
 	var nameStr = document.getElementById('booking-name').value;
 	var numberStr = document.getElementById('booking-number').value;
 
-	if(bookingIDStr && flightStr && departureStr && emailStr && nameStr && numberStr) {		
+	if(emailStr && nameStr && numberStr) {		
 		$.post('admin_func_edit_booking.php', {
-										bookingID: bookingIDStr,
-										flight: flightStr,
-										departure: departureStr,
 										originalEmail: originalEmailStr,
 										email: emailStr,
 										name: nameStr,
 										number: numberStr
 										}, function(data) {
 			if(data == 'edited') {
-				disableForm(['booking-button', 'edit-booking-error-result', 'bookingError'], ['booking-id', 'booking-flight', 'booking-departure', 'booking-email', 'booking-name', 'booking-number']);
+				disableForm(['booking-button', 'edit-booking-error-result', 'bookingError'], ['booking-email', 'booking-name', 'booking-number']);
 				displayAddSuccessfulMessage("edit","Booking information updated!");
 			}
-			} else {
+			else {
 				$('#bookingError').collapse('hide'); 
 				document.getElementById("edit-booking-error-msg").innerHTML = "Error message:" + data;
 				$('#edit-booking-error-result').collapse('show');
@@ -930,6 +924,8 @@ function handleEditBooking() {
 	} else {
 		return true;
 	}
+}
+
 
 function handleDeletePassengerFromBooking(id, bookingIdStr, passportStr, flightNumStr, departTimeStr) {
 	var passengerNum = document.getElementById("passenger-table").getElementsByTagName("tbody")[0].getElementsByTagName("tr").length;

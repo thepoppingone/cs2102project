@@ -1,9 +1,6 @@
 <?php 
 	
 	
-	$bookingID = $_POST['bookingID'];
-	$flight = $_POST['flight'];
-	$departure = $_POST['departure'];
 	$originalEmail = $_POST['originalEmail'];
 	$email = $_POST['email'];
 	$name = $_POST['name'];
@@ -26,7 +23,7 @@
 	
 	if($continue) {
 		// update the record 
-		$sql = "UPDATE booking_passenger SET arrival_time = '".$arrival_time."', depart_time = '".$depart_time."', num_of_seats_avail = '".$num_of_seats_avail."', price = '".$price."' WHERE flight_number = '".$originalFlight."'AND depart_time= AND s.DEPART_TIME = TO_TIMESTAMP('".$originalDeparture."', 'YYYY-MM-DD\"T\"HH24:MI:SS')";
+		$sql = "UPDATE booking SET c_person = '".$name."', c_email = '".$email."', c_number = '".$number."' WHERE c_email = '".$originalEmail."'";
 		
 		$stid = oci_parse($dbh, $sql);
 		$result = oci_execute($stid);

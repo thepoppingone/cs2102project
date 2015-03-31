@@ -385,7 +385,7 @@
 					</div>
 				</div>					
 				<div class="form-group">
-					<div id = "schedule-button"  class="col-xs-offset-3 col-xs-9 collapse in " data-toggle="false">
+					<div id = "booking-button"  class="col-xs-offset-3 col-xs-9 collapse in " data-toggle="false">
 						<button type="reset" class="btn btn-primary">Reset</button>
 						<button type="submit" class="btn btn-primary" onclick = "return handleEditBooking()">Edit Booking</button>
 					</div>

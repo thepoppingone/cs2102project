@@ -26,7 +26,7 @@
 	
 	if($continue) {
 		// update the record 
-		$sql = "UPDATE schedule SET arrival_time = '".$arrival_time."', depart_time = '".$depart_time."', num_of_seats_avail = '".$num_of_seats_avail."', price = '".$price."' WHERE flight_number = '".$originalFlight."'AND depart_time= AND s.DEPART_TIME = TO_TIMESTAMP('".$originalDeparture."', 'YYYY-MM-DD\"T\"HH24:MI:SS')";
+		$sql = "UPDATE schedule SET arrival_time = TO_TIMESTAMP('".$arrival_time."', 'YYYY-MM-DD\"T\"HH24:MI:SS'), depart_time = TO_TIMESTAMP('".$depart_time."', 'YYYY-MM-DD\"T\"HH24:MI:SS')', num_of_seats_avail = '".$num_of_seats_avail."', price = '".$price."' WHERE flight_number = '".$originalFlight."'AND depart_time = TO_TIMESTAMP('".$originalDeparture."', 'YYYY-MM-DD\"T\"HH24:MI:SS')";
 		
 		$stid = oci_parse($dbh, $sql);
 		$result = oci_execute($stid);
