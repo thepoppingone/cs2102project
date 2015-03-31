@@ -67,6 +67,12 @@ $_SESSION['departure_date'] = $_GET['departure_date'];
         <label class="lead"><strong>Fill in Passenger Details Below:</strong></label> 
         <div class="jumbotron">
 
+
+          <!-- 
+            The following 4 dividends will be hidden by default and will be only shown when the 
+            number of adults is determined and number of divs shown will correspond to the number of adults
+          --> 
+
           <form action="user_confirmation&payment.php" method="post">
             <div class='collapse' data-toggle='false' id='passenger1'>
               <label><h4> Passenger 1</h4> </label>

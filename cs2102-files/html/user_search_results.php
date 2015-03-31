@@ -67,7 +67,7 @@
           $_GET['departure_date'] . '</b> for '.$_GET['adult']. 
           ' adult and '. $_GET['child']. ' child';
           ?>
-
+          <!-- TABLE HEADINGS AND HIDDEN UNTIL SEARCH RESULTS ARE FOUND!-->
         </h3>
         <div id="tableDis" class="collapse" data-toggle="false">
           <p class="info">Select your flight below!</p>
@@ -115,7 +115,9 @@ window.onload = function() {
   $('#loadingModal').modal('toggle');
   makeAjaxRequest();
 };
-
+/*********************************************************************
+functions for creating dynamic links for the results apge (the parameter is thrown in to create the correct query strings to be passed)
+********************************************************************/
 function createButtonLink(index) {
   window.location= "user_passengers.php?flight_no="+$('#fNumBook'+index).text()+"&departure_date="+$('#departTimeBook'+index).text()+"";
 }
@@ -127,7 +129,9 @@ function makeAjaxRequest() {
   var numAdultsStr =  '<?php echo $_GET['adult']; ?>';
   var numChildsStr =  '<?php echo $_GET['child']; ?>';
   //above variables work!
-
+/***************************************************************************************
+Ajax function to call the PHP file to return the search results 
+***************************************************************************************/
   $.ajax({
     url: 'user_func_searchFlightSchedule.php',
     type: 'get',

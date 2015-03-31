@@ -65,6 +65,7 @@
       <label for="origin_booking">Origin: </label>
       <select id="origin" name="origin" class = "form-control input-sm" required> <option value="">Select Origin</option>
       <?php
+        //CONNECTS TO THE DATABASE TO LOAD AIRPORTS FROM ORIGIN TALBE
         require("config.php");
         $sql = "SELECT designator FROM airport";
         $stid = oci_parse($dbh, $sql);
@@ -78,6 +79,7 @@
       <label for="destination_booking">Destination: </label>
       <select id="destination" name="destination" class = "form-control input-sm" required> <option value="">Select Destination</option>
       <?php
+         //CONNECTS TO THE DATABASE TO LOAD AIRPORTS FROM DESTINATION TABLE
         require("config.php");
         $sql = "SELECT designator FROM airport";
         $stid = oci_parse($dbh, $sql);
@@ -95,13 +97,14 @@
       <select id="adult" name="adult" class="form-control input-sm">
       <option selected="selected">1</option> <option>2</option> <option>3</option> <option>4</option>
       </select>
-     
+     <!-- No need for child as we are assuming there are only adults for this system
       <label for="child_booking">Child: </label>
       <select id="child" name="child" class="form-control input-sm">
         <option>0</option> <option>1</option> <option>2</option> <option>3</option> <option>4</option>
       </select>
+    -->
      
-    
+     <!-- ALERTS DIVS ARE HIDDEN WITH CSS, AND ONLY SHOWN WHEN VALIDATION FAILS-->   
       <div id = "date-alert" class = "alert alert-info collapse" data-toggle="collapse"role="alert">
         <span>
         <p>Oops! The planes have already departed for that date.</p>

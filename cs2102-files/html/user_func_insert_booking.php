@@ -24,6 +24,11 @@ if(!empty($_POST)){
 	//departure_time12 = substr_replace($departure_date, '', -10).substr($departure_date, -3) ; // format: yyyy-mm-dd
 	//$departure_time24 = date("d/M/y H:i",strtotime($departure_time12));
 	//TRIED ALMOST A 100 TIMES DEBUGGING TO REALIZE THE ORIGINAL STRING WORKS
+
+	/************************************
+	UPDATE FLIGHT SCHEDULE CAPACITY 
+	************************************/
+	
 	echo '</br>'.$departure_time12;
 
 	require("config.php");
@@ -136,10 +141,7 @@ if(!empty($_POST)){
 		echo "<br/>inserted into booking_passenger table";
 	}
 
-	/************************************
-	UPDATE FLIGHT SCHEDULE CAPACITY 
-	************************************/
-	
+
 
 	oci_free_statement($stid);
 

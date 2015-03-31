@@ -60,7 +60,9 @@ session_start();
         </nav>
 
 
-        <!-- Main component for a primary marketing message or call to action -->
+        <!-- Main component for a primary marketing message or call to action 
+        In the jumbotron holds 4 div that displays the information dynamically
+        -->
         <div class="jumbotron">
           <div class='collapse' data-toggle='false' id="passenger1">
            <label class="lead control-label col-sm-9"><strong>Passenger 1 Details:</strong></label>
