@@ -40,7 +40,7 @@ function handleAddAdmin() {
 					document.getElementById("add-admin-error-msg").innerHTML = "Error message:" + data;
 					$('#add-admin-error-result').collapse('show');
 				}
-			});
+			}); 
 		} else {
 			$('#add-admin-error-result').collapse('hide');
 			document.getElementById("adminEmailError").innerHTML = "Invalid email format";
