@@ -384,7 +384,8 @@ function handleAddSchedule() {
 // returns false if given email string does not match that format
 function validateEmail(emailStr) {
 	var tokens = emailStr.split("@");
-	if(tokens.length == 2 && tokens[0].length > 0  && tokens[1].length > 0) {
+	var space = emailStr.split(" ");
+	if(tokens.length == 2 && tokens[0].length > 0  && tokens[1].length > 0 && space.length == 1) {
 		return true; 
 	} else {
 		return false;
@@ -751,9 +752,9 @@ function forwardToAirportEditDetails(designatorStr) {
 
 function handleEditAirport() {
 	var originalDesignatorStr = document.getElementById('airport-designator').name;
-	var nameStr = document.getElementById('airport-name').value;
-	var locationStr = document.getElementById('airport-location').value;
-	var designatorStr = document.getElementById('airport-designator').value;
+	var nameStr = document.getElementById('airport-name').value.trim();
+	var locationStr = document.getElementById('airport-location').value.trim();
+	var designatorStr = document.getElementById('airport-designator').value.trim();
 
 	if(nameStr && locationStr && designatorStr) {		
 		$.post('admin_func_edit_airport.php', {originalDesignator: originalDesignatorStr, location:locationStr, name:nameStr, designator:designatorStr}, function(data) {
@@ -772,6 +773,10 @@ function handleEditAirport() {
 		});
 		return false;
 	} else {
+		disableForm(['airportDesignatorError', 'edit-airport-error-result'],[]);
+		document.getElementById('airport-name').value = nameStr;
+		document.getElementById('airport-location').value = locationStr;
+		document.getElementById('airport-designator').value = designatorStr;		
 		return true;
 	}
 }
@@ -784,10 +789,10 @@ function forwardToPassengerEditDetails(numStr) {
 
 function handleEditPassenger() {
 	var originalNumStr = document.getElementById('passenger-num').name;
-	var numStr = document.getElementById('passenger-num').value;
-	var titleStr = document.getElementById('passenger-title').value;
-	var firstNameStr = document.getElementById('passenger-firstname').value;
-	var lastNameStr = document.getElementById('passenger-lastname').value;
+	var numStr = document.getElementById('passenger-num').value.trim();
+	var titleStr = document.getElementById('passenger-title').value.trim();
+	var firstNameStr = document.getElementById('passenger-firstname').value.trim();
+	var lastNameStr = document.getElementById('passenger-lastname').value.trim();
 
 	if(numStr && titleStr && firstNameStr && lastNameStr) {		
 		$.post('admin_func_edit_passenger.php', {originalNum: originalNumStr, num:numStr, title:titleStr, firstName:firstNameStr, lastName: lastNameStr}, function(data) {
@@ -806,6 +811,11 @@ function handleEditPassenger() {
 		});
 		return false;
 	} else {
+		disableForm(['passengerNumError', 'edit-passenger-error-result'],[]);
+		document.getElementById('passenger-num').value = numStr;
+		document.getElementById('passenger-title').value = titleStr;
+		document.getElementById('passenger-firstname').value = firstNameStr;
+		document.getElementById('passenger-lastname').value = lastNameStr;
 		return true;
 	}
 }
@@ -819,17 +829,17 @@ function forwardToFlightEditDetails(numStr) {
 
 function handleEditFlight() {
 	var originalNumStr = document.getElementById('flight-num').name;
-	var numStr = document.getElementById('flight-num').value;
+	var numStr = document.getElementById('flight-num').value.trim();
 	var selectBarD = document.getElementById('flight-dest');
 	var destStr = selectBarD.options[selectBarD.selectedIndex].value;
 	var selectBarO = document.getElementById('flight-origin');
 	var originStr = selectBarO.options[selectBarO.selectedIndex].value;
-		var seatCapacityStr = document.getElementById('flight-seatcapacity').value;
+	var seatCapacityStr = document.getElementById('flight-seat-capacity').value.trim();
 
 	if(numStr && originStr && destStr && seatCapacityStr) {		
-		$.post('admin_func_edit_flight.php', {originalNum: originalNumStr, num:numStr, origin:originStr, dest:destStr, seatCapacity:seatCapacityStr}, function(data) {
+		$.post('admin_func_edit_flight.php', {originalNum: originalNumStr, num: "SB" + numStr, origin:originStr, dest:destStr, seatCapacity:seatCapacityStr}, function(data) {
 			if(data == 'edited') {
-				disableForm(['flight-button', 'edit-flight-error-result', 'flightNumError'], ['flight-num', 'flight-origin', 'flight-dest', 'flight-seatcapacity']);
+				disableForm(['flight-button', 'edit-flight-error-result', 'flightNumError'], ['flight-num', 'flight-origin', 'flight-dest', 'flight-seat-capacity']);
 				displayAddSuccessfulMessage("edit","Flight information updated!");
 			}
 			else if(data == 'flight_exists'){
@@ -856,7 +866,7 @@ function forwardToScheduleEditDetails(flightStr, departStr) {
 
 function handleEditSchedule() {
 	var originalFlightStr = document.getElementById('schedule-flight').value;
-	var arrivalStr = document.getElementById('schedule-arrival').name;
+	var arrivalStr = document.getElementById('schedule-arrival').value;
 	var originalDepartureStr = document.getElementById('schedule-departure').name;
 	var departureStr = document.getElementById('schedule-departure').value;
 	var seatStr = document.getElementById('schedule-seats').value;
@@ -871,6 +881,7 @@ function handleEditSchedule() {
 										num_of_seats_avail: seatStr,
 										price: priceStr
 										}, function(data) {
+			console.log(data);
 			if(data == 'edited') {
 				disableForm(['schedule-button', 'edit-schedule-error-result', 'scheduleError'], ['schedule-flight', 'schedule-arrival', 'schedule-departure', 'schedule-seats', 'schedule-price']);
 				displayAddSuccessfulMessage("edit","Schedule information updated!");
@@ -898,14 +909,14 @@ function forwardToBookingEditDetails(idStr) {
 }
 
 function handleEditBooking() {
-	var originalEmailStr = document.getElementById('booking-email').name;
+	var idStr = document.getElementById('booking-id').value;
 	var emailStr = document.getElementById('booking-email').value.trim();
-	var nameStr = document.getElementById('booking-name').value;
-	var numberStr = document.getElementById('booking-number').value;
+	var nameStr = document.getElementById('booking-name').value.trim();
+	var numberStr = document.getElementById('booking-number').value.trim();
 
 	if(emailStr && nameStr && numberStr) {		
 		$.post('admin_func_edit_booking.php', {
-										originalEmail: originalEmailStr,
+										id: idStr,
 										email: emailStr,
 										name: nameStr,
 										number: numberStr

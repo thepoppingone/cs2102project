@@ -20,7 +20,7 @@
 	 } else if ($_POST['selected'] == "flight") {
 	  $sql = "SELECT * FROM flight f WHERE f.f_number = '".$_POST['num']."'";
 	 } else if ($_POST['selected'] == "schedule") {
-	  $sql = "SELECT s.*, TO_CHAR(s.DEPART_TIME, 'DD MON YYYY HH24:MI') AS DEPART_TIME_DISPLAY, TO_CHAR(s.ARRIVAL_TIME, 'DD MON YYYY HH24:MI') AS ARRIVAL_TIME_DISPLAY FROM schedule s WHERE s.flight_number = '".$_POST['flight']."'AND s.depart_time = '".$_POST['departure']."'";
+	  $sql = "SELECT s.*, TO_CHAR(s.DEPART_TIME, 'YYYY-MM-DD\"T\"HH24:MI:SS') AS DEPART_TIME_DISPLAY, TO_CHAR(s.ARRIVAL_TIME, 'YYYY-MM-DD\"T\"HH24:MI:SS') AS ARRIVAL_TIME_DISPLAY FROM schedule s WHERE s.flight_number = '".$_POST['flight']."'AND s.depart_time = '".$_POST['departure']."'";
 	 } else if ($_POST['selected'] == "booking"){
 	  $sql = "SELECT b.*, TO_CHAR(b.DEPART_TIME, 'DD MON YYYY HH24:MI') AS DEPART_TIME_DISPLAY FROM booking b WHERE b.ID = '".$_POST['id']."'";
 	 }
@@ -215,7 +215,7 @@
 				<div class="form-group">
 					<label for="inputNum" class="control-label col-xs-3" >Flight Number</label>
 					<div class="col-xs-9">		
-						<input id = "flight-num" type="text" id="inputNum" class="form-control" placeholder="Flight Number"  required autofocus="" name = "<?php echo $row['F_NUMBER']; ?>" value = "<?php echo $row['F_NUMBER']; ?>">
+						<input id = "flight-num" type="number" id="inputNum" class="form-control" placeholder="Flight Number"  required autofocus="" name = "<?php echo $row['F_NUMBER']; ?>" value = "<?php echo substr($row['F_NUMBER'],2); ?>">
 						<p id = "flightNumError" class = "collapse" class="text-danger" data-toggle="false">Oops! A flight with this flight number already exists.</p>
 					</div>
 				</div>
@@ -223,26 +223,22 @@
 					<label class="control-label col-xs-3">Origin</label>
 					<div class="col-xs-9">  
 					  <select  id="flight-origin" class = "form-control input-sm"  onchange = "validateFlightRoute()"> 
-					  <option selected = "true" disabled>
-					  <?php 
-						require("config.php");
-						$sql = "SELECT a.name FROM airport a WHERE a.designator='".$row['ORIGIN']."'";
-						$stid = oci_parse($dbh, $sql);
-						oci_execute($stid, OCI_DEFAULT);
-						$row2 = oci_fetch_array($stid);
-						echo $row2["NAME"]." (".$row['ORIGIN'].")"; 
-					  ?>
-					  </option>
-					  <?php
-					   require("config.php");
-					   $sql = "SELECT a.name, a.designator FROM airport a";
-					   $stid = oci_parse($dbh, $sql);
-					   oci_execute($stid, OCI_DEFAULT);
-					   while($row2 = oci_fetch_array($stid)){
-						echo "<option value=\"".$row2["DESIGNATOR"]."\">".$row2["NAME"]." (".$row2["DESIGNATOR"].")</option><br>";
-					   }
-					   oci_free_statement($stid);
-					  ?>
+						<?php
+							if ($_POST['selected'] == "flight") {
+								require("config.php");
+								$sql = "SELECT a.name, a.designator FROM airport a";
+								$stid = oci_parse($dbh, $sql);
+								oci_execute($stid, OCI_DEFAULT);
+								while($row2 = oci_fetch_array($stid)){
+									if($row2["DESIGNATOR"] == $row['ORIGIN']) {
+										echo "<option selected = \"true\" value=\"".$row2["DESIGNATOR"]."\">".$row2["NAME"]." (".$row2["DESIGNATOR"].")</option><br>";
+									} else {
+										echo "<option value=\"".$row2["DESIGNATOR"]."\">".$row2["NAME"]." (".$row2["DESIGNATOR"].")</option><br>";
+									}
+								}
+								oci_free_statement($stid);
+							}
+						?>
 					  </select>
 					  <p id = "flightRouteError" class = "collapse text-danger"   data-toggle="false">Please do not select same origin and destination.</p>
 					</div>
@@ -250,27 +246,23 @@
 				<div class="form-group">
 					<label class="control-label col-xs-3">Destination</label>
 					<div class="col-xs-9">  
-					  <select  id="flight-dest" class = "form-control input-sm"  onchange = "validateFlightRoute()"> 
-					  <option selected = "true" disabled>
-					  <?php 
-						require("config.php");
-						$sql = "SELECT a.name FROM airport a WHERE a.designator='".$row['DESTINATION']."'";
-						$stid = oci_parse($dbh, $sql);
-						oci_execute($stid, OCI_DEFAULT);
-						$row2 = oci_fetch_array($stid);
-						echo $row2["NAME"]." (".$row['DESTINATION'].")"; 
-					  ?>
-					  </option>
-					  <?php
-					   require("config.php");
-					   $sql = "SELECT a.name, a.designator FROM airport a";
-					   $stid = oci_parse($dbh, $sql);
-					   oci_execute($stid, OCI_DEFAULT);
-					   while($row2 = oci_fetch_array($stid)){
-						echo "<option value=\"".$row2["DESIGNATOR"]."\">".$row2["NAME"]." (".$row2["DESIGNATOR"].")</option><br>";
-					   }
-					   oci_free_statement($stid);
-					  ?>
+					  <select  id="flight-destination" class = "form-control input-sm"  onchange = "validateFlightRoute()"> 
+						<?php
+							if ($_POST['selected'] == "flight") {
+								require("config.php");
+								$sql = "SELECT a.name, a.designator FROM airport a";
+								$stid = oci_parse($dbh, $sql);
+								oci_execute($stid, OCI_DEFAULT);
+								while($row2 = oci_fetch_array($stid)){
+									if($row2["DESIGNATOR"] == $row['DESTINATION']) {
+										echo "<option selected = \"true\" value=\"".$row2["DESIGNATOR"]."\">".$row2["NAME"]." (".$row2["DESIGNATOR"].")</option><br>";
+									} else {
+										echo "<option value=\"".$row2["DESIGNATOR"]."\">".$row2["NAME"]." (".$row2["DESIGNATOR"].")</option><br>";
+									}
+								}
+								oci_free_statement($stid);
+							}
+						?>
 					  </select>
 					  <p id = "flightRouteError" class = "collapse text-danger"   data-toggle="false">Please do not select same origin and destination.</p>
 					</div>
@@ -278,7 +270,7 @@
 				<div class="form-group">
 					<label class="control-label col-xs-3">Seat Capacity</label>
 					<div class="col-xs-9">
-						<input id = "flight-seatcapacity" type="text" class="form-control" placeholder="Seat Capacity"  required autofocus="" value = "<?php echo $row['SEAT_CAPACITY']; ?>">
+						<input id = "flight-seat-capacity" type="text" class="form-control" placeholder="Seat Capacity"  required autofocus="" value = "<?php echo $row['SEAT_CAPACITY']; ?>">
 					</div>
 				</div>
 				<div class="form-group">
@@ -308,7 +300,7 @@
 					<label class="control-label col-xs-3">Departure Time</label>
 					<div class="col-xs-9">		
 						<input id = "schedule-departure" type="datetime-local" class="form-control" placeholder="Departure Time"  required autofocus=""name = "<?php echo $row['DEPART_TIME']; ?>" value = "<?php echo $row['DEPART_TIME_DISPLAY']; ?>">
-						<p id = "scheduleTimeError" class = "collapse text-danger"   data-toggle="false">Oops! This flight has already been scheduled for this departure time!</p>
+						<p id = "scheduleError" class = "collapse text-danger"   data-toggle="false">Oops! There is another schedule with similar depart time for this flight.</p>
 					</div>
 				</div>
 				<div class="form-group">
@@ -333,7 +325,7 @@
 				<div class="form-group">
 					<div id = "schedule-button"  class="col-xs-offset-3 col-xs-9 collapse in " data-toggle="false">
 						<button type="reset" class="btn btn-primary">Reset</button>
-						<button type="submit" class="btn btn-primary" onclick = "return handleEditSchedule()">Edit Flight</button>
+						<button type="submit" class="btn btn-primary" onclick = "return handleEditSchedule()">Edit Schedule</button>
 					</div>
 				</div>
 			</form>
@@ -346,7 +338,7 @@
 		<!-- edit booking stuffs -->
 		<!-- div box for booking -->
 		<div id = "booking" <?php if ($_POST['selected'] != "booking") { echo 'class = "collapse" data-toggle = "false"';}?> >
-			<form id = "add-booking-form" class="form-horizontal"> 
+			<form id = "edit-booking-form" class="form-horizontal"> 
 				<div class="form-group">
 					<label class="control-label col-xs-3">Booking Id</label>
 					<div class="col-xs-9">		
@@ -416,8 +408,8 @@
 					}
 				?>			
 			</form>
-			<div id = "add-booking-error-result"  class = "collapse text-danger"   data-toggle="false">
-				<p id = "add-booking-error-msg"></p>
+			<div id = "edit-booking-error-result"  class = "collapse text-danger"   data-toggle="false">
+				<p id = "edit-booking-error-msg"></p>
 			</div>
 		</div>
 		<!-- end for booking -->	
