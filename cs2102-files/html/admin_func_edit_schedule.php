@@ -34,6 +34,25 @@
 			/************
 			* Successful
 			*************/
+		} else {
+			/**************
+			* Unsuccessful
+			***************/
+			echo oci_error($stid);
+		}
+
+		//MY EXTRA CODES HERE 
+		$sql = "UPDATE booking
+				SET depart_time = TO_TIMESTAMP('".$depart_time."', 'YYYY-MM-DD\"T\"HH24:MI:SS')
+				WHERE flight_number = '".$originalFlight."' AND depart_time = '".$originalDeparture."'";
+		
+		$stid = oci_parse($dbh, $sql);
+		$result = oci_execute($stid, OCI_DEFAULT);
+
+		if($result) {			
+			/************
+			* Successful
+			*************/
 			oci_commit($dbh);
 			echo "edited";
 		} else {
@@ -42,6 +61,7 @@
 			***************/
 			echo oci_error($stid);
 		}
+
 	}
 	
 	oci_free_statement($stid);
