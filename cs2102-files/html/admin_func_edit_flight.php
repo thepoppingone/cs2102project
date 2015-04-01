@@ -27,6 +27,20 @@
 		$stid = oci_parse($dbh, $sql);
 		$result = oci_execute($stid);
 		
+		// update affected schedule 
+		$sql = "UPDATE schedule 
+				SET flight_number = '".$num."' AND flight_number = '".$originalNum."'";
+		
+		$stid = oci_parse($dbh, $sql);
+		$result = oci_execute($stid, OCI_DEFAULT);
+		
+		// update affected booking
+		$sql = "UPDATE booking
+				SET flight_number = '".$num."' AND flight_number = '".$originalNum."'";
+		
+		$stid = oci_parse($dbh, $sql);
+		$result = oci_execute($stid, OCI_DEFAULT);
+		
 		if(!$result) {
 			$error_message = oci_error($stid);
 			echo $error_message;

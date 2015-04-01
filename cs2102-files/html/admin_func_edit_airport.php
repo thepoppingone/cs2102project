@@ -21,9 +21,17 @@
 	} 
 	
 	if($continue) {
-		// update the record 
+		// update airport 
 		$sql = "UPDATE airport SET designator = '".$designator."', location = '".$location."', name = '".$name."' WHERE designator = '".$originalDesignator."'";
+		$stid = oci_parse($dbh, $sql);
+		$result = oci_execute($stid, OCI_DEFAULT);
 		
+		// update affected flights
+		$sql = "UPDATE flight SET origin = '".$designator."' WHERE origin = '".$originalDesignator."'";
+		$stid = oci_parse($dbh, $sql);
+		$result = oci_execute($stid, OCI_DEFAULT);
+		
+		$sql = "UPDATE flight SET destination = '".$designator."' WHERE destination = '".$originalDesignator."'";
 		$stid = oci_parse($dbh, $sql);
 		$result = oci_execute($stid, OCI_DEFAULT);
 		
