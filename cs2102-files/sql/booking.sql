@@ -1,0 +1,14 @@
+INSERT INTO booking VALUES (1, 'Goh Xue Li', 91234567, 'xlgoh@gmail.com', 'SB101', to_timestamp('2015-04-20 17:30:00','YYYY/MM/DD HH24:MI:SS'));
+INSERT INTO booking VALUES (2, 'Yip Qian Jun', 88889999, 'qjyip@gmail.com', 'SB101', to_timestamp('2015-04-20 17:30:00','YYYY/MM/DD HH24:MI:SS'));
+INSERT INTO booking VALUES (3, 'Fabian Tan', 99997777, 'fabiantan@gmail.com', 'SB102', to_timestamp('2015-04-22 19:45:00','YYYY/MM/DD HH24:MI:SS'));
+INSERT INTO booking VALUES (4, 'Fann Wong', 99998888, 'fannwong@gmail.com', 'SB102', to_timestamp('2015-04-22 19:45:00','YYYY/MM/DD HH24:MI:SS'));
+INSERT INTO booking VALUES (5, 'Jessica Chong', 99999999, 'jessicachong@gmail.com', 'SB123', to_timestamp('2015-04-23 15:45:00','YYYY/MM/DD HH24:MI:SS'));
+INSERT INTO booking VALUES (6, 'Sophie Tian', 88888888, 'sophietian@gmail.com', 'SB124', to_timestamp('2015-04-24 17:45:00','YYYY/MM/DD HH24:MI:SS'));
+INSERT INTO booking VALUES (7, 'Harper Ong', 88881111, 'harperong@gmail.com', 'SB255', to_timestamp('2015-04-21 09:50:00','YYYY/MM/DD HH24:MI:SS'));
+INSERT INTO booking VALUES (8, 'Grace Lee', 88882222, 'gracelee@gmail.com', 'SB256', to_timestamp('2015-04-22 10:15:00','YYYY/MM/DD HH24:MI:SS'));
+INSERT INTO booking VALUES (9, 'Isaac Lee', 99993333, 'isaaclee@gmail.com', 'SB377', to_timestamp('2015-04-25 10:15:00','YYYY/MM/DD HH24:MI:SS'));
+INSERT INTO booking VALUES (10, 'Jared Kwang', 99994444, 'jaredkwang@gmail.com', 'SB378', to_timestamp('2015-04-26 13:20:00','YYYY/MM/DD HH24:MI:SS'));
+INSERT INTO booking VALUES (11, 'Noah Yap', 99995555, 'noahyap@gmail.com', 'SB379', to_timestamp('2015-04-20 08:15:00','YYYY/MM/DD HH24:MI:SS'));
+INSERT INTO booking VALUES (12, 'Jamie Chen', 99996666, 'jamiechen@gmail.com', 'SB380', to_timestamp('2015-04-21 12:30:00','YYYY/MM/DD HH24:MI:SS'));
+INSERT INTO booking VALUES (13, 'Ken Lim', 99991111, 'kenlim@gmail.com', 'SB521', to_timestamp('2015-04-24 12:20:00','YYYY/MM/DD HH24:MI:SS'));
+INSERT INTO booking VALUES (13, 'Kennny Tan', 22221111, 'kennytan@gmail.com', 'SB222', to_timestamp('2015-04-21 19:15:00','YYYY/MM/DD HH24:MI:SS'));
