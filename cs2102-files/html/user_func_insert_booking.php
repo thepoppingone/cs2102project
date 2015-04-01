@@ -2,6 +2,12 @@
 
 if(!empty($_POST)){
 
+	//status variables
+	$bookingDone = false;
+	$bookingPassengerDone = false;
+	$passengerDone = false;
+	$updateSeatsDone = false;
+
 	$title = $_POST['title'];
 	$firstName = $_POST['firstName'];
 	$lastName = $_POST['lastName'];
@@ -10,6 +16,7 @@ if(!empty($_POST)){
 	$email = $_POST['email'];
 	$contact =(int)	 $_POST['contact'];
 	$booker = $_POST['booker'];
+	$price = $_POST['price'];
 	
 	$flightNo = $_POST['flightNo'];
 	$departure_date = $_POST['departure_date'];
@@ -59,8 +66,9 @@ if(!empty($_POST)){
 			
 			$result = oci_execute($stid);
 			//echo oci_num_rows($stid) . " rows updated";
-			echo "number of seats now updated. ".($updatedSeats);
-			
+			echo "number of seats now updated. ".($updatedSeats)."<br/>";
+
+			$updateSeatsDone = true;
 		}
 	}	
 
@@ -86,18 +94,19 @@ if(!empty($_POST)){
 			$error_message = oci_error($stid);
 			echo $error_message;
 		} else {
-			echo "inserted into passenger table";
+			//echo "inserted into passenger table";
+			$passengerDone = true;
 		}
 	}
 
 	//Set default booking id as one, if no entry found then assign it to the new booking
 	$bookingId = 1;
 	
-	$sql = "SELECT COUNT(*) FROM booking";
+	$sql = "SELECT MAX(ID) FROM booking";
 	$stid = oci_parse($dbh, $sql);
 	oci_execute($stid, OCI_DEFAULT);
 	while($row = oci_fetch_array($stid)) {
-		$bookingId+= $row[0];
+		$bookingId += $row[0];
 	}
 
 	/****************************
@@ -119,7 +128,8 @@ if(!empty($_POST)){
 		$error_message = oci_error($stid);
 		echo $error_message;
 	} else {
-		echo "<br/>inserted into booking table";
+		//echo "<br/>inserted into booking table";
+		$bookingDone = true;
 	}
 
 	/************************************
@@ -138,11 +148,22 @@ if(!empty($_POST)){
 		$error_message = oci_error($stid);
 		echo $error_message;
 	} else {
-		echo "<br/>inserted into booking_passenger table";
+		//echo "<br/>inserted into booking_passenger table";
+		$bookingPassengerDone = true;
+		echo "<strong> Your booking ID is: ".$bookingId."</strong><br/> ";
+		echo "<strong> Your booking is made under the email: ".$email."</strong><br/> ";
 	}
 
+	if($updateSeatsDone && $passengerDone && $bookingDone && $bookingPassengerDone)
+	{
+		echo "Payment of $".$price." made. <br/>";
+		echo "Booking is successful!<br/>";
+		echo "You can retrevie your booking with your email address and booking ID.<br/>";
+		echo "<strong>Please save the above details! (in bold)</strong><br/>";
+	
+	}
 
-
+	oci_commit($dbh);
 	oci_free_statement($stid);
 
 

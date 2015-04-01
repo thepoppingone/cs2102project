@@ -56,7 +56,7 @@ if(!empty($_GET)){
 				echo "<td id='fNumBook".$index."'>".$row['FLIGHT_NUMBER']."</td>";
 				echo "<td id='departTimeBook".$index."'>".$row['DEPART_TIME_DISPLAY']."</td>";
 				echo "<td>".$row['ARRIVAL_TIME_DISPLAY']."</td>";
-				echo "<td>$".$row['PRICE']."</td>";
+				echo "<td id='price".$index."'>$".$row['PRICE']."</td>";
 				echo "<td>".$durationHours." hours ".$durationMins." mins </td>";
 				echo "<td>".$row['NUM_OF_SEATS_AVAIL']."</td>";
 				echo "<td><button id=\"button".$index."\" onclick=\"createButtonLink(".$index.")\" class='btn btn-primary'>Select</button></td>";

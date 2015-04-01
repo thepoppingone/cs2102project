@@ -2,6 +2,7 @@
 session_start();
 $_SESSION['flight_no'] = $_GET['flight_no'];
 $_SESSION['departure_date'] = $_GET['departure_date'];
+$_SESSION['price'] = $_GET['price'];
 //stores the choices that the user has made.
 ?>
 <!DOCTYPE html>
@@ -122,7 +123,7 @@ $_SESSION['departure_date'] = $_GET['departure_date'];
           </div><!-- end of passenger passport no.-->
 
           <div class="form-group">
-            <p class="help-block">Example block-level help text here.</p>
+            <p class="help-block">Booker name should be the same.</p>
           </div>
 
           <hr style="border-top-color: rgba(0, 0, 0, 0.24)" class="divider">
@@ -175,7 +176,7 @@ $_SESSION['departure_date'] = $_GET['departure_date'];
       </div><!-- end of passenger passport no.-->
 
       <div class="form-group">
-        <p class="help-block">Example block-level help text here.</p>
+        <p class="help-block">Booker name should be the same</p>
       </div>
 
       <hr style="border-top-color: rgba(0, 0, 0, 0.24)" class="divider">  
@@ -229,7 +230,7 @@ $_SESSION['departure_date'] = $_GET['departure_date'];
   </div><!-- end of passenger passport no.-->
 
   <div class="form-group">
-    <p class="help-block">booker name should be the same</p>
+    <p class="help-block">Booker name should be the same.</p>
   </div>
 
   <hr style="border-top-color: rgba(0, 0, 0, 0.24)" class="divider">
@@ -298,7 +299,12 @@ $_SESSION['departure_date'] = $_GET['departure_date'];
 <?php
 echo "<br/>".$_GET['flight_no']."  ".$_GET['departure_date']."<br/>";
 echo "<br/> Num of adults: ". $_SESSION['adult']."<br/>";
-echo "Num of children: ". $_SESSION['child']."<br/>";
+
+
+$priceInt = (int) substr($_SESSION['price'],1);
+$numOfPassengersInt = (int) $_SESSION['adult'];
+$totalPrice = $priceInt * $numOfPassengersInt;
+echo "Total Price: $". $totalPrice."<br/>";
 ?>
 
 <script type="text/javascript">

@@ -227,6 +227,10 @@ session_start();
   <div id='p_departure_date' class="col-md-9 col-md-push-3"><?php echo $_SESSION['departure_date'] ?></div>
   <div class="col-md-3 col-md-pull-9">Departure Time & Date:</div>
 </div>
+<div class="row">
+  <div id='p_price' class="col-md-9 col-md-push-3"><?php echo $_SESSION['price'] ?></div>
+  <div class="col-md-3 col-md-pull-9">Price:</div>
+</div>
 <br/>
 <button id='confirmBooking' class="btn btn-primary" data-toggle="modal" data-target="#loadingModal" type="submit">Confirm Booking</button>
 
@@ -275,13 +279,14 @@ for (i=0;i<numOfPassengers;i++)
 
     //flight details variable
     var flightNoStr = $('#p_flight_no').text();
-    var departure_dateStr = $('#p_departure_date').text();
+    var departure_dateStr = $('#p_departure_date').text()
+    var priceStr = $('#p_price').text().substring(1);
 
     $.ajax({
       url: 'user_func_insert_booking.php',
       type: 'post',
       data: {title: titleStr, firstName: firstNameStr, lastName: lastNameStr, dob: dobStr, passportNo: passportNoStr, 
-       email: emailStr, contact: contactStr, booker: bookerStr, flightNo: flightNoStr , departure_date: departure_dateStr,},
+       email: emailStr, contact: contactStr, booker: bookerStr, flightNo: flightNoStr , departure_date: departure_dateStr, price: priceStr},
        success: function(response) {
         $('#phpReply').append(response);
         $('#bookingStatus').attr('src','../../assets/img/confirmed.png');
@@ -299,11 +304,13 @@ for (i=0;i<numOfPassengers;i++)
 
 
   } //close for loop
+
 var btn = document.createElement("BUTTON");        // Create a <button> element
 var t = document.createTextNode("Return to Home");       // Create a text node
 btn.setAttribute("id","returnHome");
 btn.setAttribute("class","btn btn-primary");
 btn.appendChild(t);   
+    
      $('#phpButton').append(btn);
       
   }); //close click

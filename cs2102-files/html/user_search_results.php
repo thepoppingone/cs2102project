@@ -120,7 +120,7 @@ window.onload = function() {
 functions for creating dynamic links for the results apge (the parameter is thrown in to create the correct query strings to be passed)
 ********************************************************************/
 function createButtonLink(index) {
-  window.location= "user_passengers.php?flight_no="+$('#fNumBook'+index).text()+"&departure_date="+$('#departTimeBook'+index).text()+"";
+  window.location= "user_passengers.php?flight_no="+$('#fNumBook'+index).text()+"&departure_date="+$('#departTimeBook'+index).text()+"&price="+$('#price'+index).text()+"";
 }
 function makeAjaxRequest() {
 
