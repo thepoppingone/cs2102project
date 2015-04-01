@@ -29,8 +29,7 @@
 		$result = oci_execute($stid, OCI_DEFAULT);
 		
 		// update the booking_passenger table
-		// update the record 
-		$sql = "UPDATE booking_passenger SET passport = '".$num."' WHERE passport = '".$originalNum."'";
+		$sql = "UPDATE booking_passenger SET passenger = '".$num."' WHERE passenger = '".$originalNum."'";
 		$stid = oci_parse($dbh, $sql);
 		$result = oci_execute($stid, OCI_DEFAULT);
 		

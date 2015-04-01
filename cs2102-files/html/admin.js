@@ -664,8 +664,7 @@ function handleDeleteSchedule(id, flight_numberStr, depart_timeStr) {
 }
 
 function confirmDeleteSchedule(id, flight_numberStr, depart_timeStr) {
-	console.log("confirm delete");
-	
+
 	$.post('admin_func_delete_schedule.php', {flight_number:flight_numberStr, depart_time:depart_timeStr}, function(data) {	
 		if(data == "successful") {
 			disableForm([id],[]);
