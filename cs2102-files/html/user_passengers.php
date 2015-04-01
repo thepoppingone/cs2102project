@@ -54,6 +54,7 @@ $_SESSION['departure_date'] = $_GET['departure_date'];
               <ul class="nav navbar-nav  navbar-blue">
                 <li><a href="user_index.php">Home</a></li>
                 <li class="active"><a href="user_search.php">Search</a></li>
+			    <li><a href="user_manage_booking.php">Manage Booking</a></li>
               </ul>
               <ul class="nav navbar-nav navbar-right navbar-blue">
                 <li><a href="user_login.php">Login</a></li>

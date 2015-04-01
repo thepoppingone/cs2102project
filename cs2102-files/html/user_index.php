@@ -51,6 +51,7 @@
             <ul class="nav navbar-nav navbar-blue">
               <li class="active"><a href="#">Home</a></li>
               <li><a href="user_search.php">Search</a></li>
+			  <li><a href="user_manage_booking.php">Manage Booking</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right navbar-blue">
 			  <li><a href="user_login.php">Login</a></li>
