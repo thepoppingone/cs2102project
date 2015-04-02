@@ -25,7 +25,7 @@
 		// update the record 
 		$sql = "UPDATE flight SET f_number = '".$num."', origin = '".$origin."', destination = '".$dest."', seat_capacity = '".$seatCapacity."' WHERE f_number = '".$originalNum."'";
 		$stid = oci_parse($dbh, $sql);
-		$result = oci_execute($stid);
+		$result = oci_execute($stid, OCI_DEFAULT);
 		
 		// update affected schedule 
 		$sql = "UPDATE schedule 
@@ -41,11 +41,17 @@
 		$stid = oci_parse($dbh, $sql);
 		$result = oci_execute($stid, OCI_DEFAULT);
 		
-		if(!$result) {
-			$error_message = oci_error($stid);
-			echo $error_message;
+		if($result) {
+			/************
+			* Successful
+			*************/
+			oci_commit($dbh);
+			echo "edited ".$bookingId;
 		} else {
-			echo "edited";
+			/**************
+			* Unsuccessful
+			***************/	
+			echo oci_error($stid);
 		}
 	}
 	

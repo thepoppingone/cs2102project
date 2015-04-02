@@ -842,6 +842,7 @@ function handleEditFlight() {
 	if(numStr && originStr && destStr && seatCapacityStr && !isNaN(numStr) && !isNaN(seatCapacityStr)) {		
 		numStr = "SB" + numStr;
 		$.post('admin_func_edit_flight.php', {originalNum: originalNumStr, num: numStr, origin:originStr, dest:destStr, seatCapacity:seatCapacityStr}, function(data) {
+			data = data.trim();
 			if(data == 'edited') {
 				disableForm(['flight-button', 'edit-flight-error-result', 'flightNumError'], ['flight-num', 'flight-origin', 'flight-destination', 'flight-seat-capacity']);
 				displayAddSuccessfulMessage("edit","Flight information updated!");
