@@ -351,14 +351,13 @@ function handleAddSchedule() {
 	var departureStr = document.getElementById('schedule-departure').value;
 	var priceStr = document.getElementById('schedule-price').value.trim();
 	
-	if(flightStr && arrivalStr && departureStr && priceStr && !isNan(priceStr)) {
-		if(validateScheduleTime()) {
-			$('#scheduleTimeError').collapse('hide');		
+	if(flightStr && arrivalStr && departureStr && priceStr && !isNaN(priceStr)) {
+		if(validateScheduleTime()) {	
 			$.post('admin_func_add_schedule.php', {
 										flight_number: flightStr,
 										arrival_time: arrivalStr,
 										depart_time: departureStr,
-										price: priceStr,},  function(data) {	
+										price: priceStr},  function(data) {	
 				if(data == 'inserted') {
 					disableForm(['schedule-button', 'add-schedule-error-result', 'scheduleExistsError', 'scheduleTimeError'], ['add-category', 'schedule-flight', 'schedule-departure', 'schedule-arrival', 'schedule-price']);
 					displayAddSuccessfulMessage("add","New schedule added successfully.");
