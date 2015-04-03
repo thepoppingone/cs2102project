@@ -8,7 +8,7 @@
 	$continue = true;
 	require("config.php");
 	
-	if(strcmp($originalDesignator, $edesignator) !== 0) {
+	if(strcmp($originalDesignator, $designator) !== 0) {
 		// check if the new designator is acceptable
 		$sql = "SELECT * FROM airport a WHERE a.designator = '".$designator."'";
 		$stid = oci_parse($dbh, $sql);

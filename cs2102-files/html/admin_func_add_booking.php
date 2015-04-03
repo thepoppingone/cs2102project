@@ -44,7 +44,7 @@
 			//Set default booking id as one, if no entry found then assign it to the new booking
 			$bookingId = 1;
 			
-			$sql = "SELECT MAX(*) FROM booking";
+			$sql = "SELECT MAX(b.ID) FROM booking b";
 			$stid = oci_parse($dbh, $sql);
 			oci_execute($stid, OCI_DEFAULT);
 			
