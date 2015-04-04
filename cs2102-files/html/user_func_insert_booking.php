@@ -67,6 +67,7 @@ if(!empty($_POST)){
 			$result = oci_execute($stid);
 			//echo oci_num_rows($stid) . " rows updated";
 			echo "number of seats now updated. ".($updatedSeats)."<br/>";
+			oci_commit($dbh);
 
 			$updateSeatsDone = true;
 		}
@@ -165,6 +166,7 @@ if(!empty($_POST)){
 
 	oci_commit($dbh);
 	oci_free_statement($stid);
+	oci_close($dbh);
 
 
 }

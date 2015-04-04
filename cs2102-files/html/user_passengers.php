@@ -123,7 +123,7 @@ $_SESSION['price'] = $_GET['price'];
           </div><!-- end of passenger passport no.-->
 
           <div class="form-group">
-            <p class="help-block">Booker name should be the same.</p>
+            <p class="help-block">Booker name can be different.</p>
           </div>
 
           <hr style="border-top-color: rgba(0, 0, 0, 0.24)" class="divider">
@@ -176,7 +176,7 @@ $_SESSION['price'] = $_GET['price'];
       </div><!-- end of passenger passport no.-->
 
       <div class="form-group">
-        <p class="help-block">Booker name should be the same</p>
+        <p class="help-block">Booker name can be different.</p>
       </div>
 
       <hr style="border-top-color: rgba(0, 0, 0, 0.24)" class="divider">  
@@ -230,7 +230,7 @@ $_SESSION['price'] = $_GET['price'];
   </div><!-- end of passenger passport no.-->
 
   <div class="form-group">
-    <p class="help-block">Booker name should be the same.</p>
+    <p class="help-block">Booker name can be different.</p>
   </div>
 
   <hr style="border-top-color: rgba(0, 0, 0, 0.24)" class="divider">
@@ -283,7 +283,7 @@ $_SESSION['price'] = $_GET['price'];
 </div><!-- end of passenger passport no.-->
 
 <div class="form-group">
-  <p class="help-block">Booker name should be the same</p>
+  <p class="help-block">Booker name can be different.</p>
 </div>
 
 </div> <!-- end of passenger4 -->

@@ -4,6 +4,11 @@ INSERT INTO admin VALUES('Lee Cheryl', 'leecheryl993@gmail.com', 'chery345');
 INSERT INTO admin VALUES('Jia Le Kwang', 'kwangjiale@gmail.com', 'jiale456');
 INSERT INTO admin VALUES('Goh Xue Li', 'gohxueli.gxl@gmail.com', 'xueli567');
 
+SELECT COUNT(*) FROM booking;
+
+SELECT MAX(ID) FROM booking;
+
+
 
 --SELECT * FROM Schedule
 --WHERE flight_number = 'SB2222'; 
@@ -17,5 +22,9 @@ INSERT INTO admin VALUES('Goh Xue Li', 'gohxueli.gxl@gmail.com', 'xueli567');
 --WHERE b.flight_number = 'SB222';
 
 
---SELECT * FROM Booking
---WHERE flight_number = 'SB2222'; 
+DELETE FROM Booking
+WHERE C_PERSON = 'Lol'; 
+
+DELETE FROM Booking
+WHERE C_PERSON = 'Wang'; 
+
