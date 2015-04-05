@@ -76,6 +76,20 @@ $_SESSION['price'] = $_GET['price'];
           --> 
 
           <form action="user_confirmation&payment.php" method="post">
+          <div id="passenger_email_box1" class="form-group">
+            <label for="passenger_email1">Contact Email:</label>
+            <input id="passenger_email1" name="passenger_email1" type="text" placeholder="Enter your email" class="form-control input-sm" required="">
+          </div><!-- end of passenger passport no.-->
+           <div id="passenger_contact_box1" class="form-group">
+            <label for="passenger_contact1">Contact No:</label>
+            <input id="passenger_contact1" name="passenger_contact1" type="text" placeholder="Enter your contact no." class="form-control input-sm" required="">
+          </div><!-- end of passenger passport no.-->
+
+          <div id="passenger_booker_box1" class="form-group">
+            <label for="passenger_booker1">Contact Name:</label>
+            <input id="passenger_booker1" name="passenger_booker1" type="text" placeholder="Enter your name" class="form-control input-sm" required="">
+          </div><!-- end of passenger passport no.-->
+
             <div class='collapse' data-toggle='false' id='passenger1'>
               <label><h4> Passenger 1</h4> </label>
               <div id="passenger_title_box1" class="form-group">
@@ -97,34 +111,10 @@ $_SESSION['price'] = $_GET['price'];
               <input id="passenger_last_name1" name="passenger_last_name1" type="text" placeholder="Enter passenger last name" class="form-control input-sm" required="">
             </div><!-- end of passenger last name -->
 
-            <div id="passenger_DOB_box1" class="form-group">
-              <label for="passenger_DOB1">Date of Birth: </label>
-              <input id = "passenger_DOB1" type = "date" name = "DOB1" class="form-control input-sm" placeholder = "DD/MM/YYYY" required>
-            </div><!-- end of passenger DOB -->
-
             <div id="passenger_passport_no_box1" class="form-group">
              <label for="passenger_passport_no1">Passport No:</label>
              <input id="passenger_passport_no1" name="passenger_passport_no1" type="text" placeholder="Enter your passport number" class="form-control input-sm" required="">
            </div><!-- end of passenger passport no.-->
-
-           <div id="passenger_email_box1" class="form-group">
-            <label for="passenger_email1">Email:</label>
-            <input id="passenger_email1" name="passenger_email1" type="text" placeholder="Enter your email" class="form-control input-sm" required="">
-          </div><!-- end of passenger passport no.-->
-
-          <div id="passenger_contact_box1" class="form-group">
-            <label for="passenger_contact1">Contact No:</label>
-            <input id="passenger_contact1" name="passenger_contact1" type="text" placeholder="Enter your contact no." class="form-control input-sm" required="">
-          </div><!-- end of passenger passport no.-->
-
-          <div id="passenger_booker_box1" class="form-group">
-            <label for="passenger_booker1">Booker Name:</label>
-            <input id="passenger_booker1" name="passenger_booker1" type="text" placeholder="Enter your name" class="form-control input-sm" required="">
-          </div><!-- end of passenger passport no.-->
-
-          <div class="form-group">
-            <p class="help-block">Booker name can be different.</p>
-          </div>
 
           <hr style="border-top-color: rgba(0, 0, 0, 0.24)" class="divider">
         </div> <!-- end of passenger1 -->
@@ -150,34 +140,10 @@ $_SESSION['price'] = $_GET['price'];
           <input id="passenger_last_name2" name="passenger_last_name2" type="text" placeholder="Enter passenger last name" class="form-control input-sm" >
         </div><!-- end of passenger last name -->
 
-        <div id="passenger_DOB_box2" class="form-group">
-          <label for="passenger_DOB2">Date of Birth: </label>
-          <input id = "passenger_DOB2" type = "date" name = "DOB2" class="form-control input-sm" placeholder = "DD/MM/YYYY" >
-        </div><!-- end of passenger DOB -->
-
         <div id="passenger_passport_no_box2" class="form-group">
          <label for="passenger_passport_no2">Passport No:</label>
          <input id="passenger_passport_no2" name="passenger_passport_no2" type="text" placeholder="Enter your passport number" class="form-control input-sm">
        </div><!-- end of passenger passport no.-->
-
-       <div id="passenger_email_box2" class="form-group">
-        <label for="passenger_email2">Email:</label>
-        <input id="passenger_email2" name="passenger_email2" type="text" placeholder="Enter your email" class="form-control input-sm" >
-      </div><!-- end of passenger passport no.-->
-
-      <div id="passenger_contact_box2" class="form-group">
-        <label for="passenger_contact2">Contact No:</label>
-        <input id="passenger_contact2" name="passenger_contact2" type="text" placeholder="Enter your contact no." class="form-control input-sm" >
-      </div><!-- end of passenger passport no.-->
-
-      <div id="passenger_booker_box2" class="form-group">
-        <label for="passenger_booker2">Booker Name:</label>
-        <input id="passenger_booker2" name="passenger_booker2" type="text" placeholder="Enter your name" class="form-control input-sm">
-      </div><!-- end of passenger passport no.-->
-
-      <div class="form-group">
-        <p class="help-block">Booker name can be different.</p>
-      </div>
 
       <hr style="border-top-color: rgba(0, 0, 0, 0.24)" class="divider">  
     </div> <!-- end of passenger2 -->
@@ -204,34 +170,11 @@ $_SESSION['price'] = $_GET['price'];
       <input id="passenger_last_name3" name="passenger_last_name3" type="text" placeholder="Enter passenger last name" class="form-control input-sm" >
     </div><!-- end of passenger last name -->
 
-    <div id="passenger_DOB_box3" class="form-group">
-      <label for="passenger_DOB3">Date of Birth: </label>
-      <input id = "passenger_DOB3" type = "date" name = "DOB3" class="form-control input-sm" placeholder = "DD/MM/YYYY" >
-    </div><!-- end of passenger DOB -->
-
     <div id="passenger_passport_no_box3" class="form-group">
      <label for="passenger_passport_no3">Passport No:</label>
      <input id="passenger_passport_no3" name="passenger_passport_no3" type="text" placeholder="Enter your passport number" class="form-control input-sm">
    </div><!-- end of passenger passport no.-->
 
-   <div id="passenger_email_box3" class="form-group">
-    <label for="passenger_email3">Email:</label>
-    <input id="passenger_email3" name="passenger_email3" type="text" placeholder="Enter your email" class="form-control input-sm" >
-  </div><!-- end of passenger passport no.-->
-
-  <div id="passenger_contact_box3" class="form-group">
-    <label for="passenger_contact3">Contact No:</label>
-    <input id="passenger_contact3" name="passenger_contact3" type="text" placeholder="Enter your contact no." class="form-control input-sm" >
-  </div><!-- end of passenger passport no.-->
-
-  <div id="passenger_booker_box3" class="form-group">
-    <label for="passenger_booker3">Booker Name:</label>
-    <input id="passenger_booker3" name="passenger_booker3" type="text" placeholder="Enter your name" class="form-control input-sm">
-  </div><!-- end of passenger passport no.-->
-
-  <div class="form-group">
-    <p class="help-block">Booker name can be different.</p>
-  </div>
 
   <hr style="border-top-color: rgba(0, 0, 0, 0.24)" class="divider">
 </div> <!-- end of passenger3 -->
@@ -257,34 +200,10 @@ $_SESSION['price'] = $_GET['price'];
   <input id="passenger_last_name4" name="passenger_last_name4" type="text" placeholder="Enter passenger last name" class="form-control input-sm" >
 </div><!-- end of passenger last name -->
 
-<div id="passenger_DOB_box4" class="form-group">
-  <label for="passenger_DOB4">Date of Birth: </label>
-  <input id = "passenger_DOB4" type = "date" name = "DOB4" class="form-control input-sm" placeholder = "DD/MM/YYYY" >
-</div><!-- end of passenger DOB -->
-
 <div id="passenger_passport_no_box4" class="form-group">
  <label for="passenger_passport_no4">Passport No:</label>
  <input id="passenger_passport_no4" name="passenger_passport_no4" type="text" placeholder="Enter your passport number" class="form-control input-sm">
 </div><!-- end of passenger passport no.-->
-
-<div id="passenger_email_box4" class="form-group">
-  <label for="passenger_email4">Email:</label>
-  <input id="passenger_email4" name="passenger_email4" type="text" placeholder="Enter your email" class="form-control input-sm" >
-</div><!-- end of passenger passport no.-->
-
-<div id="passenger_contact_box4" class="form-group">
-  <label for="passenger_contact4">Contact No:</label>
-  <input id="passenger_contact4" name="passenger_contact4" type="text" placeholder="Enter your contact no." class="form-control input-sm" >
-</div><!-- end of passenger passport no.-->
-
-<div id="passenger_booker_box4" class="form-group">
-  <label for="passenger_booker4">Booker Name:</label>
-  <input id="passenger_booker4" name="passenger_booker4" type="text" placeholder="Enter your name" class="form-control input-sm">
-</div><!-- end of passenger passport no.-->
-
-<div class="form-group">
-  <p class="help-block">Booker name can be different.</p>
-</div>
 
 </div> <!-- end of passenger4 -->
 
@@ -300,11 +219,11 @@ $_SESSION['price'] = $_GET['price'];
 echo "<br/>".$_GET['flight_no']."  ".$_GET['departure_date']."<br/>";
 echo "<br/> Num of adults: ". $_SESSION['adult']."<br/>";
 
-
 $priceInt = (int) substr($_SESSION['price'],1);
 $numOfPassengersInt = (int) $_SESSION['adult'];
 $totalPrice = $priceInt * $numOfPassengersInt;
 echo "Total Price: $". $totalPrice."<br/>";
+$_SESSION['price']= $totalPrice;
 ?>
 
 <script type="text/javascript">

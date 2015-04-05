@@ -51,7 +51,7 @@ session_start();
               <ul class="nav navbar-nav  navbar-blue">
                 <li><a href="user_index.php">Home</a></li>
                 <li class="active"><a href="user_search.php">Search</a></li>
-			    <li><a href="user_manage_booking.php">Manage Booking</a></li>
+                <li><a href="user_manage_booking.php">Manage Booking</a></li>
               </ul>
               <ul class="nav navbar-nav navbar-right navbar-blue">
                 <li><a href="user_login.php">Login</a></li>
@@ -63,44 +63,30 @@ session_start();
 
         <!-- Main component for a primary marketing message or call to action 
         In the jumbotron holds 4 div that displays the information dynamically
-        -->
-        <div class="jumbotron">
-          <div class='collapse' data-toggle='false' id="passenger1">
-           <label class="lead control-label col-sm-9"><strong>Passenger 1 Details:</strong></label>
-           <br/> <!--some how the CSS needs to be put in reverse order-->
-           <div class="row">
-            <div id='p_title1' class="col-md-9 col-md-push-3"><?php echo $_POST['passenger_title1']?></div>
-            <div class="col-md-3 col-md-pull-9">Title:</div>
-          </div>
-          <div class="row">
-            <div id='p_first_name1' class="col-md-9 col-md-push-3"><?php echo $_POST['passenger_first_name1']?></div>
-            <div class="col-md-3 col-md-pull-9">First Name:</div>
-          </div>
-          <div class="row">
-            <div id='p_last_name1' class="col-md-9 col-md-push-3"><?php echo $_POST['passenger_last_name1']?></div>
-            <div class="col-md-3 col-md-pull-9">Last Name:</div>
-          </div>
-          <div class="row">
-            <div id='p_dob1' class="col-md-9 col-md-push-3"><?php echo $_POST['DOB1']?></div>
-            <div class="col-md-3 col-md-pull-9">DOB:</div>
-          </div>
-          <div class="row">
-            <div id='p_passport_no1' class="col-md-9 col-md-push-3"><?php echo $_POST['passenger_passport_no1']?></div>
-            <div class="col-md-3 col-md-pull-9">Passport No.:</div>
-          </div>
-          <div class="row">
-            <div id='p_email1' class="col-md-9 col-md-push-3"><?php echo $_POST['passenger_email1']?></div>
-            <div class="col-md-3 col-md-pull-9">Email Address:</div>
-          </div>
-          <div class="row">
-            <div id='p_contact1' class="col-md-9 col-md-push-3"><?php echo $_POST['passenger_contact1']?></div>
-            <div class="col-md-3 col-md-pull-9">Contact No.:</div>
-          </div><div class="row">
-          <div id='p_booker1' class="col-md-9 col-md-push-3"><?php echo $_POST['passenger_booker1']?></div>
-          <div class="col-md-3 col-md-pull-9">Booker name:</div>
+      -->
+      <div class="jumbotron">
+        <div class='collapse' data-toggle='false' id="passenger1">
+         <label class="lead control-label col-sm-9"><strong>Passenger 1 Details:</strong></label>
+         <br/> <!--some how the CSS needs to be put in reverse order-->
+         <div class="row">
+          <div id='p_title1' class="col-md-9 col-md-push-3"><?php echo $_POST['passenger_title1']?></div>
+          <div class="col-md-3 col-md-pull-9">Title:</div>
         </div>
-        <hr style="border-top-color: #EEEEEE" class="divider">
-      </div> <!-- end of passenger1-->
+        <div class="row">
+          <div id='p_first_name1' class="col-md-9 col-md-push-3"><?php echo $_POST['passenger_first_name1']?></div>
+          <div class="col-md-3 col-md-pull-9">First Name:</div>
+        </div>
+        <div class="row">
+          <div id='p_last_name1' class="col-md-9 col-md-push-3"><?php echo $_POST['passenger_last_name1']?></div>
+          <div class="col-md-3 col-md-pull-9">Last Name:</div>
+        </div>
+        <div class="row">
+          <div id='p_passport_no1' class="col-md-9 col-md-push-3"><?php echo $_POST['passenger_passport_no1']?></div>
+          <div class="col-md-3 col-md-pull-9">Passport No.:</div>
+        </div>
+      </div>
+      <hr style="border-top-color: #EEEEEE" class="divider">
+      <!-- end of passenger1-->
 
 
       <div class='collapse' data-toggle='false' id="passenger2">
@@ -119,100 +105,55 @@ session_start();
         <div class="col-md-3 col-md-pull-9">Last Name:</div>
       </div>
       <div class="row">
-        <div id='p_dob2' class="col-md-9 col-md-push-3"><?php echo $_POST['DOB2']?></div>
-        <div class="col-md-3 col-md-pull-9">DOB:</div>
-      </div>
-      <div class="row">
         <div id='p_passport_no2' class="col-md-9 col-md-push-3"><?php echo $_POST['passenger_passport_no2']?></div>
         <div class="col-md-3 col-md-pull-9">Passport No.:</div>
       </div>
-      <div class="row">
-        <div id='p_email2' class="col-md-9 col-md-push-3"><?php echo $_POST['passenger_email2']?></div>
-        <div class="col-md-3 col-md-pull-9">Email Address:</div>
-      </div>
-      <div class="row">
-        <div id='p_contact2' class="col-md-9 col-md-push-3"><?php echo $_POST['passenger_contact2']?></div>
-        <div class="col-md-3 col-md-pull-9">Contact No.:</div>
-      </div><div class="row">
-      <div id='p_booker2' class="col-md-9 col-md-push-3"><?php echo $_POST['passenger_booker2']?></div>
-      <div class="col-md-3 col-md-pull-9">Booker name:</div>
+      <hr class="divider">
+    </div> <!-- end of passenger2-->
+
+
+    <div class='collapse' data-toggle='false' id="passenger3">
+     <label class="lead control-label col-sm-9"><strong>Passenger 3 Details:</strong></label>
+     <br/> <!--some how the CSS needs to be put in reverse order-->
+     <div class="row">
+      <div id='p_title3' class="col-md-9 col-md-push-3"><?php echo $_POST['passenger_title3']?></div>
+      <div class="col-md-3 col-md-pull-9">Title:</div>
+    </div>
+    <div class="row">
+      <div id='p_first_name3' class="col-md-9 col-md-push-3"><?php echo $_POST['passenger_first_name3']?></div>
+      <div class="col-md-3 col-md-pull-9">First Name:</div>
+    </div>
+    <div class="row">
+      <div id='p_last_name3' class="col-md-9 col-md-push-3"><?php echo $_POST['passenger_last_name3']?></div>
+      <div class="col-md-3 col-md-pull-9">Last Name:</div>
+    </div>
+    <div class="row">
+      <div id='p_passport_no3' class="col-md-9 col-md-push-3"><?php echo $_POST['passenger_passport_no3']?></div>
+      <div class="col-md-3 col-md-pull-9">Passport No.:</div>
     </div>
     <hr class="divider">
-  </div> <!-- end of passenger2-->
+  </div> <!-- end of passenger3-->
 
 
-  <div class='collapse' data-toggle='false' id="passenger3">
-   <label class="lead control-label col-sm-9"><strong>Passenger 3 Details:</strong></label>
+  <div class='collapse' data-toggle='false' id="passenger4">
+   <label class="lead control-label col-sm-9"><strong>Passenger 4 Details:</strong></label>
    <br/> <!--some how the CSS needs to be put in reverse order-->
    <div class="row">
-    <div id='p_title3' class="col-md-9 col-md-push-3"><?php echo $_POST['passenger_title3']?></div>
+    <div id='p_title4' class="col-md-9 col-md-push-3"><?php echo $_POST['passenger_title4']?></div>
     <div class="col-md-3 col-md-pull-9">Title:</div>
   </div>
   <div class="row">
-    <div id='p_first_name3' class="col-md-9 col-md-push-3"><?php echo $_POST['passenger_first_name3']?></div>
+    <div id='p_first_name4' class="col-md-9 col-md-push-3"><?php echo $_POST['passenger_first_name4']?></div>
     <div class="col-md-3 col-md-pull-9">First Name:</div>
   </div>
   <div class="row">
-    <div id='p_last_name3' class="col-md-9 col-md-push-3"><?php echo $_POST['passenger_last_name3']?></div>
+    <div id='p_last_name4' class="col-md-9 col-md-push-3"><?php echo $_POST['passenger_last_name4']?></div>
     <div class="col-md-3 col-md-pull-9">Last Name:</div>
   </div>
   <div class="row">
-    <div id='p_dob3' class="col-md-9 col-md-push-3"><?php echo $_POST['DOB3']?></div>
-    <div class="col-md-3 col-md-pull-9">DOB:</div>
-  </div>
-  <div class="row">
-    <div id='p_passport_no3' class="col-md-9 col-md-push-3"><?php echo $_POST['passenger_passport_no3']?></div>
+    <div id='p_passport_no4' class="col-md-9 col-md-push-3"><?php echo $_POST['passenger_passport_no4']?></div>
     <div class="col-md-3 col-md-pull-9">Passport No.:</div>
   </div>
-  <div class="row">
-    <div id='p_email3' class="col-md-9 col-md-push-3"><?php echo $_POST['passenger_email3']?></div>
-    <div class="col-md-3 col-md-pull-9">Email Address:</div>
-  </div>
-  <div class="row">
-    <div id='p_contact3' class="col-md-9 col-md-push-3"><?php echo $_POST['passenger_contact3']?></div>
-    <div class="col-md-3 col-md-pull-9">Contact No.:</div>
-  </div><div class="row">
-  <div id='p_booker3' class="col-md-9 col-md-push-3"><?php echo $_POST['passenger_booker3']?></div>
-  <div class="col-md-3 col-md-pull-9">Booker name:</div>
-</div>
-<hr class="divider">
-</div> <!-- end of passenger3-->
-
-
-<div class='collapse' data-toggle='false' id="passenger4">
- <label class="lead control-label col-sm-9"><strong>Passenger 4 Details:</strong></label>
- <br/> <!--some how the CSS needs to be put in reverse order-->
- <div class="row">
-  <div id='p_title4' class="col-md-9 col-md-push-3"><?php echo $_POST['passenger_title4']?></div>
-  <div class="col-md-3 col-md-pull-9">Title:</div>
-</div>
-<div class="row">
-  <div id='p_first_name4' class="col-md-9 col-md-push-3"><?php echo $_POST['passenger_first_name4']?></div>
-  <div class="col-md-3 col-md-pull-9">First Name:</div>
-</div>
-<div class="row">
-  <div id='p_last_name4' class="col-md-9 col-md-push-3"><?php echo $_POST['passenger_last_name4']?></div>
-  <div class="col-md-3 col-md-pull-9">Last Name:</div>
-</div>
-<div class="row">
-  <div id='p_dob4' class="col-md-9 col-md-push-3"><?php echo $_POST['DOB4']?></div>
-  <div class="col-md-3 col-md-pull-9">DOB:</div>
-</div>
-<div class="row">
-  <div id='p_passport_no4' class="col-md-9 col-md-push-3"><?php echo $_POST['passenger_passport_no4']?></div>
-  <div class="col-md-3 col-md-pull-9">Passport No.:</div>
-</div>
-<div class="row">
-  <div id='p_email4' class="col-md-9 col-md-push-3"><?php echo $_POST['passenger_email4']?></div>
-  <div class="col-md-3 col-md-pull-9">Email Address:</div>
-</div>
-<div class="row">
-  <div id='p_contact4' class="col-md-9 col-md-push-3"><?php echo $_POST['passenger_contact4']?></div>
-  <div class="col-md-3 col-md-pull-9">Contact No.:</div>
-</div><div class="row">
-<div id='p_booker4' class="col-md-9 col-md-push-3"><?php echo $_POST['passenger_booker4']?></div>
-<div class="col-md-3 col-md-pull-9">Booker name:</div>
-</div>
 
 </div> <!-- end of passenger4-->
 
@@ -228,11 +169,27 @@ session_start();
   <div class="col-md-3 col-md-pull-9">Departure Time & Date:</div>
 </div>
 <div class="row">
-  <div id='p_price' class="col-md-9 col-md-push-3"><?php echo $_SESSION['price'] ?></div>
+  <div id='p_price' class="col-md-9 col-md-push-3">$<?php echo $_SESSION['price'] ?></div>
   <div class="col-md-3 col-md-pull-9">Price:</div>
+  <br/>
+
+  <hr style="border-top-color: rgba(0, 0, 0, 0.24)" class="divider">
+  <label class="lead control-label col-sm-9">Booker Details:</label>
+  <div class="row">
+    <div id='p_email1' class="col-md-9 col-md-push-3"><?php echo $_POST['passenger_email1']?></div>
+    <div class="col-md-3 col-md-pull-9">Email Address:</div>
+  </div>
+  <div class="row">
+    <div id='p_contact1' class="col-md-9 col-md-push-3"><?php echo $_POST['passenger_contact1']?></div>
+    <div class="col-md-3 col-md-pull-9">Contact No.:</div>
+  </div><div class="row">
+  <div id='p_booker1' class="col-md-9 col-md-push-3"><?php echo $_POST['passenger_booker1']?></div>
+  <div class="col-md-3 col-md-pull-9">Booker name:</div>
 </div>
 <br/>
 <button id='confirmBooking' class="btn btn-primary" data-toggle="modal" data-target="#loadingModal" type="submit">Confirm Booking</button>
+
+</div>
 
 <div class="modal fade " data-keyboard = "false" data-backdrop = "static" id="loadingModal">
   <div class="modal-dialog">
@@ -256,63 +213,76 @@ window.onload = function() {
 
   var numOfPassengersStr = <?php echo $_SESSION['adult']; ?> ;
   var numOfPassengers = parseInt(numOfPassengersStr);
+  var bookingIdInt = 1;
 
-for (i=0;i<numOfPassengers;i++)
-    {
-      $('#passenger'+(i+1)).collapse('show');
-    }
+  for (i=0;i<numOfPassengers;i++)
+  {
+    $('#passenger'+(i+1)).collapse('show');
+  }
 
   $('#confirmBooking').click(function() {
 
-    for (i=0;i<numOfPassengers;i++)
-    {
-      $('#passenger'+(i+1)).collapse('show');
-    //passenger details variables
-    var titleStr = $('#p_title'+(i+1)).text();
-    var firstNameStr = $('#p_first_name'+(i+1)).text();
-    var lastNameStr = $('#p_last_name'+(i+1)).text();
-    var dobStr = $('#p_dob'+(i+1)).text();
-    var passportNoStr = $('#p_passport_no'+(i+1)).text();
-    var emailStr = $('#p_email'+(i+1)).text();
-    var contactStr = $('#p_contact'+(i+1)).text();
-    var bookerStr = $('#p_booker'+(i+1)).text();
-
-    //flight details variable
+    var emailStr = $('#p_email1').text();
+    var contactStr = $('#p_contact1').text();
+    var bookerStr = $('#p_booker1').text();
     var flightNoStr = $('#p_flight_no').text();
     var departure_dateStr = $('#p_departure_date').text()
     var priceStr = $('#p_price').text().substring(1);
 
     $.ajax({
-      url: 'user_func_insert_booking.php',
+      url: 'user_func_update_schedule_insert_booking.php',
       type: 'post',
-      data: {title: titleStr, firstName: firstNameStr, lastName: lastNameStr, dob: dobStr, passportNo: passportNoStr, 
-       email: emailStr, contact: contactStr, booker: bookerStr, flightNo: flightNoStr , departure_date: departure_dateStr, price: priceStr},
+      data: {passenger_num: numOfPassengers, bookingId: bookingIdInt, email: emailStr, contact: contactStr, booker: bookerStr,
+       flightNo: flightNoStr , departure_date: departure_dateStr, price: priceStr},
+       success: function(response) {
+
+        bookingIdInt = parseInt(response);
+
+        for (i=0;i<numOfPassengers;i++)
+        {
+          $('#passenger'+(i+1)).collapse('show');
+    //passenger details variables
+    var titleStr = $('#p_title'+(i+1)).text();
+    var firstNameStr = $('#p_first_name'+(i+1)).text();
+    var lastNameStr = $('#p_last_name'+(i+1)).text();
+    var passportNoStr = $('#p_passport_no'+(i+1)).text();
+    var indexInt = parseInt(i);
+    console.log(bookingIdInt);
+
+    //flight details variable
+
+    
+    $.ajax({
+      url: 'user_func_insert_booking_passenger.php',
+      type: 'post',
+      data: {index: indexInt, limit: numOfPassengers, bookingId: bookingIdInt, title: titleStr, firstName: firstNameStr, lastName: lastNameStr, passportNo: passportNoStr, 
+       email: emailStr, booker: bookerStr, flightNo: flightNoStr , departure_date: departure_dateStr, price: priceStr},
        success: function(response) {
         $('#phpReply').append(response);
         $('#bookingStatus').attr('src','../../assets/img/confirmed.png');
 
+        bookingInserted = true;
         $('#returnHome').click(function() {
           window.location= "user_index.php";
-        });
-
-
-
+        }); //close button forming
   } //close success call
-
 }); //close ajax
-
-
-
   } //close for loop
+
+ } //close first success call
+
+}); //close first ajax
+
+
 
 var btn = document.createElement("BUTTON");        // Create a <button> element
 var t = document.createTextNode("Return to Home");       // Create a text node
 btn.setAttribute("id","returnHome");
 btn.setAttribute("class","btn btn-primary");
 btn.appendChild(t);   
-    
-     $('#phpButton').append(btn);
-      
+
+$('#phpButton').append(btn);
+
   }); //close click
 }; //close onload
 </script>
