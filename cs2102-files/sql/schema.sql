@@ -25,7 +25,7 @@ CREATE TABLE booking (
 id INT PRIMARY KEY,
 c_person VARCHAR (256) NOT NULL,
 c_number INT NOT NULL,
-c_email VARCHAR(256) UNIQUE,
+c_email VARCHAR(256) NOT NULL,
 flight_number VARCHAR(256),
 depart_time TIMESTAMP,
 FOREIGN KEY (flight_number, depart_time) REFERENCES schedule(flight_number, depart_time) ON DELETE CASCADE INITIALLY DEFERRED
