@@ -11,4 +11,4 @@ INSERT INTO booking VALUES (10, 'Jared Kwang', 99994444, 'jaredkwang@gmail.com',
 INSERT INTO booking VALUES (11, 'Noah Yap', 99995555, 'noahyap@gmail.com', 'SB379', to_timestamp('2015-04-20 08:15:00','YYYY/MM/DD HH24:MI:SS'));
 INSERT INTO booking VALUES (12, 'Jamie Chen', 99996666, 'jamiechen@gmail.com', 'SB380', to_timestamp('2015-04-21 12:30:00','YYYY/MM/DD HH24:MI:SS'));
 INSERT INTO booking VALUES (13, 'Ken Lim', 99991111, 'kenlim@gmail.com', 'SB521', to_timestamp('2015-04-24 12:20:00','YYYY/MM/DD HH24:MI:SS'));
-INSERT INTO booking VALUES (13, 'Kennny Tan', 22221111, 'kennytan@gmail.com', 'SB222', to_timestamp('2015-04-21 19:15:00','YYYY/MM/DD HH24:MI:SS'));
+INSERT INTO booking VALUES (14, 'Kennny Tan', 22221111, 'kennytan@gmail.com', 'SB222', to_timestamp('2015-04-21 19:15:00','YYYY/MM/DD HH24:MI:SS'));
