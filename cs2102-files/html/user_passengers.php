@@ -260,7 +260,7 @@ window.onload = function(){
             {
               passportNumList = [];
               console.log("clash");
-              alert("Passport Number Cannot be the same!");
+              alert("There cannot be duplicates of Passport Number!");
               return false;
             }
          }
