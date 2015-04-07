@@ -1,4 +1,17 @@
 /*******************************
+* functions related to Passenger 
+********************************/
+function validatePassenger() {
+ /*     var passportNumList = [];
+  for(i=0;i<numOfPassengers; i++)
+  {
+    passportNumList.push($('#passenger_passport_no'+(i+1)).text());
+    console.log(passportNumList[i]);
+  }*/
+  return false;
+    }
+
+/*******************************
 * functions related to SEARCH 
 ********************************/
 function validateUserSearchForm() {

@@ -55,7 +55,7 @@ $_SESSION['price'] = $_GET['price'];
               <ul class="nav navbar-nav  navbar-blue">
                 <li><a href="user_index.php">Home</a></li>
                 <li class="active"><a href="user_search.php">Search</a></li>
-			    <li><a href="user_manage_booking.php">Manage Booking</a></li>
+                <li><a href="user_manage_booking.php">Manage Booking</a></li>
               </ul>
               <ul class="nav navbar-nav navbar-right navbar-blue">
                 <li><a href="user_login.php">Login</a></li>
@@ -75,20 +75,20 @@ $_SESSION['price'] = $_GET['price'];
             number of adults is determined and number of divs shown will correspond to the number of adults
           --> 
 
-          <form action="user_confirmation&payment.php" method="post">
-          <div id="passenger_email_box1" class="form-group">
-            <label for="passenger_email1">Contact Email:</label>
-            <input id="passenger_email1" name="passenger_email1" type="text" placeholder="Enter your email" class="form-control input-sm" required="">
-          </div><!-- end of passenger passport no.-->
-           <div id="passenger_contact_box1" class="form-group">
-            <label for="passenger_contact1">Contact No:</label>
-            <input id="passenger_contact1" name="passenger_contact1" type="text" placeholder="Enter your contact no." class="form-control input-sm" required="">
-          </div><!-- end of passenger passport no.-->
+          <form id="passForm" action="user_confirmation&payment.php" method="post">
+            <div id="passenger_email_box1" class="form-group">
+              <label for="passenger_email1">Contact Email:</label>
+              <input id="passenger_email1" name="passenger_email1" type="email" placeholder="Enter your email" class="form-control input-sm" required="">
+            </div><!-- end of passenger passport no.-->
+            <div id="passenger_contact_box1" class="form-group">
+              <label for="passenger_contact1">Contact No:</label>
+              <input id="passenger_contact1" name="passenger_contact1" type="number" placeholder="Enter your contact no." class="form-control input-sm" required="">
+            </div><!-- end of passenger passport no.-->
 
-          <div id="passenger_booker_box1" class="form-group">
-            <label for="passenger_booker1">Contact Name:</label>
-            <input id="passenger_booker1" name="passenger_booker1" type="text" placeholder="Enter your name" class="form-control input-sm" required="">
-          </div><!-- end of passenger passport no.-->
+            <div id="passenger_booker_box1" class="form-group">
+              <label for="passenger_booker1">Contact Name:</label>
+              <input id="passenger_booker1" name="passenger_booker1" type="text" placeholder="Enter your name" class="form-control input-sm" required="">
+            </div><!-- end of passenger passport no.-->
 
             <div class='collapse' data-toggle='false' id='passenger1'>
               <label><h4> Passenger 1</h4> </label>
@@ -116,10 +116,10 @@ $_SESSION['price'] = $_GET['price'];
              <input id="passenger_passport_no1" name="passenger_passport_no1" type="text" placeholder="Enter your passport number" class="form-control input-sm" required="">
            </div><!-- end of passenger passport no.-->
 
-          <hr style="border-top-color: rgba(0, 0, 0, 0.24)" class="divider">
-        </div> <!-- end of passenger1 -->
+           <hr style="border-top-color: rgba(0, 0, 0, 0.24)" class="divider">
+         </div> <!-- end of passenger1 -->
 
-        <div class='collapse' data-toggle='false' id='passenger2'>
+         <div class='collapse' data-toggle='false' id='passenger2'>
           <label><h4> Passenger 2</h4> </label>
           <div id="passenger_title_box2" class="form-group">
            <label for="passenger_title2">Title</label>
@@ -145,11 +145,11 @@ $_SESSION['price'] = $_GET['price'];
          <input id="passenger_passport_no2" name="passenger_passport_no2" type="text" placeholder="Enter your passport number" class="form-control input-sm">
        </div><!-- end of passenger passport no.-->
 
-      <hr style="border-top-color: rgba(0, 0, 0, 0.24)" class="divider">  
-    </div> <!-- end of passenger2 -->
+       <hr style="border-top-color: rgba(0, 0, 0, 0.24)" class="divider">  
+     </div> <!-- end of passenger2 -->
 
 
-    <div class='collapse' data-toggle='false' id='passenger3'>
+     <div class='collapse' data-toggle='false' id='passenger3'>
       <label><h4> Passenger 3</h4> </label>
       <div id="passenger_title_box3" class="form-group">
        <label for="passenger_title3">Title</label>
@@ -176,11 +176,11 @@ $_SESSION['price'] = $_GET['price'];
    </div><!-- end of passenger passport no.-->
 
 
-  <hr style="border-top-color: rgba(0, 0, 0, 0.24)" class="divider">
-</div> <!-- end of passenger3 -->
+   <hr style="border-top-color: rgba(0, 0, 0, 0.24)" class="divider">
+ </div> <!-- end of passenger3 -->
 
 
-<div class='collapse' data-toggle='false' id='passenger4'>
+ <div class='collapse' data-toggle='false' id='passenger4'>
   <label><h4> Passenger 4</h4> </label>
   <div id="passenger_title_box4" class="form-group">
    <label for="passenger_title4">Title</label>
@@ -245,16 +245,38 @@ window.onload = function(){
       $('#passenger_contact'+(i+1)).prop("required",true);
       $('#passenger_booker'+(i+1)).prop("required",true);
     }
+
   }
 
+  document.getElementById("passForm").onsubmit = function() { 
+    var passportNumList = [];
+    for(i=0;i<numOfPassengers; i++)
+    {
+      if(i>0)
+      {
+         for(j=0;j<passportNumList.length; j++)
+         {
+          if ($('#passenger_passport_no'+(i+1)).val() == passportNumList[j])
+            {
+              passportNumList = [];
+              console.log("clash");
+              alert("There cannot be duplicates of Passport Number!");
+              return false;
+            }
+         }
+      }
+      passportNumList.push($('#passenger_passport_no'+(i+1)).val());
+      console.log(passportNumList[i]);
+    } 
+    return true;
+  }; //close onsubmit
 };//close onload
+
 
 </script>
 
 </div>
 </div> <!-- /container -->
-
-
 
     <!-- Bootstrap core JavaScript
     ================================================== -->
