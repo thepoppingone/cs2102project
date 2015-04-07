@@ -7,6 +7,7 @@ if(!empty($_GET)){
 	$destination = $_GET['destination'];
 	$numAdults = $_GET['numAdults'];
 	$numChilds = $_GET['numChilds'];
+	$numPass = (int) $numAdults;
 
 	date_default_timezone_set('Asia/Singapore'); 
 	
@@ -25,7 +26,8 @@ if(!empty($_GET)){
 				AND s.depart_time < TO_TIMESTAMP('".$departure_date."', 'YYYY-MM-DD')+1
 				AND f.origin LIKE '%".$origin."%'
 				AND f.destination LIKE '%".$destination."%' 
-				AND f.f_number = s.flight_number";
+				AND f.f_number = s.flight_number
+				AND s.NUM_OF_SEATS_AVAIL >=".$numPass."";
 			// plus one at the date will add a day to the date	
 
 		$stid = oci_parse($dbh, $sql);
