@@ -58,68 +58,73 @@
 
       <!-- Main component for a primary marketing message or call to action -->
       <div class="jumbotron">
-        <h2>Flight Search</h2>
-        <br/>
-        <h3>Please select your origiin, destination and the date of flight below!</h3>
-    <form data-toggle='validator' name = "userSearchForm" action="user_search_results.php" class="form form-inline" method="get" onsubmit = "return validateUserSearchForm()">
-      <br/>
-      <label for="origin_booking">Origin: </label>
-      <select id="origin" name="origin" class = "form-control input-sm" required> <option value="">Select Origin</option>
-      <?php
-        //CONNECTS TO THE DATABASE TO LOAD AIRPORTS FROM ORIGIN TALBE
-        require("config.php");
-        $sql = "SELECT designator FROM airport";
-        $stid = oci_parse($dbh, $sql);
-        oci_execute($stid, OCI_DEFAULT);
-        while($row = oci_fetch_array($stid)){
-          echo "<option value=\"".$row["DESIGNATOR"]."\">".$row["DESIGNATOR"]."</option><br>";
-        }
-        oci_free_statement($stid);
-      ?>
-      </select>
-      <label for="destination_booking">Destination: </label>
-      <select id="destination" name="destination" class = "form-control input-sm" required> <option value="">Select Destination</option>
-      <?php
-         //CONNECTS TO THE DATABASE TO LOAD AIRPORTS FROM DESTINATION TABLE
-        require("config.php");
-        $sql = "SELECT designator FROM airport";
-        $stid = oci_parse($dbh, $sql);
-        oci_execute($stid, OCI_DEFAULT);
-        while($row = oci_fetch_array($stid)){
-          echo "<option value=\"".$row["DESIGNATOR"]."\">".$row["DESIGNATOR"]."</option><br>";
-        }
-        oci_free_statement($stid);
-      ?>
-      </select>
-      <label for="departure_date_booking">Date of Departure: </label>
-      <input id = "departure_date" type = "date" name = "departure_date" class="form-control  input-sm" placeholder = "DD/MM/YYYY" required>
-     
-      <label for="adult_booking">Adult: </label>
-      <select id="adult" name="adult" class="form-control input-sm">
-      <option selected="selected">1</option> <option>2</option> <option>3</option> <option>4</option>
-      </select>
-     <!-- No need for child as we are assuming there are only adults for this system
-      <label for="child_booking">Child: </label>
-      <select id="child" name="child" class="form-control input-sm">
-        <option>0</option> <option>1</option> <option>2</option> <option>3</option> <option>4</option>
-      </select>
-    -->
-     
-     <!-- ALERTS DIVS ARE HIDDEN WITH CSS, AND ONLY SHOWN WHEN VALIDATION FAILS-->   
-      <div id = "date-alert" class = "alert alert-info collapse" data-toggle="collapse"role="alert">
-        <span>
-        <p>Oops! The planes have already departed for that date.</p>
-        </span>
-      </div>
-      <div id = "passengers-alert" class = "alert alert-info collapse" data-toggle="collapse"role="alert">
-        <span>
-        <p>Oops! You can only book to a maximum of 4 passengers!</p>
-        </span>
-      </div>
-      <br/>
-       <button style="margin:5px" id="btnSearch" name="formSubmit" class="btn btn-lg btn-block btn-primary" type="submit">Search</button>
-    </form>
 
+		<form class="form form-horizontal" data-toggle='validator' name = "userSearchForm" action="user_search_results.php" method="get" onsubmit = "return validateUserSearchForm()" > 
+			<div class="form-group">
+				<h3 class="col-xs-offset-3 col-xs-9">Search for your ideal flight!</h3>
+			</div>	
+			<div class="form-group">
+				<label class="control-label col-xs-3" for="origin_booking">Origin</label>
+				<div class="col-xs-9">		
+				  <select id="origin" name="origin" class = "form-control input-sm" required> <option value="">Select Origin</option>
+				  <?php
+					//CONNECTS TO THE DATABASE TO LOAD AIRPORTS FROM ORIGIN TALBE
+					require("config.php");
+					$sql = "SELECT designator FROM airport";
+					$stid = oci_parse($dbh, $sql);
+					oci_execute($stid, OCI_DEFAULT);
+					while($row = oci_fetch_array($stid)){
+					  echo "<option value=\"".$row["DESIGNATOR"]."\">".$row["DESIGNATOR"]."</option><br>";
+					}
+					oci_free_statement($stid);
+				  ?>
+				  </select>
+				</div>
+			</div>			
+			<div class="form-group">
+				<label class="control-label col-xs-3" for="destination_booking">Destination</label>
+				<div class="col-xs-9">		
+				  <select id="destination" name="destination" class = "form-control input-sm" required> <option value="">Select Destination</option>
+				  <?php
+					 //CONNECTS TO THE DATABASE TO LOAD AIRPORTS FROM DESTINATION TABLE
+					require("config.php");
+					$sql = "SELECT designator FROM airport";
+					$stid = oci_parse($dbh, $sql);
+					oci_execute($stid, OCI_DEFAULT);
+					while($row = oci_fetch_array($stid)){
+					  echo "<option value=\"".$row["DESIGNATOR"]."\">".$row["DESIGNATOR"]."</option><br>";
+					}
+					oci_free_statement($stid);
+				  ?>
+				  </select>
+				</div>
+			</div>	
+			<div class="form-group">
+				<label class="control-label col-xs-3"for="departure_date_booking">Date of Departure</label>
+				<div class="col-xs-9">
+					<input id = "departure_date" type = "date" name = "departure_date" class="form-control  input-sm" placeholder = "DD/MM/YYYY" required>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="control-label col-xs-3"for="adult_booking">Passenger(s)</label>
+				<div class="col-xs-9">
+				  <select id="adult" name="adult" class="form-control input-sm">
+					<option selected="selected">1</option> <option>2</option> <option>3</option> <option>4</option>
+				  </select>				
+				</div>
+			</div>
+			<div class="form-group">
+				<div id = "search-button"  class="col-xs-offset-3 col-xs-9">
+					 <button id="btnSearch" name="formSubmit" class="btn btn-primary" type="submit">Search Flight Schedules</button>
+				</div>
+			</div>
+		    <div id = "date-alert" class = "alert alert-info collapse" data-toggle="collapse"role="alert">
+			 <span><p>Oops! The planes have already departed for that date.</p></span>
+		    </div>
+		    <div id = "passengers-alert" class = "alert alert-info collapse" data-toggle="collapse"role="alert">
+			<span><p>Oops! You can only book to a maximum of 4 passengers!</p></span>
+		    </div>
+		</form>
       </div>
     </div> <!-- /container -->
 

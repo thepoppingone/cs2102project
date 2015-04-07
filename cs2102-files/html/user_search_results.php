@@ -66,7 +66,7 @@
           $_GET['origin'] .'</b> to <b>' . 
           $_GET['destination'] .  '</b> on <b>' . 
           $_GET['departure_date'] . '</b> for '.$_GET['adult']. 
-          ' adult and '. $_GET['child']. ' child';
+          ' passenger(s)';
           ?>
           <!-- TABLE HEADINGS AND HIDDEN UNTIL SEARCH RESULTS ARE FOUND!-->
         </h3>
