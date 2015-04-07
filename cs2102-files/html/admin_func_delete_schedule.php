@@ -6,7 +6,7 @@
 	require("config.php");	
 		
 	// delete the schedule
-	$sql = "DELETE FROM schedule s WHERE s.FLIGHT_NUMBER = '".$flight_number."' AND s.DEPART_TIME = '".$depart_time."'";;
+	$sql = "DELETE FROM schedule s WHERE s.FLIGHT_NUMBER = '".$flight_number."' AND s.DEPART_TIME = '".$depart_time."'";
 	$stid = oci_parse($dbh, $sql);
 	oci_execute($stid, OCI_DEFAULT);			
 	
